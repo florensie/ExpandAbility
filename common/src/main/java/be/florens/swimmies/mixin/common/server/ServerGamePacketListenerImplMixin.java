@@ -1,4 +1,4 @@
-package be.florens.swimmies.mixin.server;
+package be.florens.swimmies.mixin.common.server;
 
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.objectweb.asm.Opcodes;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerGamePacketListenerImpl.class)
-public abstract class ServerPlayNetworkHandlerMixin {
+public abstract class ServerGamePacketListenerImplMixin {
 
 	@Shadow private boolean clientIsFloating;
 

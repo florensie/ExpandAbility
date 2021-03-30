@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "swimmies",
+  "version": "${version}",
+
+  "name": "Swimmies",
+  "description": "Minecraft mod that allows enabling swimming behaviour without being in water",
+  "authors": ["Florens"],
+  "license": "MIT",
+  "icon": "assets/swimmies/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "be.florens.swimmies.SwimmiesFabric"
+    ]
+  },
+  "mixins": [
+    "swimmies.mixins.json",
+    "swimmies-fabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.1",
+    "minecraft": "*"
+  }
+}

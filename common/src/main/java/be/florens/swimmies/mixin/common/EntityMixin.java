@@ -1,4 +1,4 @@
-package be.florens.swimmies.mixin;
+package be.florens.swimmies.mixin.common;
 
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import net.minecraft.core.BlockPos;

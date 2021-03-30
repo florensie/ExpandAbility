@@ -21,9 +21,13 @@ public abstract class EntityMixin {
 
 	@Unique private boolean fakeFluidStateApplied;
 
-	@Redirect(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
+	@Redirect(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle", "move"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
 	private boolean setInWater(Entity entity) {
 		return true;
+	}
+
+	@Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;playSwimSound(F)V"))
+	private void cancelPlaySwimSound(Entity entity, float f) {
 	}
 
 	@Redirect(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isUnderWater()Z"))

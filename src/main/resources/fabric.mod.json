@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "testmod",
+  "version": "${version}",
+  "name": "Test Mod",
+  "description": "",
+  "authors": ["Florens Pauwels"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "be.florens.swimmies.Swimmies"
+    ]
+  },
+  "mixins": [
+    "swimmies.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.1",
+    "minecraft": "*"
+  }
+}

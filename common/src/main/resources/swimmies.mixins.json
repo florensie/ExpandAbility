@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "be.florens.swimmies.mixin.common",
+  "package": "be.florens.swimmies.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "EntityMixin",

@@ -1,4 +1,4 @@
-package be.florens.swimmies.mixin.common.client;
+package be.florens.swimmies.mixin.client;
 
 import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;

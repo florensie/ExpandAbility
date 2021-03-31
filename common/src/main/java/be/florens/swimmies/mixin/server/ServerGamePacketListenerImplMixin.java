@@ -1,4 +1,4 @@
-package be.florens.swimmies.mixin.common.server;
+package be.florens.swimmies.mixin.server;
 
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.objectweb.asm.Opcodes;

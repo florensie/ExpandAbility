@@ -1,4 +1,4 @@
-package be.florens.swimmies.mixin.common;
+package be.florens.swimmies.mixin;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FluidState;

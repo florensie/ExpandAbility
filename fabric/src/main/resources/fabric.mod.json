@@ -12,7 +12,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "be.florens.swimmies.SwimmiesFabric"
+      "be.florens.swimmies.fabric.SwimmiesFabric"
     ]
   },
   "mixins": [

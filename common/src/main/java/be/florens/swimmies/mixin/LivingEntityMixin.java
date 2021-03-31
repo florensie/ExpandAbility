@@ -1,13 +1,11 @@
-package be.florens.swimmies.mixin.common;
+package be.florens.swimmies.mixin;
 
 import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.Fluid;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {

@@ -1,4 +1,4 @@
-package be.florens.swimmies.mixin.common;
+package be.florens.swimmies.mixin;
 
 import be.florens.swimmies.Swimmies;
 import net.minecraft.world.entity.Entity;

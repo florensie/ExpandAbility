@@ -16,8 +16,7 @@
     ]
   },
   "mixins": [
-    "swimmies.mixins.json",
-    "swimmies-fabric.mixins.json"
+    "swimmies.mixins.json"
   ],
   "depends": {
     "minecraft": ">=1.16.4",

@@ -9,8 +9,14 @@ import java.lang.reflect.Proxy;
 
 import static me.shedaniel.architectury.event.EventFactory.of;
 
+/**
+ * Provides some alternatives to the event factories in {@link me.shedaniel.architectury.event.EventFactory}
+ */
 public class EventFactory {
 
+	/**
+	 * Like {@link me.shedaniel.architectury.event.EventFactory#createInteractionResult(Object[])} but for booleans
+	 */
 	@SuppressWarnings("unchecked")
 	@SafeVarargs
 	public static <T> Event<T> createBoolean(T... typeGetter) {
@@ -18,6 +24,9 @@ public class EventFactory {
 		return createBoolean((Class<T>) typeGetter.getClass().getComponentType());
 	}
 
+	/**
+	 * Like {@link me.shedaniel.architectury.event.EventFactory#createInteractionResult(Class)} but for booleans
+	 */
 	@SuppressWarnings({"unchecked", "UnstableApiUsage"})
 	public static <T> Event<T> createBoolean(Class<T> clazz) {
 		return of(listeners -> (T) Proxy.newProxyInstance(me.shedaniel.architectury.event.EventFactory.class.getClassLoader(), new Class[]{clazz}, new AbstractInvocationHandler() {

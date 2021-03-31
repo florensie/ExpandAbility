@@ -10,6 +10,10 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(Player.class)
 public abstract class PlayerMixin {
 
+	/**
+	 * Vanilla checks the if the block above the player is fluid and prevents swimming up by look direction
+	 * This cancel the check if we have swimming enabled
+	 */
 	@Redirect(method = "travel", allow = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;isEmpty()Z"))
 	private boolean cancelSurfaceCheck(FluidState fluidState) {
 		return !PlayerSwimEvent.EVENT.invoker().swim((Player) (Object) this)

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "swimmies-test",
+  "version": "${version}",
+
+  "name": "Swimmies Test",
+  "description": "Minecraft mod that allows enabling swimming behaviour without being in water",
+  "authors": ["Florens"],
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "be.florens.swimmies.test.SwimmiesTest::init"
+    ]
+  },
+  "depends": {
+    "swimmies": "*"
+  }
+}

@@ -1,0 +1,33 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
+loom {
+    localMods {
+        it.add(project(":forge").sourceSets.main)
+    }
+}
+
+dependencies {
+    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    modApi "me.shedaniel:architectury-forge:${rootProject.architectury_version}"
+
+    implementation project(path: ":forge")
+    implementation(project(path: ":common")) {
+        transitive = false
+    }
+    implementation(project(path: ":testmod-common")) {
+        transitive = false
+    }
+    developmentForge(project(path: ":common")) {
+        transitive = false
+    }
+    developmentForge(project(path: ":testmod-common")) {
+        transitive = false
+    }
+}

@@ -12,7 +12,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "be.florens.swimmies.fabric.SwimmiesFabric"
+      "be.florens.swimmies.Swimmies::init"
     ]
   },
   "mixins": [
@@ -20,7 +20,9 @@
     "swimmies-fabric.mixins.json"
   ],
   "depends": {
+    "minecraft": ">=1.16.4",
     "fabricloader": ">=0.11.1",
-    "minecraft": "*"
+    "fabric": "*",
+    "architectury": ">=1.1.55"
   }
 }

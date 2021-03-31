@@ -1,0 +1,19 @@
+modLoader = "javafml"
+loaderVersion = "[32,)"
+issueTrackerURL = "https://github.com/florensie/swimmies"
+license = "MIT"
+
+[[mods]]
+modId = "swimmies-test"
+version = "${version}"
+displayName = "Swimmies Test"
+authors = "Florens"
+description = '''
+Minecraft mod that allows enabling swimming behaviour without being in water
+'''
+
+[[dependencies.swimmies]]
+modId = "swimmies"
+mandatory = true
+ordering = "NONE"
+side = "BOTH"

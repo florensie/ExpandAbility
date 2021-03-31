@@ -9,5 +9,6 @@ public class Swimmies {
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
 	public static void init() {
+		LOGGER.info("Swimmies here, who dis?");
 	}
 }

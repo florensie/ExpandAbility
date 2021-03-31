@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[32,)"
-issueTrackerURL = "https://github.com/florensie/swimmies"
+issueTrackerURL = "https://github.com/florensie/swimmies/issues"
 license = "MIT"
 
 [[mods]]

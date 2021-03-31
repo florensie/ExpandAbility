@@ -6,6 +6,11 @@
   "name": "Swimmies",
   "description": "Minecraft mod that allows enabling swimming behaviour without being in water",
   "authors": ["Florens"],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/swimmies",
+    "sources": "https://github.com/florensie/swimmies",
+    "issues": "https://github.com/florensie/swimmies/issues"
+  },
   "license": "MIT",
   "icon": "assets/swimmies/icon.png",
 
@@ -18,10 +23,17 @@
   "mixins": [
     "swimmies.mixins.json"
   ],
+
   "depends": {
     "minecraft": ">=1.16.4",
     "fabricloader": ">=0.11.1",
     "fabric": "*",
     "architectury": ">=1.1.55"
+  },
+
+  "custom": {
+    "modmenu": {
+      "badges": ["library"]
+    }
   }
 }

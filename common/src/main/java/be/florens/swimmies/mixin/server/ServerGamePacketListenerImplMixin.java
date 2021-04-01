@@ -1,6 +1,6 @@
 package be.florens.swimmies.mixin.server;
 
-import be.florens.swimmies.api.PlayerSwimEvent;
+import be.florens.swimmies.EventDispatcher;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.objectweb.asm.Opcodes;
@@ -22,7 +22,7 @@ public abstract class ServerGamePacketListenerImplMixin {
 	 */
 	@Inject(method = "handleMovePlayer", at = @At(value = "FIELD", target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;clientIsFloating:Z", shift = At.Shift.AFTER, opcode = Opcodes.PUTFIELD))
 	private void allowSwimFlying(CallbackInfo info) {
-		if (PlayerSwimEvent.EVENT.invoker().swim(this.player)) {
+		if (EventDispatcher.onPlayerSwim(this.player).consumesAction()) {
 			this.clientIsFloating = false;
 		}
 	}

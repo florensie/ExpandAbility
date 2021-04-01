@@ -1,6 +1,7 @@
 package be.florens.swimmies.mixin.client;
 
-import be.florens.swimmies.api.PlayerSwimEvent;
+import be.florens.swimmies.EventDispatcher;
+import be.florens.swimmies.Util;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,7 +13,6 @@ public abstract class PlayerRendererMixin {
 
 	@Redirect(method = "setupRotations", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isInWater()Z"))
 	private boolean setInWater(AbstractClientPlayer player) {
-		return PlayerSwimEvent.EVENT.invoker().swim(player)
-				|| player.isInWater(); // Vanilla behaviour
+		return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
 	}
 }

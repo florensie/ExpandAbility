@@ -1,7 +1,9 @@
 package be.florens.swimmies.mixin;
 
-import be.florens.swimmies.api.PlayerSwimEvent;
+import be.florens.swimmies.EventDispatcher;
+import be.florens.swimmies.Util;
 import net.minecraft.tags.Tag;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
@@ -14,13 +16,22 @@ public abstract class LivingEntityMixin {
 
 	@Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/Tag;)D"))
 	private double setFluidHeight(LivingEntity entity, Tag<Fluid> tag) {
-		return entity instanceof Player && PlayerSwimEvent.EVENT.invoker().swim((Player) entity) ? 1D
-				: entity.getFluidHeight(tag); // Vanilla behaviour
+		if (entity instanceof Player) {
+			InteractionResult shouldSwim = EventDispatcher.onPlayerSwim((Player) entity);
+			return shouldSwim.consumesAction() ? 1D
+					: shouldSwim == InteractionResult.FAIL ? 0D
+					: entity.getFluidHeight(tag); // Vanilla behaviour
+		}
+
+		return entity.getFluidHeight(tag); // Vanilla behaviour
 	}
 
 	@Redirect(method = {"aiStep", "travel", "checkFallDamage"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
 	private boolean setInWater(LivingEntity entity) {
-		return entity instanceof Player && PlayerSwimEvent.EVENT.invoker().swim((Player) entity)
-				|| entity.isInWater(); // Vanilla behaviour
+		if (entity instanceof Player) {
+			return Util.processEventResult(EventDispatcher.onPlayerSwim((Player) entity), entity::isInWater);
+		}
+
+		return entity.isInWater(); // Vanilla behaviour
 	}
 }

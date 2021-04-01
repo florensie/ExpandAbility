@@ -1,6 +1,7 @@
 package be.florens.swimmies.mixin;
 
-import be.florens.swimmies.api.PlayerSwimEvent;
+import be.florens.swimmies.EventDispatcher;
+import be.florens.swimmies.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,14 +18,20 @@ public abstract class EntityMixin {
 
 	@Redirect(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle", "move"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
 	private boolean setInWater(Entity entity) {
-		return entity instanceof Player && PlayerSwimEvent.EVENT.invoker().swim((Player) entity)
-				|| entity.isInWater(); // Vanilla behaviour
+		if (entity instanceof Player) {
+			return Util.processEventResult(EventDispatcher.onPlayerSwim((Player) entity), entity::isInWater);
+		}
+
+		return entity.isInWater(); // Vanilla behaviour
 	}
 
 	@Redirect(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isUnderWater()Z"))
 	private boolean setUnderWater(Entity entity) {
-		return entity instanceof Player && PlayerSwimEvent.EVENT.invoker().swim((Player) entity)
-				|| entity.isUnderWater(); // Vanilla behaviour
+		if (entity instanceof Player) {
+			return Util.processEventResult(EventDispatcher.onPlayerSwim((Player) entity), entity::isUnderWater);
+		}
+
+		return entity.isUnderWater(); // Vanilla behaviour
 	}
 
 	/**
@@ -33,7 +40,7 @@ public abstract class EntityMixin {
 	@Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;playSwimSound(F)V"))
 	private void cancelPlaySwimSound(Entity entity, float f) {
 		// Re-check if we're in water first so we don't cancel vanilla swimming sounds
-		if (!this.isInWater() && entity instanceof Player && PlayerSwimEvent.EVENT.invoker().swim((Player) entity)) {
+		if (!this.isInWater() && entity instanceof Player && EventDispatcher.onPlayerSwim((Player) entity).consumesAction()) {
 			return;
 		}
 

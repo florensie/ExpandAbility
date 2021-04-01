@@ -26,10 +26,3 @@ mandatory = true
 versionRange = "[1.16.4,)"
 ordering = "NONE"
 side = "BOTH"
-
-[[dependencies.swimmies]]
-modId = "architectury"
-mandatory = true
-versionRange = "[1.1.55,)"
-ordering = "AFTER"
-side = "BOTH"

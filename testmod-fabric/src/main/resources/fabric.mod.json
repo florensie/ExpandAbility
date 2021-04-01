@@ -11,7 +11,8 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "be.florens.swimmies.test.SwimmiesTest::init"
+      "be.florens.swimmies.test.SwimmiesTest::init",
+      "be.florens.swimmies.test.fabric.SwimmiesTestFabric"
     ]
   },
   "depends": {

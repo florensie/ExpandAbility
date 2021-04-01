@@ -13,8 +13,10 @@ public class Util {
      * @return {@link InteractionResult} success or fail, or boolean defined by default supplier if passed
      */
     public static boolean processEventResult(InteractionResult result, Supplier<Boolean> defaultSupplier) {
-        return result.consumesAction() // Success
-                || (result != InteractionResult.FAIL // Fail
-                && defaultSupplier.get()); // Pass (default/vanilla behaviour)
+        return processEventResult(result, true, false, defaultSupplier);
+    }
+
+    public static <T> T processEventResult(InteractionResult result, T success, T fail, Supplier<T> defaultSupplier) {
+        return result.consumesAction() ? success : result != InteractionResult.FAIL ? fail : defaultSupplier.get();
     }
 }

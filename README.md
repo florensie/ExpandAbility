@@ -7,3 +7,4 @@ Minecraft mod that allows enabling swimming behaviour without being in water.
 - Add Github Actions CI to deploy to Curseforge
 - Make event EventBus compatible
 - Make event cancellable (disables swimming even in water)
+- Test with elytra & Caelus API

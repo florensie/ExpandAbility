@@ -17,7 +17,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "be.florens.swimmies.Swimmies::init"
+      "be.florens.swimmies.fabric.SwimmiesFabric"
     ]
   },
   "mixins": [

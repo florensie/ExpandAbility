@@ -17,6 +17,6 @@ public class Util {
     }
 
     public static <T> T processEventResult(InteractionResult result, T success, T fail, Supplier<T> defaultSupplier) {
-        return result.consumesAction() ? success : result != InteractionResult.FAIL ? fail : defaultSupplier.get();
+        return result.consumesAction() ? success : result == InteractionResult.FAIL ? fail : defaultSupplier.get();
     }
 }

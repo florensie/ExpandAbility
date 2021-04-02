@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "be.florens.effectful.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "swimming.EntityMixin",
+    "swimming.LivingEntityMixin",
+    "swimming.PlayerMixin"
+  ],
+  "client": [
+    "swimming.client.LocalPlayerMixin",
+    "swimming.client.PlayerRendererMixin"
+  ],
+  "server": [
+    "swimming.server.ServerGamePacketListenerImplMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

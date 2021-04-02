@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
-  "id": "swimmies-test",
+  "id": "effectful-test",
   "version": "${version}",
 
-  "name": "Swimmies Test",
-  "description": "Minecraft mod that allows enabling swimming behaviour without being in water",
+  "name": "Effectful Test",
+  "description": "Testmod for Effectful",
   "authors": ["Florens"],
   "license": "MIT",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "be.florens.swimmies.test.SwimmiesTest::init",
-      "be.florens.swimmies.test.fabric.SwimmiesTestFabric"
+      "be.florens.effectful.test.EffectfulTest::init",
+      "be.florens.effectful.test.fabric.EffectfulTestFabric"
     ]
   },
   "depends": {
-    "swimmies": "*"
+    "effectful": "*"
   }
 }

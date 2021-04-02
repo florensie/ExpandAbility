@@ -1,19 +1,18 @@
 modLoader = "javafml"
 loaderVersion = "[32,)"
-issueTrackerURL = "https://github.com/florensie/swimmies"
 license = "MIT"
 
 [[mods]]
-modId = "swimmies-test"
+modId = "effectful-test"
 version = "${version}"
-displayName = "Swimmies Test"
+displayName = "Effectful Test"
 authors = "Florens"
 description = '''
-Minecraft mod that allows enabling swimming behaviour without being in water
+Testmod for Effectful
 '''
 
-[[dependencies.swimmies]]
-modId = "swimmies"
+[[dependencies.effectful-test]]
+modId = "effectful"
 mandatory = true
 ordering = "NONE"
 side = "BOTH"

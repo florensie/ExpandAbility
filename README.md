@@ -1,8 +1,12 @@
-# Swimmies
-Minecraft mod that allows enabling swimming behaviour without being in water.
+# Effectful
+Minecraft library mod that provides increased control over vanilla effects and abilities.
 
 ## To Do
-- Set fall height to 0 every tick and prevent fall damage
-- Test with modded fluids
 - Add Github Actions CI to deploy to Curseforge
-- Test with elytra & Caelus API
+- Swimming ability
+  - Set fall height to 0 every tick and prevent fall damage
+  - Test with modded fluids
+  - Test with elytra & Caelus API
+  - Command
+- Fluid walking ability
+- Persistent status effects

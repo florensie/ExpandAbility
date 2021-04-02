@@ -1,27 +1,27 @@
 {
   "schemaVersion": 1,
-  "id": "swimmies",
+  "id": "effectful",
   "version": "${version}",
 
-  "name": "Swimmies",
-  "description": "Minecraft mod that allows enabling swimming behaviour without being in water",
+  "name": "Effectful",
+  "description": "Library mod that provides increased control over vanilla effects and abilities",
   "authors": ["Florens"],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/swimmies",
-    "sources": "https://github.com/florensie/swimmies",
-    "issues": "https://github.com/florensie/swimmies/issues"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/effectful",
+    "sources": "https://github.com/florensie/effectful",
+    "issues": "https://github.com/florensie/effectful/issues"
   },
   "license": "MIT",
-  "icon": "assets/swimmies/icon.png",
+  "icon": "assets/effectful/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "be.florens.swimmies.Swimmies::init"
+      "be.florens.effectful.Effectful::init"
     ]
   },
   "mixins": [
-    "swimmies.mixins.json"
+    "effectful.mixins.json"
   ],
 
   "depends": {

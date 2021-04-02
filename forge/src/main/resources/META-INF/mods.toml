@@ -1,26 +1,26 @@
 modLoader = "javafml"
 loaderVersion = "[32,)"
-issueTrackerURL = "https://github.com/florensie/swimmies/issues"
+issueTrackerURL = "https://github.com/florensie/effectful/issues"
 license = "MIT"
 
 [[mods]]
-modId = "swimmies"
+modId = "effectful"
 version = "${version}"
-displayName = "Swimmies"
+displayName = "Effectful"
 authors = "Florens"
 description = '''
-Minecraft mod that allows enabling swimming behaviour without being in water
+Library mod that provides increased control over vanilla effects and abilities
 '''
-logoFile = "assets/swimmies/icon.png"
+logoFile = "assets/effectful/icon.png"
 
-[[dependencies.swimmies]]
+[[dependencies.effectful]]
 modId = "forge"
 mandatory = true
 versionRange = "[32.0.75,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.swimmies]]
+[[dependencies.effectful]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.16.4,)"

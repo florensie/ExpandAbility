@@ -12,7 +12,7 @@ architectury {
 }
 
 loom {
-    mixinConfigs = ["swimmies.mixins.json"]
+    mixinConfigs = ["effectful.mixins.json"]
     useFabricMixin = true
 }
 

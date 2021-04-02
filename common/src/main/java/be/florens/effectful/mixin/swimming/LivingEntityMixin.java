@@ -18,9 +18,7 @@ public abstract class LivingEntityMixin {
 	private double setFluidHeight(LivingEntity entity, Tag<Fluid> tag) {
 		if (entity instanceof Player) {
 			InteractionResult shouldSwim = EventDispatcher.onPlayerSwim((Player) entity);
-			return shouldSwim.consumesAction() ? 1D
-					: shouldSwim == InteractionResult.FAIL ? 0D
-					: entity.getFluidHeight(tag); // Vanilla behaviour
+			return Util.processEventResult(shouldSwim, 1D, 0D, () -> entity.getFluidHeight(tag));
 		}
 
 		return entity.getFluidHeight(tag); // Vanilla behaviour

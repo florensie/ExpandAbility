@@ -18,6 +18,6 @@ public abstract class PlayerMixin {
 	@Redirect(method = "travel", allow = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;isEmpty()Z"))
 	private boolean cancelSurfaceCheck(FluidState fluidState) {
 		Player self = (Player) (Object) this;
-		return !Util.processEventResult(EventDispatcher.onPlayerSwim(self), self::isInWater);
+		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), false, true, fluidState::isEmpty);
 	}
 }

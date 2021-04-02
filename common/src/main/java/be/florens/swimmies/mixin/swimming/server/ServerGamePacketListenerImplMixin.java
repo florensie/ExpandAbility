@@ -1,4 +1,4 @@
-package be.florens.swimmies.mixin.server;
+package be.florens.swimmies.mixin.swimming.server;
 
 import be.florens.swimmies.EventDispatcher;
 import net.minecraft.server.level.ServerPlayer;

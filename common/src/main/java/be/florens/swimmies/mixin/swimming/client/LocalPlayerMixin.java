@@ -1,4 +1,4 @@
-package be.florens.swimmies.mixin.client;
+package be.florens.swimmies.mixin.swimming.client;
 
 import be.florens.swimmies.EventDispatcher;
 import be.florens.swimmies.Util;

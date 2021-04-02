@@ -3,16 +3,16 @@
   "package": "be.florens.swimmies.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "EntityMixin",
-    "LivingEntityMixin",
-    "PlayerMixin"
+    "swimming.EntityMixin",
+    "swimming.LivingEntityMixin",
+    "swimming.PlayerMixin"
   ],
   "client": [
-    "client.LocalPlayerMixin",
-    "client.PlayerRendererMixin"
+    "swimming.client.LocalPlayerMixin",
+    "swimming.client.PlayerRendererMixin"
   ],
   "server": [
-    "server.ServerGamePacketListenerImplMixin"
+    "swimming.server.ServerGamePacketListenerImplMixin"
   ],
   "injectors": {
     "defaultRequire": 1

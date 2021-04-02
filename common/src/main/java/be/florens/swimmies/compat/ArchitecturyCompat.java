@@ -16,6 +16,11 @@ public class ArchitecturyCompat {
 
     public static void init() {
         platformInit();
+        // TODO: move to different file
+        // TODO: Restrict permissions
+        // TODO: client-server sync
+        // TODO: chose entities
+        // TODO: InteractionResult parameter
         CommandRegistrationEvent.EVENT.register((dispatcher, selection) -> {
             dispatcher.register(literal("swimmie")
                     .then(literal("default")

@@ -2,13 +2,13 @@ plugins {
     id "com.github.johnrengelman.shadow" version "5.0.0"
 }
 
-configurations {
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-}
-
 architectury {
     platformSetupLoomIde()
     fabric()
+}
+
+configurations {
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
 }
 
 dependencies {
@@ -75,8 +75,15 @@ publishing {
         }
     }
 
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-        // Add repositories to publish to here.
+        if (System.getenv("MAVEN_PASS") != null) {
+            maven {
+                url = "sftp://florens.be:22/repo"
+                credentials {
+                    username = "maven"
+                    password = System.getenv("MAVEN_PASS")
+                }
+            }
+        }
     }
 }

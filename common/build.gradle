@@ -1,11 +1,11 @@
+architectury {
+    common()
+}
+
 dependencies {
     // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-}
-
-architectury {
-    common()
 }
 
 java {
@@ -24,5 +24,14 @@ publishing {
     }
 
     repositories {
+        if (System.getenv("MAVEN_PASS") != null) {
+            maven {
+                url = "sftp://florens.be:22/repo"
+                credentials {
+                    username = "maven"
+                    password = System.getenv("MAVEN_PASS")
+                }
+            }
+        }
     }
 }

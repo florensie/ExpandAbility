@@ -13,7 +13,7 @@ architectury {
 }
 
 loom {
-    mixinConfigs = ["effectful.mixins.json"]
+    mixinConfigs = ["expandability.mixins.json"]
     useFabricMixin = true
 }
 

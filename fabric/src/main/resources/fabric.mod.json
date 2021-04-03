@@ -1,27 +1,27 @@
 {
   "schemaVersion": 1,
-  "id": "effectful",
+  "id": "expandability",
   "version": "${version}",
 
-  "name": "Effectful",
-  "description": "Library mod that provides increased control over vanilla effects and abilities",
+  "name": "ExpandAbility",
+  "description": "Library mod that provides increased control over vanilla abilities",
   "authors": ["Florens"],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/effectful",
-    "sources": "https://github.com/florensie/effectful",
-    "issues": "https://github.com/florensie/effectful/issues"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/expandability",
+    "sources": "https://github.com/florensie/expandability",
+    "issues": "https://github.com/florensie/expandability/issues"
   },
   "license": "MIT",
-  "icon": "assets/effectful/icon.png",
+  "icon": "assets/expandability/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "be.florens.effectful.Effectful::init"
+      "be.florens.expandability.ExpandAbility::init"
     ]
   },
   "mixins": [
-    "effectful.mixins.json"
+    "expandability.mixins.json"
   ],
 
   "depends": {

@@ -1,0 +1,65 @@
+package be.florens.expandability.mixin.swimming;
+
+import be.florens.expandability.EventDispatcher;
+import be.florens.expandability.Util;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
+
+@Mixin(Entity.class)
+public abstract class EntityMixin {
+
+	@Shadow protected abstract void playSwimSound(float f);
+
+	@Shadow public abstract boolean isInWater();
+
+	@Redirect(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle", "move"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
+	private boolean setInWater(Entity entity) {
+		if (entity instanceof Player) {
+			return Util.processEventResult(EventDispatcher.onPlayerSwim((Player) entity), entity::isInWater);
+		}
+
+		return entity.isInWater(); // Vanilla behaviour
+	}
+
+	@Redirect(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isUnderWater()Z"))
+	private boolean setUnderWater(Entity entity) {
+		if (entity instanceof Player) {
+			return Util.processEventResult(EventDispatcher.onPlayerSwim((Player) entity), entity::isUnderWater);
+		}
+
+		return entity.isUnderWater(); // Vanilla behaviour
+	}
+
+	/**
+	 * Prevents the swimming sound from playing when non-vanilla swimming is enabled
+	 */
+	@Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;playSwimSound(F)V"))
+	private void cancelPlaySwimSound(Entity entity, float f) {
+		// Re-check if we're in water first so we don't cancel vanilla swimming sounds
+		if (!this.isInWater() && entity instanceof Player && EventDispatcher.onPlayerSwim((Player) entity).consumesAction()) {
+			return;
+		}
+
+		// Vanilla behaviour
+		this.playSwimSound(f);
+	}
+
+	/**
+	 * Take fall damage when in water with water physics disabled
+	 */
+	@Redirect(method = "updateInWaterStateAndDoWaterCurrentPushing", at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/Entity;fallDistance:F", opcode = Opcodes.PUTFIELD))
+	private void cancelSetFallDistance(Entity entity, float fallDistance) {
+		if (entity instanceof Player && EventDispatcher.onPlayerSwim((Player) entity) == InteractionResult.FAIL) {
+			return;
+		}
+
+		// Vanilla behaviour
+		entity.fallDistance = fallDistance;
+	}
+}

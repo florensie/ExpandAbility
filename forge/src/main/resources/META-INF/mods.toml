@@ -1,26 +1,26 @@
 modLoader = "javafml"
 loaderVersion = "[32,)"
-issueTrackerURL = "https://github.com/florensie/effectful/issues"
+issueTrackerURL = "https://github.com/florensie/expandability/issues"
 license = "MIT"
 
 [[mods]]
-modId = "effectful"
+modId = "expandability"
 version = "${version}"
-displayName = "Effectful"
+displayName = "ExpandAbility"
 authors = "Florens"
 description = '''
-Library mod that provides increased control over vanilla effects and abilities
+Library mod that provides increased control over vanilla abilities
 '''
-logoFile = "assets/effectful/icon.png"
+logoFile = "assets/expandability/icon.png"
 
-[[dependencies.effectful]]
+[[dependencies.expandability]]
 modId = "forge"
 mandatory = true
 versionRange = "[32.0.75,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.effectful]]
+[[dependencies.expandability]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.16.4,)"

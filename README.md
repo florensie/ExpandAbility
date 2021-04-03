@@ -1,5 +1,5 @@
-# Effectful
-Minecraft library mod that provides increased control over vanilla effects and abilities.
+# ExpandAbility
+Minecraft library mod that provides increased control over vanilla abilities.
 
 ## To Do
 - Add Github Actions CI to deploy to Curseforge

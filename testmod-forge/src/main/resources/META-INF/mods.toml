@@ -3,16 +3,16 @@ loaderVersion = "[32,)"
 license = "MIT"
 
 [[mods]]
-modId = "effectful-test"
+modId = "expandability-test"
 version = "${version}"
-displayName = "Effectful Test"
+displayName = "ExpandAbility Test"
 authors = "Florens"
 description = '''
-Testmod for Effectful
+Testmod for ExpandAbility
 '''
 
-[[dependencies.effectful-test]]
-modId = "effectful"
+[[dependencies.expandability-test]]
+modId = "expandability"
 mandatory = true
 ordering = "NONE"
 side = "BOTH"

@@ -14,4 +14,4 @@ include("testmod-common")
 include("testmod-fabric")
 include("testmod-forge")
 
-rootProject.name = "effectful"
+rootProject.name = "expandability"

@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
-  "id": "effectful-test",
+  "id": "expandability-test",
   "version": "${version}",
 
-  "name": "Effectful Test",
-  "description": "Testmod for Effectful",
+  "name": "ExpandAbility Test",
+  "description": "Testmod for ExpandAbility",
   "authors": ["Florens"],
   "license": "MIT",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "be.florens.effectful.test.EffectfulTest::init",
-      "be.florens.effectful.test.fabric.EffectfulTestFabric"
+      "be.florens.expandability.test.ExpandAbility::init",
+      "be.florens.expandability.test.fabric.ExpandAbilityTestFabric"
     ]
   },
   "depends": {
-    "effectful": "*"
+    "expandability": "*"
   }
 }

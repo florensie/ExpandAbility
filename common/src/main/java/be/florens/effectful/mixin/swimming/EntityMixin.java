@@ -2,8 +2,10 @@ package be.florens.effectful.mixin.swimming;
 
 import be.florens.effectful.EventDispatcher;
 import be.florens.effectful.Util;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -46,5 +48,18 @@ public abstract class EntityMixin {
 
 		// Vanilla behaviour
 		this.playSwimSound(f);
+	}
+
+	/**
+	 * Take fall damage when in water with water physics disabled
+	 */
+	@Redirect(method = "updateInWaterStateAndDoWaterCurrentPushing", at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/Entity;fallDistance:F", opcode = Opcodes.PUTFIELD))
+	private void cancelSetFallDistance(Entity entity, float fallDistance) {
+		if (entity instanceof Player && EventDispatcher.onPlayerSwim((Player) entity) == InteractionResult.FAIL) {
+			return;
+		}
+
+		// Vanilla behaviour
+		entity.fallDistance = fallDistance;
 	}
 }

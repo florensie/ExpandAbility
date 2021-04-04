@@ -1,6 +1,8 @@
 # ExpandAbility
 Minecraft library mod that provides increased control over vanilla abilities.
 
+https://www.curseforge.com/minecraft/mc-mods/expandability
+
 ## Usage
 Add the following to your `build.gradle`:
 

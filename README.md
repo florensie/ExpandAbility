@@ -30,3 +30,4 @@ Some example usages of the API can be found in the `testmod-[platform]` director
   - Command
 - Fluid walking ability
 - Persistent status effects
+- LivingEntity scaling

@@ -11,13 +11,13 @@ repositories {
 
 dependencies {
   // For Fabric
-  modApi include("be.florens:expandability-fabric:[version]")
+  modImplementation include("be.florens:expandability-fabric:[version]")
   
   // For Forge
-  api fg.deobf("be.florens:expandability-forge:[version]")
+  implementation fg.deobf("be.florens:expandability-forge:[version]")
   
   // For Architectury common
-  modApi include("be.florens:expandability:[version]")
+  modImplementation include("be.florens:expandability:[version]")
 }
 ```
 

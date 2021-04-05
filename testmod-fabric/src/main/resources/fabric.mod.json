@@ -11,7 +11,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "be.florens.expandability.test.ExpandAbility::init",
+      "be.florens.expandability.test.ExpandAbilityTest::init",
       "be.florens.expandability.test.fabric.ExpandAbilityTestFabric"
     ]
   },

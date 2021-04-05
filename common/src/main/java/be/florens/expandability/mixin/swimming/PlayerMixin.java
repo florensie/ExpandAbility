@@ -20,4 +20,9 @@ public abstract class PlayerMixin {
 		Player self = (Player) (Object) this;
 		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), false, true, fluidState::isEmpty);
 	}
+
+	@Redirect(method = "tryToStartFallFlying", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z"))
+	private boolean setInWater(Player player) {
+		return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
+	}
 }

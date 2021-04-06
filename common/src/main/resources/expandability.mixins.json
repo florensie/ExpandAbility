@@ -3,7 +3,7 @@
   "package": "be.florens.expandability.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "fluidwalking.EntityMixin",
+    "fluidcollision.EntityMixin",
     "swimming.EntityMixin",
     "swimming.LivingEntityMixin",
     "swimming.PlayerMixin"

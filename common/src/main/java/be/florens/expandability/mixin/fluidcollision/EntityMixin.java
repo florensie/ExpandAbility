@@ -1,4 +1,4 @@
-package be.florens.expandability.mixin.fluidwalking;
+package be.florens.expandability.mixin.fluidcollision;
 
 import be.florens.expandability.EventDispatcher;
 import net.minecraft.core.BlockPos;

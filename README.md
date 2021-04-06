@@ -22,6 +22,7 @@ dependencies {
   modImplementation include("be.florens:expandability:[version]")
 }
 ```
+If you're using ForgeGradle you might also need this to fix Mixin's broken refmap remapping: https://github.com/SpongePowered/Mixin/issues/462#issuecomment-791370319
 
 Some example usages of the API can be found in the `testmod-[platform]` directories of this repository.
 

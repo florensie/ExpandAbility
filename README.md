@@ -4,7 +4,7 @@ Minecraft library mod that provides increased control over vanilla abilities.
 https://www.curseforge.com/minecraft/mc-mods/expandability
 
 ## Usage
-Add the following to your `build.gradle`:
+Add the following to your `build.gradle` and replace `[version]` with the latest version [here](https://github.com/florensie/ExpandAbility/releases):
 
 ```groovy
 repositories {

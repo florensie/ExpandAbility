@@ -2,17 +2,12 @@ package be.florens.expandability.mixin.swimming;
 
 import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.Util;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.stats.Stats;
 import net.minecraft.tags.Tag;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Player.class)
@@ -24,7 +19,7 @@ public abstract class PlayerMixin {
 	 *     <li>{@link Player#checkMovementStatistics}: makes sure the correct hunger is applied</li>
 	 * </ul>
 	 */
-	@Redirect(method = {"attack", "checkMovementStatistics"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z"))
+	@Redirect(method = {"attack", "checkMovementStatistics", "tryToStartFallFlying"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z"))
 	private boolean setInWater(Player player) {
 		return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
 	}
@@ -45,10 +40,5 @@ public abstract class PlayerMixin {
 	private boolean cancelSurfaceCheck(FluidState fluidState) {
 		Player self = (Player) (Object) this;
 		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), false, true, fluidState::isEmpty);
-	}
-
-	@Redirect(method = "tryToStartFallFlying", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z"))
-	private boolean setInWater(Player player) {
-		return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
 	}
 }

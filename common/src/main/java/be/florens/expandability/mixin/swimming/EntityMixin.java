@@ -2,9 +2,14 @@ package be.florens.expandability.mixin.swimming;
 
 import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,9 +19,11 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
 
-	@Shadow protected abstract void playSwimSound(float f);
+	@Shadow public Level level;
 
 	@Shadow public abstract boolean isInWater();
+	@Shadow public abstract BlockPos blockPosition();
+	@Shadow protected abstract void playSwimSound(float f);
 
 	@Redirect(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle", "move"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
 	private boolean setInWater(Entity entity) {
@@ -61,5 +68,25 @@ public abstract class EntityMixin {
 
 		// Vanilla behaviour
 		entity.fallDistance = fallDistance;
+	}
+
+	/**
+	 * There's a check here for when there's water at the entity's feet. There aren't any vanilla blocks where this
+	 * matters because honey and soulsand aren't full blocks. There is a block in the fabric testmod to test this
+	 * behaviour.
+	 */
+	@Redirect(method = "getBlockSpeedFactor", at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lnet/minecraft/world/level/block/Blocks;WATER:Lnet/minecraft/world/level/block/Block;"))
+	private Block fixBlockSpeedFactor() {
+		//noinspection ConstantConditions
+		if ((Object) this instanceof Player) {
+			Player player = (Player) (Object) this;
+			Block block = this.level.getBlockState(this.blockPosition()).getBlock();
+
+			if (block == Blocks.WATER && EventDispatcher.onPlayerSwim(player) == InteractionResult.FAIL) {
+				return Blocks.AIR; // Makes condition return true
+			}
+		}
+
+		return Blocks.WATER; // Vanilla behaviour
 	}
 }

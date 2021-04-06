@@ -3,6 +3,8 @@
   "package": "be.florens.expandability.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "swimming.BubbleColumnBlockMixin",
+    "swimming.CombatTrackerMixin",
     "swimming.EntityMixin",
     "swimming.LivingEntityMixin",
     "swimming.PlayerMixin"

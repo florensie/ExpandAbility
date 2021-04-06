@@ -2,18 +2,44 @@ package be.florens.expandability.mixin.swimming;
 
 import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.Util;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.stats.Stats;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin {
 
 	/**
+	 * <ul>
+	 *     <li>{@link Player#attack}: makes it so you can land critical hits while in water with fluid physics disabled</li>
+	 *     <li>{@link Player#checkMovementStatistics}: makes sure the correct hunger is applied</li>
+	 * </ul>
+	 */
+	@Redirect(method = {"attack", "checkMovementStatistics"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z"))
+	private boolean setInWater(Player player) {
+		return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
+	}
+
+	/**
+	 * Makes sure the correct hunger is applied
+	 */
+	@Redirect(method = "checkMovementStatistics", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isEyeInFluid(Lnet/minecraft/tags/Tag;)Z"))
+	private boolean setEyeInFluid(Player player, Tag<Fluid> tag) {
+		return Util.processEventResult(EventDispatcher.onPlayerSwim(player), () -> player.isEyeInFluid(tag));
+	}
+
+	/**
 	 * Vanilla checks the if the block above the player is fluid and prevents swimming up by look direction
-	 * This cancel the check if we have swimming enabled
+	 * This cancels the check if we have swimming enabled
 	 */
 	@Redirect(method = "travel", allow = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;isEmpty()Z"))
 	private boolean cancelSurfaceCheck(FluidState fluidState) {

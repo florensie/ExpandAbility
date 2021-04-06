@@ -4,6 +4,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.Event;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * Event that allows enabling solid collisions on top of fluids (aka "fluid walking").
@@ -14,6 +15,7 @@ import net.minecraftforge.eventbus.api.Event;
  *     <li>{@link Event.Result#DEFAULT}/{@link Event.Result#DENY}: Vanilla fluid behaviour</li>
  * </ul>
  */
+@ApiStatus.Experimental
 @Event.HasResult
 public class LivingFluidCollisionEvent extends LivingEvent {
 

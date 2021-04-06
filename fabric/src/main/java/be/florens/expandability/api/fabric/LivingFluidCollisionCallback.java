@@ -4,11 +4,13 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.FluidState;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * Event that allows enabling solid collisions on fluids.
  * Fired multiple times per tick on the client and server.
  */
+@ApiStatus.Experimental
 public interface LivingFluidCollisionCallback {
 
 	Event<LivingFluidCollisionCallback> EVENT = EventFactory.createArrayBacked(LivingFluidCollisionCallback.class,

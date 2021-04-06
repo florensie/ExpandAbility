@@ -1,8 +1,10 @@
 package be.florens.expandability.test.fabric;
 
+import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
 import be.florens.expandability.test.ExpandAbilityTest;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.tags.FluidTags;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.Registry;
@@ -29,5 +31,8 @@ public class ExpandAbilityTestFabric implements ModInitializer {
                     : heldItem == Items.BARRIER ? InteractionResult.FAIL
                     : InteractionResult.PASS;
         });
+
+        LivingFluidCollisionCallback.EVENT.register((entity, fluidState)
+                -> entity.isHolding(Items.WATER_BUCKET) && fluidState.is(FluidTags.WATER));
     }
 }

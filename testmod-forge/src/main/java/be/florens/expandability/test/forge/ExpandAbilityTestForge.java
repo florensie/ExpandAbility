@@ -1,7 +1,9 @@
 package be.florens.expandability.test.forge;
 
+import be.florens.expandability.api.forge.LivingFluidCollisionEvent;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
 import be.florens.expandability.test.ExpandAbilityTest;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
@@ -24,5 +26,12 @@ public class ExpandAbilityTestForge {
 				: heldItem == Items.BARRIER ? Event.Result.DENY
 				: Event.Result.DEFAULT;
 		event.setResult(result);
+	}
+
+	@SubscribeEvent
+	public void onLivingFluidColission(LivingFluidCollisionEvent event) {
+		if (event.getEntityLiving().isHolding(Items.WATER_BUCKET) && event.getFluidState().is(FluidTags.WATER)) {
+			event.setResult(Event.Result.ALLOW);
+		}
 	}
 }

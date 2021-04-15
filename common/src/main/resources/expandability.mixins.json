@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "fluidcollision.EntityMixin",
+    "fluidcollision.LiquidBlockMixin",
     "swimming.BubbleColumnBlockMixin",
     "swimming.CombatTrackerMixin",
     "swimming.EntityMixin",

@@ -11,7 +11,7 @@ authors = "Florens"
 description = '''
 Library mod that provides increased control over vanilla abilities
 '''
-logoFile = "assets/expandability/icon.png"
+logoFile = "icon.png"
 
 [[dependencies.expandability]]
 modId = "forge"

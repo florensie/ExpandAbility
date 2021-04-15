@@ -12,7 +12,7 @@
     "issues": "https://github.com/florensie/expandability/issues"
   },
   "license": "MIT",
-  "icon": "assets/expandability/icon.png",
+  "icon": "icon.png",
 
   "environment": "*",
   "entrypoints": {

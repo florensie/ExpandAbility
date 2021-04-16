@@ -32,7 +32,7 @@ Initial release
 ### Added
 - Player swim event
 
-[2.0.0]: https://github.com/florensie/artifacts-fabric/compare/v2.0.0..v2.0.1
+[2.0.1]: https://github.com/florensie/artifacts-fabric/compare/v2.0.0..v2.0.1
 [2.0.0]: https://github.com/florensie/artifacts-fabric/compare/v1.1.0..v2.0.0
 [1.1.0]: https://github.com/florensie/artifacts-fabric/compare/v1.0.0..v1.1.0
 [1.0.0]: https://github.com/florensie/ExpandAbility/releases/tag/v1.0.0

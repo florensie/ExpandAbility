@@ -14,8 +14,8 @@ public abstract class CombatTrackerMixin {
 
     @Redirect(method = "prepareForDamage", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
     private boolean setInWater(LivingEntity entity) {
-        if (entity instanceof Player) {
-            return Util.processEventResult(EventDispatcher.onPlayerSwim((Player) entity), entity::isInWater);
+        if (entity instanceof Player player) {
+            return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
         }
 
         return entity.isInWater(); // Vanilla behaviour

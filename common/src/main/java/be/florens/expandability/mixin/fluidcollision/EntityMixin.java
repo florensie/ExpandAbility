@@ -31,11 +31,9 @@ public class EntityMixin {
 	private Vec3 fluidCollision(Vec3 originalDisplacement) {
 		// We only support living entities
 		//noinspection ConstantConditions
-		if (!((Object) this instanceof LivingEntity)) {
+		if (!((Object) this instanceof LivingEntity entity)) {
 			return originalDisplacement;
 		}
-
-		LivingEntity entity = (LivingEntity) (Object) this;
 
 		// A bunch of checks to see if fluid walking is even possible
 		if (originalDisplacement.y <= 0.0 && !isTouchingFluid(entity,entity.getBoundingBox().deflate(0.001D))) {

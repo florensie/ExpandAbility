@@ -19,6 +19,7 @@ loom {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    modRuntime "be.florens:autoload-forge:${rootProject.autoload_version}"
 
     implementation(project(path: ":common")) {
         transitive = false
@@ -99,8 +100,7 @@ curseforge {
         project {
             id = project.curse_project
             releaseType = "release"
-            addGameVersion "1.16.4"
-            addGameVersion "1.16.5"
+            addGameVersion "1.17.1"
             addGameVersion "Forge"
             mainArtifact(remapJar.archivePath) {
                 displayName = "[Forge $rootProject.supported_versions] v$project.version"

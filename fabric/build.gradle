@@ -12,10 +12,14 @@ configurations {
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
 }
 
+loom {
+    refmapName = "expandability.refmap.mixins.json" // Bug in architectury requires this to be set manually
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modRuntime "com.github.florensie:auto-load:${rootProject.fabric_autoload_version}"
+    modRuntime "be.florens:autoload-fabric:${rootProject.autoload_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
     implementation(project(path: ":common")) {
@@ -95,8 +99,7 @@ curseforge {
         project {
             id = project.curse_project
             releaseType = "release"
-            addGameVersion "1.16.4"
-            addGameVersion "1.16.5"
+            addGameVersion "1.17.1"
             addGameVersion "Fabric"
             mainArtifact(remapJar.archivePath) {
                 displayName = "[Fabric $rootProject.supported_versions] v$project.version"

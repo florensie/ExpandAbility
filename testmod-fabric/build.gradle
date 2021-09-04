@@ -7,10 +7,22 @@ architectury {
     fabric()
 }
 
+loom {
+    runs {
+        // Appears to be bugged with mojang mappings
+        gametest {
+            server()
+            name = "Game Test"
+            vmArg "-Dfabric-api.gametest.server=true"
+        }
+    }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modRuntime "com.github.florensie:auto-load:${rootProject.fabric_autoload_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    modRuntime "be.florens:autoload-fabric:${rootProject.autoload_version}"
 
     implementation project(path: ":fabric")
     implementation(project(path: ":common")) {

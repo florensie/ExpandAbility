@@ -25,9 +25,9 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/Tag;)D"))
 	private double setFluidHeight(LivingEntity entity, Tag<Fluid> tag) {
-		if (entity instanceof Player) {
-			InteractionResult shouldSwim = EventDispatcher.onPlayerSwim((Player) entity);
-			return Util.processEventResult(shouldSwim, 1D, 0D, () -> entity.getFluidHeight(tag));
+		if (entity instanceof Player player) {
+			InteractionResult shouldSwim = EventDispatcher.onPlayerSwim(player);
+			return Util.processEventResult(shouldSwim, 1D, 0D, () -> player.getFluidHeight(tag));
 		}
 
 		return entity.getFluidHeight(tag); // Vanilla behaviour
@@ -35,8 +35,8 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Redirect(method = {"aiStep", "travel", "checkFallDamage"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
 	private boolean setInWater(LivingEntity entity) {
-		if (entity instanceof Player) {
-			return Util.processEventResult(EventDispatcher.onPlayerSwim((Player) entity), entity::isInWater);
+		if (entity instanceof Player player) {
+			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
 		}
 
 		return entity.isInWater(); // Vanilla behaviour
@@ -48,7 +48,7 @@ public abstract class LivingEntityMixin extends Entity {
 	@Inject(method = "checkFallDamage", at = @At("HEAD"))
 	private void resetFallHeight(CallbackInfo info) {
 		//noinspection ConstantConditions
-		if ((Object) this instanceof Player && EventDispatcher.onPlayerSwim((Player) (Object) this).consumesAction()) {
+		if ((Object) this instanceof Player player && EventDispatcher.onPlayerSwim(player).consumesAction()) {
 			this.fallDistance = 0;
 		}
 	}
@@ -58,8 +58,8 @@ public abstract class LivingEntityMixin extends Entity {
 	 */
 	@Redirect(method = "travel", allow = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isFree(DDD)Z"))
 	private boolean cancelLeaveFluidAssist(LivingEntity entity, double d, double e, double f) {
-		if (entity instanceof Player) {
-			if (EventDispatcher.onPlayerSwim((Player) entity).consumesAction()) {
+		if (entity instanceof Player player) {
+			if (EventDispatcher.onPlayerSwim(player).consumesAction()) {
 				return false;
 			}
 		}

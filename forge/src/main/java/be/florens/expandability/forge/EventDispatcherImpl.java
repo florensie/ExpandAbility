@@ -24,13 +24,10 @@ public class EventDispatcherImpl {
     }
 
     private static InteractionResult getEventResult(Event event) {
-        switch (event.getResult()) {
-            case ALLOW:
-                return InteractionResult.SUCCESS;
-            case DENY:
-                return InteractionResult.FAIL;
-            default:
-                return InteractionResult.PASS;
-        }
+        return switch (event.getResult()) {
+            case ALLOW -> InteractionResult.SUCCESS;
+            case DENY -> InteractionResult.FAIL;
+            default -> InteractionResult.PASS;
+        };
     }
 }

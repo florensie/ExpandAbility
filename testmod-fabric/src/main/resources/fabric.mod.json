@@ -13,6 +13,9 @@
     "main": [
       "be.florens.expandability.test.ExpandAbilityTest::init",
       "be.florens.expandability.test.fabric.ExpandAbilityTestFabric"
+    ],
+    "fabric-gametest": [
+      "be.florens.expandability.test.fabric.gametest.FluidCollisionTest"
     ]
   },
   "depends": {

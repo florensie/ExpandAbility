@@ -15,6 +15,7 @@ loom {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    modRuntime "be.florens:autoload-forge:${rootProject.autoload_version}"
 
     implementation project(path: ":forge")
     implementation(project(path: ":common")) {

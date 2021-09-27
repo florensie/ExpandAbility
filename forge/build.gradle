@@ -1,10 +1,21 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
     id "com.matthewprenger.cursegradle"
+}
+
+loom {
+    forge {
+        mixinConfig "expandability.mixins.json"
+    }
 }
 
 configurations {
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    dev
+}
+
+artifacts {
+    dev(jar)
 }
 
 architectury {
@@ -12,19 +23,14 @@ architectury {
     forge()
 }
 
-loom {
-    mixinConfigs = ["expandability.mixins.json"]
-    useFabricMixin = true
-}
-
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
-    modRuntime "be.florens:autoload-forge:${rootProject.autoload_version}"
+//    modRuntimeOnly "be.florens:autoload-forge:${rootProject.autoload_version}"
 
-    implementation(project(path: ":common")) {
+    implementation(project(path: ":common", configuration: "dev")) {
         transitive = false
     }
-    developmentForge(project(path: ":common")) {
+    developmentForge(project(path: ":common", configuration: "dev")) {
         transitive = false
     }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) {
@@ -55,10 +61,6 @@ remapJar {
 
 jar {
     classifier "dev"
-}
-
-java {
-    withSourcesJar()
 }
 
 sourcesJar {

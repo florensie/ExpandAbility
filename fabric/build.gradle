@@ -1,6 +1,15 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
     id "com.matthewprenger.cursegradle"
+}
+
+configurations {
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    dev
+}
+
+artifacts {
+    dev(jar)
 }
 
 architectury {
@@ -8,24 +17,16 @@ architectury {
     fabric()
 }
 
-configurations {
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-}
-
-loom {
-    refmapName = "expandability.refmap.mixins.json" // Bug in architectury requires this to be set manually
-}
-
 dependencies {
     minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modRuntime "be.florens:autoload-fabric:${rootProject.autoload_version}"
+    modRuntimeOnly "be.florens:autoload-fabric:${rootProject.autoload_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
-    implementation(project(path: ":common")) {
+    implementation(project(path: ":common", configuration: "dev")) {
         transitive = false
     }
-    developmentFabric(project(path: ":common")) {
+    developmentFabric(project(path: ":common", configuration: "dev")) {
         transitive = false
     }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
@@ -50,14 +51,6 @@ remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
     classifier "fabric"
-}
-
-jar {
-    classifier "dev"
-}
-
-java {
-    withSourcesJar()
 }
 
 sourcesJar {

@@ -63,14 +63,14 @@ public abstract class EntityMixin {
 	 * Prevents the swimming sound from playing when non-vanilla swimming is enabled
 	 */
 	@Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;playSwimSound(F)V"))
-	private void cancelPlaySwimSound(Entity entity, float f) {
+	private void cancelPlaySwimSound(Entity entity, float volume) {
 		// Re-check if we're in water first, so we don't cancel vanilla swimming sounds
 		if (!this.isInWater() && entity instanceof Player player && EventDispatcher.onPlayerSwim(player).consumesAction()) {
 			return;
 		}
 
 		// Vanilla behaviour
-		this.playSwimSound(f);
+		this.playSwimSound(volume);
 	}
 
 	/**

@@ -3,16 +3,17 @@ loaderVersion = "[32,)"
 license = "MIT"
 
 [[mods]]
-modId = "expandability-test"
-version = "${version}"
+modId = "expandabilitytest"
+version = "1.0.0"
 displayName = "ExpandAbility Test"
 authors = "Florens"
 description = '''
 Testmod for ExpandAbility
 '''
 
-[[dependencies.expandability-test]]
+[[dependencies.expandabilitytest]]
 modId = "expandability"
 mandatory = true
 ordering = "NONE"
 side = "BOTH"
+versionRange = "[0,)" # fuck you froge

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "id": "expandability-test",
-  "version": "${version}",
+  "id": "expandabilitytest",
+  "version": "1.0.0",
 
   "name": "ExpandAbility Test",
   "description": "Testmod for ExpandAbility",

@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
 architectury {
@@ -8,26 +8,32 @@ architectury {
 }
 
 loom {
-    localMods {
-        it.add(project(":forge").sourceSets.main)
+    forge {
+        mixinConfigs "expandability.mixins.json"
+
+        localMods {
+            forge {
+                it.add(project(":forge").sourceSets.main)
+            }
+        }
     }
 }
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
-    modRuntime "be.florens:autoload-forge:${rootProject.autoload_version}"
+//    modRuntimeOnly "be.florens:autoload-forge:${rootProject.autoload_version}"
 
-    implementation project(path: ":forge")
-    implementation(project(path: ":common")) {
+    implementation project(path: ":forge", configuration: "dev")
+    implementation(project(path: ":common", configuration: "dev")) {
         transitive = false
     }
-    implementation(project(path: ":testmod-common")) {
+    developmentForge(project(path: ":common", configuration: "dev")) {
         transitive = false
     }
-    developmentForge(project(path: ":common")) {
+    implementation(project(path: ":testmod-common", configuration: "dev")) {
         transitive = false
     }
-    developmentForge(project(path: ":testmod-common")) {
+    developmentForge(project(path: ":testmod-common", configuration: "dev")) {
         transitive = false
     }
 }

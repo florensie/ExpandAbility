@@ -57,13 +57,13 @@ public abstract class LivingEntityMixin extends Entity {
 	 * Cancel the small boost upward when leaving a fluid while against the side of a block when swimming is enabled
 	 */
 	@Redirect(method = "travel", allow = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isFree(DDD)Z"))
-	private boolean cancelLeaveFluidAssist(LivingEntity entity, double d, double e, double f) {
+	private boolean cancelLeaveFluidAssist(LivingEntity entity, double x, double y, double z) {
 		if (entity instanceof Player player) {
 			if (EventDispatcher.onPlayerSwim(player).consumesAction()) {
 				return false;
 			}
 		}
 
-		return entity.isFree(d, e, f); // Vanilla behaviour
+		return entity.isFree(x, y, z); // Vanilla behaviour
 	}
 }

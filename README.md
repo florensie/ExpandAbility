@@ -27,10 +27,15 @@ If you're using ForgeGradle you might also need this to fix Mixin's broken refma
 Some example usages of the API can be found in the `testmod-[platform]` directories of this repository.
 
 ## To Do
-- Swimming ability
+### Swimming ability
   - Test with modded fluids
   - Test with elytra & Caelus API
-  - Command
-- Fluid walking ability
+
+### Fluid walking ability
+  - Fix no fall damage when falling on water
+  - Fix sneaking on water
+
+### Other
 - Persistent status effects
+- Add commands for testing
 - LivingEntity scaling

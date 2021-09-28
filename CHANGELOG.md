@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2021-09-28
+### Fixed
+- Possibly fixed dev dependencies defined for production build
+
 ## [3.0.0] - 2021-09-27
 ### Changed
 - Update for 1.17.1
@@ -36,6 +40,7 @@ Initial release
 ### Added
 - Player swim event
 
+[3.0.1]: https://github.com/florensie/artifacts-fabric/compare/v3.0.0..v3.0.1
 [3.0.0]: https://github.com/florensie/artifacts-fabric/compare/v2.0.1..v3.0.0
 [2.0.1]: https://github.com/florensie/artifacts-fabric/compare/v2.0.0..v2.0.1
 [2.0.0]: https://github.com/florensie/artifacts-fabric/compare/v1.1.0..v2.0.0

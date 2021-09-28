@@ -2,14 +2,9 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
-architectury {
-    platformSetupLoomIde()
-    forge()
-}
-
 loom {
     forge {
-        mixinConfigs "expandability.mixins.json"
+        mixinConfig "expandability.mixins.json"
 
         localMods {
             forge {
@@ -17,6 +12,11 @@ loom {
             }
         }
     }
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
 }
 
 dependencies {

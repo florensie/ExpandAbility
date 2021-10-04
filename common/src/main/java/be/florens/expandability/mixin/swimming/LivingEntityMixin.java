@@ -47,8 +47,8 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isAffectedByFluids()Z"))
 	private boolean setAffectedByFluids(LivingEntity entity) {
-		if (entity instanceof Player) {
-			return Util.processEventResult(EventDispatcher.onPlayerSwim((Player) entity), false, true, ((Player) entity)::isAffectedByFluids);
+		if (entity instanceof Player player) {
+			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), false, true, player::isAffectedByFluids);
 		}
 
 		//noinspection ConstantConditions

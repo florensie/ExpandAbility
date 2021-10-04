@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Update for 1.17.1
 
+## [2.0.2] - 2021-10-04
+### Fixed
+- Adjustment to allow for better Mixin compatibility with other mods
+
 ## [2.0.1] - 2021-04-15
 ### Fixed
 - Icon crashing Forge's mod menu (lol)

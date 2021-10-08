@@ -2,6 +2,7 @@ package be.florens.expandability.api.fabric;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 
@@ -14,19 +15,19 @@ public interface PlayerSwimCallback {
     Event<PlayerSwimCallback> EVENT = EventFactory.createArrayBacked(PlayerSwimCallback.class,
             (listeners) -> (player) -> {
                 for (PlayerSwimCallback listener : listeners) {
-                    InteractionResult result = listener.swim(player);
+                    TriState result = listener.swim(player);
 
-                    if (result.consumesAction() || result == InteractionResult.FAIL) {
+                    if (result == TriState.TRUE || result == TriState.FALSE) {
                         return result;
                     }
                 }
-                return InteractionResult.PASS;
+                return TriState.DEFAULT;
             });
 
     /**
      * @param player The player that is trying to swim
-     * @return {@link InteractionResult#SUCCESS}/{@link InteractionResult#CONSUME} to enable swimming,
-     *         {@link InteractionResult#FAIL} to disable and {@link InteractionResult#PASS} for vanilla behaviour
+     * @return {@link TriState#TRUE} to enable swimming, {@link TriState#FALSE} to disable
+     *         and {@link TriState#DEFAULT} for vanilla behaviour
      */
-    InteractionResult swim(Player player);
+    TriState swim(Player player);
 }

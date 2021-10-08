@@ -2,14 +2,14 @@ package be.florens.expandability.fabric;
 
 import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
-import net.minecraft.world.InteractionResult;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FluidState;
 
 public class EventDispatcherImpl {
 
-    public static InteractionResult onPlayerSwim(Player player) {
+    public static TriState onPlayerSwim(Player player) {
         return PlayerSwimCallback.EVENT.invoker().swim(player);
     }
 

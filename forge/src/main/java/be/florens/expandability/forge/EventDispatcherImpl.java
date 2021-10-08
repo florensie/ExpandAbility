@@ -1,8 +1,8 @@
 package be.florens.expandability.forge;
 
+import be.florens.expandability.EventResult;
 import be.florens.expandability.api.forge.LivingFluidCollisionEvent;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FluidState;
@@ -11,7 +11,7 @@ import net.minecraftforge.eventbus.api.Event;
 
 public class EventDispatcherImpl {
 
-    public static InteractionResult onPlayerSwim(Player player) {
+    public static EventResult onPlayerSwim(Player player) {
         PlayerSwimEvent event = new PlayerSwimEvent(player);
         MinecraftForge.EVENT_BUS.post(event);
         return getEventResult(event);
@@ -23,11 +23,11 @@ public class EventDispatcherImpl {
         return event.getResult() == Event.Result.ALLOW;
     }
 
-    private static InteractionResult getEventResult(Event event) {
+    private static EventResult getEventResult(Event event) {
         return switch (event.getResult()) {
-            case ALLOW -> InteractionResult.SUCCESS;
-            case DENY -> InteractionResult.FAIL;
-            default -> InteractionResult.PASS;
+            case ALLOW -> EventResult.SUCCESS;
+            case DENY -> EventResult.FAIL;
+            case DEFAULT -> EventResult.PASS;
         };
     }
 }

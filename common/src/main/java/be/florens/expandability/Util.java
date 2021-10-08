@@ -12,11 +12,15 @@ public class Util {
      * @param defaultSupplier a boolean {@link Supplier<Boolean>} that defines the default/vanilla behaviour
      * @return {@link InteractionResult} success or fail, or boolean defined by default supplier if passed
      */
-    public static boolean processEventResult(InteractionResult result, Supplier<Boolean> defaultSupplier) {
+    public static boolean processEventResult(EventResult result, Supplier<Boolean> defaultSupplier) {
         return processEventResult(result, true, false, defaultSupplier);
     }
 
-    public static <T> T processEventResult(InteractionResult result, T success, T fail, Supplier<T> defaultSupplier) {
-        return result.consumesAction() ? success : result == InteractionResult.FAIL ? fail : defaultSupplier.get();
+    public static <T> T processEventResult(EventResult result, T success, T fail, Supplier<T> defaultSupplier) {
+        return switch (result) {
+            case SUCCESS -> success;
+            case FAIL -> fail;
+            case PASS -> defaultSupplier.get();
+        };
     }
 }

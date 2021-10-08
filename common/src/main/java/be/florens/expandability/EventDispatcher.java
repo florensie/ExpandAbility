@@ -1,7 +1,6 @@
 package be.florens.expandability;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FluidState;
@@ -9,8 +8,8 @@ import net.minecraft.world.level.material.FluidState;
 public class EventDispatcher {
 
     @ExpectPlatform
-    public static InteractionResult onPlayerSwim(Player player) {
-        return InteractionResult.PASS;
+    public static EventResult onPlayerSwim(Player player) {
+        return EventResult.PASS;
     }
 
     @ExpectPlatform

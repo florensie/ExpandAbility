@@ -1,9 +1,9 @@
 package be.florens.expandability.mixin.swimming;
 
 import be.florens.expandability.EventDispatcher;
+import be.florens.expandability.EventResult;
 import be.florens.expandability.Util;
 import net.minecraft.tags.Tag;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,7 +29,7 @@ public abstract class LivingEntityMixin extends Entity {
 	@Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/Tag;)D"))
 	private double setFluidHeight(LivingEntity entity, Tag<Fluid> tag) {
 		if (entity instanceof Player player) {
-			InteractionResult shouldSwim = EventDispatcher.onPlayerSwim(player);
+			EventResult shouldSwim = EventDispatcher.onPlayerSwim(player);
 			return Util.processEventResult(shouldSwim, 1D, 0D, () -> player.getFluidHeight(tag));
 		}
 
@@ -61,7 +61,7 @@ public abstract class LivingEntityMixin extends Entity {
 	@Inject(method = "checkFallDamage", at = @At("HEAD"))
 	private void resetFallHeight(CallbackInfo info) {
 		//noinspection ConstantConditions
-		if ((Object) this instanceof Player player && EventDispatcher.onPlayerSwim(player).consumesAction()) {
+		if ((Object) this instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
 			this.fallDistance = 0;
 		}
 	}
@@ -72,7 +72,7 @@ public abstract class LivingEntityMixin extends Entity {
 	@Redirect(method = "travel", allow = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isFree(DDD)Z"))
 	private boolean cancelLeaveFluidAssist(LivingEntity entity, double x, double y, double z) {
 		if (entity instanceof Player player) {
-			if (EventDispatcher.onPlayerSwim(player).consumesAction()) {
+			if (EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
 				return false;
 			}
 		}

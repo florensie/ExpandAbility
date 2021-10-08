@@ -1,27 +1,22 @@
 package be.florens.expandability.mixin.swimming;
 
 import be.florens.expandability.EventDispatcher;
+import be.florens.expandability.EventResult;
 import be.florens.expandability.Util;
-import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.Tag;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import org.objectweb.asm.Opcodes;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-
-import java.util.Set;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -49,7 +44,8 @@ public abstract class EntityMixin {
 		return entity.isUnderWater(); // Vanilla behaviour
 	}
 
-	@Redirect(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/Tag;)Z"))
+	// Require = 0, because this is 1.17.1+
+	@Redirect(method = "updateSwimming", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/Tag;)Z"))
 	private boolean setInFluidState(FluidState fluidState, Tag<Fluid> tag) {
 		//noinspection ConstantConditions
 		if ((Object) this instanceof Player player && tag == FluidTags.WATER) {
@@ -65,7 +61,7 @@ public abstract class EntityMixin {
 	@Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;playSwimSound(F)V"))
 	private void cancelPlaySwimSound(Entity entity, float volume) {
 		// Re-check if we're in water first, so we don't cancel vanilla swimming sounds
-		if (!this.isInWater() && entity instanceof Player player && EventDispatcher.onPlayerSwim(player).consumesAction()) {
+		if (!this.isInWater() && entity instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
 			return;
 		}
 
@@ -78,7 +74,7 @@ public abstract class EntityMixin {
 	 */
 	@Redirect(method = "updateInWaterStateAndDoWaterCurrentPushing", at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/Entity;fallDistance:F", opcode = Opcodes.PUTFIELD))
 	private void cancelSetFallDistance(Entity entity, float fallDistance) {
-		if (entity instanceof Player player && EventDispatcher.onPlayerSwim(player) == InteractionResult.FAIL) {
+		if (entity instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.FAIL) {
 			return;
 		}
 
@@ -97,7 +93,7 @@ public abstract class EntityMixin {
 		if ((Object) this instanceof Player player) {
 			Block block = player.level.getBlockState(player.blockPosition()).getBlock();
 
-			if (block == Blocks.WATER && EventDispatcher.onPlayerSwim(player) == InteractionResult.FAIL) {
+			if (block == Blocks.WATER && EventDispatcher.onPlayerSwim(player) == EventResult.FAIL) {
 				return Blocks.AIR; // Makes condition return true
 			}
 		}

@@ -4,23 +4,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.0.1] - 2021-10-08
+## [4.0.2] - 2021-10-10
+## Fixed
+- New release without previously broken fix
+
+## [4.0.1] - 2021-10-08 [YANKED]
 ### Fixed
 - Crash on launch (fabric)
 - 1.17 compatibility
 
-## [4.0.0] - 2021-10-08
+## [4.0.0] - 2021-10-08 [YANKED]
 ### Changed
 - Use Fabric API's TriState for the Fabric swimming event
 
 ### Fixed
 - Depend on Minecraft 1.17+ instead of 1.17.1+
 
-## [3.0.2] - 2021-10-04
+## [3.0.2] - 2021-10-04 [YANKED]
 ### Fixed
 - Pulled in fix from 1.16 version (2.0.2)
 
-## [2.0.2] - 2021-10-04
+## [2.0.2] - 2021-10-04 [YANKED]
 ### Fixed
 - Adjustment to allow for better Mixin compatibility with other mods
 

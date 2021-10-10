@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -19,8 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
-
-	@Shadow protected abstract boolean isAffectedByFluids();
 
 	public LivingEntityMixin(EntityType<?> entityType, Level level) {
 		super(entityType, level);
@@ -36,23 +33,13 @@ public abstract class LivingEntityMixin extends Entity {
 		return entity.getFluidHeight(tag); // Vanilla behaviour
 	}
 
-	@Redirect(method = {"aiStep", "checkFallDamage"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
+	@Redirect(method = {"aiStep", "travel", "checkFallDamage"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
 	private boolean setInWater(LivingEntity entity) {
 		if (entity instanceof Player) {
 			return Util.processEventResult(EventDispatcher.onPlayerSwim((Player) entity), entity::isInWater);
 		}
 
 		return entity.isInWater(); // Vanilla behaviour
-	}
-
-	@Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isAffectedByFluids()Z"))
-	private boolean setAffectedByFluids(LivingEntity entity) {
-		if (entity instanceof Player) {
-			return Util.processEventResult(EventDispatcher.onPlayerSwim((Player) entity), false, true, ((Player) entity)::isAffectedByFluids);
-		}
-
-		//noinspection ConstantConditions
-		return ((LivingEntityMixin) (Object) entity).isAffectedByFluids();
 	}
 
 	/**

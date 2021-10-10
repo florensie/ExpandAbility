@@ -64,6 +64,8 @@ Initial release
 ### Added
 - Player swim event
 
+[Unreleased]: https://github.com/florensie/artifacts-fabric/compare/v4.0.2..HEAD
+[4.0.2]: https://github.com/florensie/artifacts-fabric/compare/v4.0.1..v4.0.2
 [4.0.1]: https://github.com/florensie/artifacts-fabric/compare/v4.0.0..v4.0.1
 [4.0.0]: https://github.com/florensie/artifacts-fabric/compare/v3.0.2..v4.0.0
 [3.0.2]: https://github.com/florensie/artifacts-fabric/compare/v3.0.1..v3.0.2

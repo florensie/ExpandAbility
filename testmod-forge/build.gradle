@@ -20,7 +20,8 @@ architectury {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+//    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
 //    modRuntimeOnly "be.florens:autoload-forge:${rootProject.autoload_version}"
 
     implementation project(path: ":forge", configuration: "dev")

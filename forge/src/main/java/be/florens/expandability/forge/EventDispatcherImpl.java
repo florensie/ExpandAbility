@@ -11,13 +11,13 @@ import net.minecraftforge.eventbus.api.Event;
 
 public class EventDispatcherImpl {
 
-    public static EventResult onPlayerSwim(Player player) {
+    public static EventResult dispatchPlayerSwim(Player player) {
         PlayerSwimEvent event = new PlayerSwimEvent(player);
         MinecraftForge.EVENT_BUS.post(event);
         return getEventResult(event);
     }
 
-    public static boolean onLivingFluidCollision(LivingEntity entity, FluidState fluidState) {
+    public static boolean dispatchLivingFluidCollision(LivingEntity entity, FluidState fluidState) {
         LivingFluidCollisionEvent event = new LivingFluidCollisionEvent(entity, fluidState);
         MinecraftForge.EVENT_BUS.post(event);
         return event.getResult() == Event.Result.ALLOW;

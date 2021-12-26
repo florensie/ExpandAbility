@@ -10,12 +10,12 @@ import net.minecraft.world.level.material.FluidState;
 
 public class EventDispatcherImpl {
 
-    public static EventResult dispatchPlayerSwim(Player player) {
+    public static EventResult onPlayerSwim(Player player) {
         TriState result = PlayerSwimCallback.EVENT.invoker().swim(player);
         return getEventResult(result);
     }
 
-	public static boolean dispatchLivingFluidCollision(LivingEntity entity, FluidState fluidState) {
+	public static boolean onLivingFluidCollision(LivingEntity entity, FluidState fluidState) {
 		return LivingFluidCollisionCallback.EVENT.invoker().collide(entity, fluidState);
 	}
 

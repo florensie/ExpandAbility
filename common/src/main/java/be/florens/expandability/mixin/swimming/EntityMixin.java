@@ -44,8 +44,7 @@ public abstract class EntityMixin {
 		return entity.isUnderWater(); // Vanilla behaviour
 	}
 
-	// Require = 0, because this is 1.17.1+
-	@Redirect(method = "updateSwimming", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/Tag;)Z"))
+	@Redirect(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/Tag;)Z"))
 	private boolean setInFluidState(FluidState fluidState, Tag<Fluid> tag) {
 		//noinspection ConstantConditions
 		if ((Object) this instanceof Player player && tag == FluidTags.WATER) {

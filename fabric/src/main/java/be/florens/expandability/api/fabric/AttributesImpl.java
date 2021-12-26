@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 
 public class AttributesImpl {
 
-    public static Attribute register(String id, Supplier<Attribute> attributeSupplier) {
-        return Registry.register(Registry.ATTRIBUTE, ExpandAbility.id(id), attributeSupplier.get());
+    public static Attribute register(String id, Attribute attributeSupplier) {
+        return Registry.register(Registry.ATTRIBUTE, ExpandAbility.id(id), attributeSupplier);
     }
 }

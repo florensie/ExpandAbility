@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 public class AttributesImpl {
 
-    public static Attribute register(String id, Supplier<Attribute> attributeSupplier) {
-        return ExpandAbilityForge.ATTRIBUTES.register(id, attributeSupplier).get();
+    public static Attribute register(String id, Attribute attributeSupplier) {
+        return ExpandAbilityForge.ATTRIBUTES.register(id, () -> attributeSupplier).get();
     }
 }

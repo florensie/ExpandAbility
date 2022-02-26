@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class PlayerRendererMixin {
 
 	@SuppressWarnings("AmbiguousMixinReference") // It's really not?
-	@Redirect(method = "setupRotations", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isInWater()Z"))
+	@Redirect(method = "setupRotations", require = 0 /* rendering only */, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isInWater()Z"))
 	private boolean setInWater(AbstractClientPlayer player) {
 		return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
 	}

@@ -19,7 +19,7 @@ public abstract class PlayerMixin {
 	 *     <li>{@link Player#checkMovementStatistics}: makes sure the correct hunger is applied</li>
 	 * </ul>
 	 */
-	@Redirect(method = {"attack", "checkMovementStatistics", "tryToStartFallFlying"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z"))
+	@Redirect(method = {"attack", "checkMovementStatistics", "tryToStartFallFlying"}, require = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z"))
 	private boolean setInWater(Player player) {
 		return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
 	}
@@ -27,7 +27,7 @@ public abstract class PlayerMixin {
 	/**
 	 * Makes sure the correct hunger is applied
 	 */
-	@Redirect(method = "checkMovementStatistics", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isEyeInFluid(Lnet/minecraft/tags/Tag;)Z"))
+	@Redirect(method = "checkMovementStatistics", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isEyeInFluid(Lnet/minecraft/tags/Tag;)Z"))
 	private boolean setEyeInFluid(Player player, Tag<Fluid> tag) {
 		return Util.processEventResult(EventDispatcher.onPlayerSwim(player), () -> player.isEyeInFluid(tag));
 	}
@@ -36,6 +36,7 @@ public abstract class PlayerMixin {
 	 * Vanilla checks the if the block above the player is fluid and prevents swimming up by look direction
 	 * This cancels the check if we have swimming enabled
 	 */
+	// TODO: WrapWithCondition (with slice and ordinal)
 	@Redirect(method = "travel", allow = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;isEmpty()Z"))
 	private boolean cancelSurfaceCheck(FluidState fluidState) {
 		Player self = (Player) (Object) this;

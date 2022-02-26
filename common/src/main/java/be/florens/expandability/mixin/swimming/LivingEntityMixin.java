@@ -24,7 +24,7 @@ public abstract class LivingEntityMixin extends Entity {
 		super(entityType, level);
 	}
 
-	@Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/Tag;)D"))
+	@Redirect(method = "aiStep", require = 2 /* TODO: do we want to target lava check? */, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/Tag;)D"))
 	private double setFluidHeight(LivingEntity entity, Tag<Fluid> tag) {
 		if (entity instanceof Player player) {
 			EventResult shouldSwim = EventDispatcher.onPlayerSwim(player);
@@ -34,7 +34,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return entity.getFluidHeight(tag); // Vanilla behaviour
 	}
 
-	@Redirect(method = {"travel", "aiStep", "checkFallDamage"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
+	@Redirect(method = {"travel", "aiStep", "checkFallDamage"}, require = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
 	private boolean setInWater(LivingEntity entity) {
 		if (entity instanceof Player player) {
 			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
@@ -57,7 +57,8 @@ public abstract class LivingEntityMixin extends Entity {
 	/**
 	 * Cancel the small boost upward when leaving a fluid while against the side of a block when swimming is enabled
 	 */
-	@Redirect(method = "travel", allow = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isFree(DDD)Z"))
+	// TODO: WrapWithCondition on setDeltaMovement
+	@Redirect(method = "travel", allow = 2, require = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isFree(DDD)Z"))
 	private boolean cancelLeaveFluidAssist(LivingEntity entity, double x, double y, double z) {
 		if (entity instanceof Player player) {
 			if (EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {

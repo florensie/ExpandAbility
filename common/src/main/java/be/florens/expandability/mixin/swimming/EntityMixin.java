@@ -26,7 +26,7 @@ public abstract class EntityMixin {
 	@Shadow public abstract boolean isInWater();
 	@Shadow protected abstract void playSwimSound(float f);
 
-	@Redirect(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle", "move"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
+	@Redirect(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle", "move"}, require = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
 	private boolean setInWater(Entity entity) {
 		if (entity instanceof Player player) {
 			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
@@ -44,8 +44,7 @@ public abstract class EntityMixin {
 		return entity.isUnderWater(); // Vanilla behaviour
 	}
 
-	// Require = 0, because this is 1.17.1+
-	@Redirect(method = "updateSwimming", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/Tag;)Z"))
+	@Redirect(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/Tag;)Z"))
 	private boolean setInFluidState(FluidState fluidState, Tag<Fluid> tag) {
 		//noinspection ConstantConditions
 		if ((Object) this instanceof Player player && tag == FluidTags.WATER) {
@@ -58,6 +57,7 @@ public abstract class EntityMixin {
 	/**
 	 * Prevents the swimming sound from playing when non-vanilla swimming is enabled
 	 */
+	// TODO: WrapWithCondition
 	@Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;playSwimSound(F)V"))
 	private void cancelPlaySwimSound(Entity entity, float volume) {
 		// Re-check if we're in water first, so we don't cancel vanilla swimming sounds
@@ -72,6 +72,7 @@ public abstract class EntityMixin {
 	/**
 	 * Take fall damage when in water with water physics disabled
 	 */
+	// TODO: WrapWithCondition
 	@Redirect(method = "updateInWaterStateAndDoWaterCurrentPushing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V"))
 	private void cancelSetFallDistance(Entity entity) {
 		if (entity instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.FAIL) {

@@ -36,6 +36,7 @@ Some example usages of the API can be found in the `testmod-[platform]` director
   - Fix sneaking on water
 
 ### Other
+- Replace some Redirects with MixinExtras' ModifyExpressionValue
 - Persistent status effects
 - Add commands for testing
 - LivingEntity scaling

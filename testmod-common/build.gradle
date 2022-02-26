@@ -6,7 +6,7 @@ dependencies {
 }
 
 architectury {
-    common()
+    common(false) // false disables the forge side of architectury
 }
 
 configurations {

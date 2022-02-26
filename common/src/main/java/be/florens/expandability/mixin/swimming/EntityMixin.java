@@ -4,7 +4,7 @@ import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.EventResult;
 import be.florens.expandability.Util;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -44,8 +44,8 @@ public abstract class EntityMixin {
 		return entity.isUnderWater(); // Vanilla behaviour
 	}
 
-	@Redirect(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/Tag;)Z"))
-	private boolean setInFluidState(FluidState fluidState, Tag<Fluid> tag) {
+	@Redirect(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"))
+	private boolean setInFluidState(FluidState fluidState, TagKey<Fluid> tag) {
 		//noinspection ConstantConditions
 		if ((Object) this instanceof Player player && tag == FluidTags.WATER) {
 			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), () -> fluidState.is(tag));

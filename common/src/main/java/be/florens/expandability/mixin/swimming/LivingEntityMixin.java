@@ -3,7 +3,7 @@ package be.florens.expandability.mixin.swimming;
 import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.EventResult;
 import be.florens.expandability.Util;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -24,8 +23,8 @@ public abstract class LivingEntityMixin extends Entity {
 		super(entityType, level);
 	}
 
-	@Redirect(method = "aiStep", require = 2 /* TODO: do we want to target lava check? */, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/Tag;)D"))
-	private double setFluidHeight(LivingEntity entity, Tag<Fluid> tag) {
+	@Redirect(method = "aiStep", require = 2 /* TODO: do we want to target lava check? */, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/TagKey;)D"))
+	private double setFluidHeight(LivingEntity entity, TagKey<Fluid> tag) {
 		if (entity instanceof Player player) {
 			EventResult shouldSwim = EventDispatcher.onPlayerSwim(player);
 			return Util.processEventResult(shouldSwim, 1D, 0D, () -> player.getFluidHeight(tag));

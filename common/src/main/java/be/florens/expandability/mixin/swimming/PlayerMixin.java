@@ -2,7 +2,7 @@ package be.florens.expandability.mixin.swimming;
 
 import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.Util;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
@@ -27,8 +27,8 @@ public abstract class PlayerMixin {
 	/**
 	 * Makes sure the correct hunger is applied
 	 */
-	@Redirect(method = "checkMovementStatistics", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isEyeInFluid(Lnet/minecraft/tags/Tag;)Z"))
-	private boolean setEyeInFluid(Player player, Tag<Fluid> tag) {
+	@Redirect(method = "checkMovementStatistics", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isEyeInFluid(Lnet/minecraft/tags/TagKey;)Z"))
+	private boolean setEyeInFluid(Player player, TagKey<Fluid> tag) {
 		return Util.processEventResult(EventDispatcher.onPlayerSwim(player), () -> player.isEyeInFluid(tag));
 	}
 

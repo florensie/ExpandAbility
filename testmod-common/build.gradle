@@ -6,13 +6,5 @@ dependencies {
 }
 
 architectury {
-    common(false) // false disables the forge side of architectury
-}
-
-configurations {
-    dev
-}
-
-artifacts {
-    dev(jar)
+    common(rootProject.forge_enabled.toBoolean())
 }

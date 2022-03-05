@@ -27,7 +27,7 @@ public class LivingFluidCollisionEvent extends LivingEvent {
 	}
 
 	/**
-	 * @return The {@link FluidState} the entity is collding with
+	 * @return The {@link FluidState} the entity is colliding with
 	 */
 	public FluidState getFluidState() {
 		return this.fluidState;

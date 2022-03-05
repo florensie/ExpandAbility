@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Update for Minecraft 1.18.2
+- Now using Slf4j
+- Marked some methods as internal
 
 ### Fixed
 - Mixin injections didn't have the proper requirements meaning some failed injections could go unnoticed
+- Typo in javadoc
 
 ## [5.0.0] - 2021-12-26
 ### Changed
@@ -75,7 +78,8 @@ Initial release
 ### Added
 - Player swim event
 
-[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v5.0.0..HEAD
+[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v6.0.0..HEAD
+[v6.0.0]: https://github.com/florensie/ExpandAbility/compare/v5.0.0..v6.0.0
 [5.0.0]: https://github.com/florensie/ExpandAbility/compare/v4.0.2..v5.0.0
 [4.0.2]: https://github.com/florensie/ExpandAbility/compare/v4.0.1..v4.0.2
 [4.0.1]: https://github.com/florensie/ExpandAbility/compare/v4.0.0..v4.0.1

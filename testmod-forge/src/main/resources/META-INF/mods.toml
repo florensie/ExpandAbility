@@ -8,7 +8,7 @@ version = "1.0.0"
 displayName = "ExpandAbility Test"
 authors = "Florens"
 description = '''
-Testmod for ExpandAbility
+Test mod for ExpandAbility
 '''
 
 [[dependencies.expandabilitytest]]

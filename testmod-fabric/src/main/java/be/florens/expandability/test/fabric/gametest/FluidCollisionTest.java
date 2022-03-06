@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class FluidCollisionTest {
 
     @GameTest(template = "expandability:pool")
-    public void no_collide(@NotNull GameTestHelper helper) {
+    public void no_collide(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, 1, 5, 1);
         helper.startSequence()
                 .thenExecuteAfter(20, () -> helper.assertEntityInstancePresent(villager, 1, 2, 1))
@@ -19,7 +19,7 @@ public class FluidCollisionTest {
     }
 
     @GameTest(template = "expandability:pool")
-    public void collide(@NotNull GameTestHelper helper) {
+    public void collide(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, 1, 5, 1);
         LivingFluidCollisionCallback.EVENT.register((entity, fluidState) -> entity.equals(villager));
         helper.startSequence()

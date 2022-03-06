@@ -15,6 +15,7 @@
       "be.florens.expandability.test.fabric.ExpandAbilityTestFabric"
     ],
     "fabric-gametest": [
+      "be.florens.expandability.test.fabric.gametest.BaseTest",
       "be.florens.expandability.test.fabric.gametest.FluidCollisionTest"
     ]
   },

@@ -18,16 +18,20 @@ configurations {
     developmentFabric.extendsFrom common
 }
 
-/*loom {
+loom {
     runs {
-        // Appears to be bugged with mojang mappings
+        // This launches the tests automatically on a headless dedicated server
+        // To run & debug game tests manually on the integrated server instead,
+        // run the testmod client and use the in-game command: /test runall
         gametest {
             server()
-            name = "Game Test"
-            vmArg "-Dfabric-api.gametest.server=true"
+            name "Game Test"
+            vmArg "-Dfabric-api.gametest"
+            vmArg "-Dfabric-api.gametest.report-file=${project.buildDir}/junit.xml"
+            runDir "build/gametest"
         }
     }
-}*/
+}
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"

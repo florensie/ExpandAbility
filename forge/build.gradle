@@ -96,7 +96,7 @@ curseforge {
         project {
             id = project.curse_project
             releaseType = "release"
-            addGameVersion "1.17.1"
+            addGameVersion "1.18.2"
             addGameVersion "Forge"
             mainArtifact(remapJar.archivePath) {
                 displayName = "[Forge $rootProject.supported_versions] v$project.version"

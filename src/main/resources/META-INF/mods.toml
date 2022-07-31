@@ -1,25 +1,37 @@
-modLoader="javafml"
-loaderVersion="[42,)"
-license="MIT"
+modLoader = "javafml"
+loaderVersion = "[41,)"
+license = "MIT"
 
 [[mods]]
-modId="expandabilitytest"
-version="${file.jarVersion}"
-displayName="Expandability Forge Testing"
-authors="Florens Pauwels"
-description='''
-A mod for testing development and testing of ExpandAbility for Forge.
+modId = "examplemod"
+# The version number of the mod - unlike in the Forge MDK,
+# we'll use the processResources task to replace this for us
+version = "${version}"
+displayName = "Example Mod"
+description = '''
+This is a very cool mod that does... things.
+
+...and stuff.
+
+Have I reached 280 characters yet?
 '''
 
-[[dependencies.expandabilitytest]]
-    modId="forge"
-    mandatory=true
-    versionRange="[42,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.expandabilitytest]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.19.1,1.20)"
-    ordering="NONE"
-    side="BOTH"
+# An (optional) dependency for your mod. Though technically not required,
+# it's always helpful to add these to stop your mod from loading when something is missing
+# rather than erroring out later
+[[dependencies.examplemod]]
+modId = "forge"
+mandatory = true # do you **need** this mod to be able to launch?
+# A version range using interval notation.
+# Brackets mean "inclusive" bounds, while parentheses mean "exclusive".
+versionRange = "[41,)" # This essentially means any forge >= 41
+ordering = "NONE" # Use this if you want your mod to be loaded specifically BEFORE or AFTER another mod
+side = "BOTH" # Specify where this mod is required: can be BOTH, CLIENT or SERVER
+
+[[dependencies.examplemod]]
+modId = "minecraft"
+mandatory = true
+
+versionRange = "[1.19,)"
+ordering = "NONE"
+side = "BOTH"

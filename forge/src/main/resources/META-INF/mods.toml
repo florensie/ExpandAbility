@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[37,)"
+loaderVersion = "[41,)"
 issueTrackerURL = "https://github.com/florensie/expandability/issues"
 license = "MIT"
 
@@ -16,13 +16,13 @@ logoFile = "icon.png"
 [[dependencies.expandability]]
 modId = "forge"
 mandatory = true
-versionRange = "[37.0.59,)"
+versionRange = "[41,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.expandability]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18,)"
+versionRange = "[1.19,)"
 ordering = "NONE"
 side = "BOTH"

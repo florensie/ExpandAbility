@@ -3,12 +3,6 @@ plugins {
     id "com.matthewprenger.cursegradle"
 }
 
-loom {
-    forge {
-        mixinConfig "expandability.mixins.json"
-    }
-}
-
 architectury {
     platformSetupLoomIde()
     forge()
@@ -23,17 +17,18 @@ configurations {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.architectury.minecraft}-${rootProject.forge_version}"
+    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 }
 
 processResources {
+    inputs.property "version", project.version
+
     filesMatching("META-INF/mods.toml") {
         expand "version": project.version
     }
-    inputs.property "META-INF/mods.toml", project.version
 }
 
 shadowJar {
@@ -54,13 +49,9 @@ jar {
 }
 
 sourcesJar {
-    afterEvaluate {
-        [":common"].forEach {
-            def depSources = project(it).sourcesJar
-            dependsOn depSources
-            from depSources.archiveFile.map { zipTree(it) }
-        }
-    }
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
 }
 
 components.java {
@@ -72,7 +63,7 @@ components.java {
 publishing {
     publications {
         mavenForge(MavenPublication) {
-            artifactId = rootProject.archivesBaseName + "-forge"
+            artifactId = rootProject.archives_base_name + "-" + project.name
             from components.java
         }
     }

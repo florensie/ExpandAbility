@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "expandability",
   "version": "${version}",
-
   "name": "ExpandAbility",
   "description": "Library mod that provides increased control over vanilla abilities",
   "authors": ["Florens"],
@@ -13,7 +12,6 @@
   },
   "license": "MIT",
   "icon": "icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -23,13 +21,10 @@
   "mixins": [
     "expandability.mixins.json"
   ],
-
   "depends": {
-    "minecraft": ">=1.18",
-    "fabricloader": ">=0.11.1",
-    "fabric": "*"
+    "fabric": "*",
+    "minecraft": ">=1.19"
   },
-
   "custom": {
     "modmenu": {
       "badges": ["library"]

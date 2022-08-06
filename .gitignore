@@ -11,10 +11,9 @@ libs/
 
 .classpath
 .project
-.settings/org.eclipse.core.resources.prefs
 .idea/
 classes/
-
-.vscode/
-logs/
-.architectury-transformer/
+.metadata
+.vscode
+.settings
+*.launch

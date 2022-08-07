@@ -8,6 +8,13 @@ architectury {
     forge()
 }
 
+loom {
+    forge {
+        mixinConfig "expandability.mixins.json"
+        mixinConfig "expandability-common.mixins.json"
+    }
+}
+
 configurations {
     common
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
@@ -18,6 +25,7 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    implementation include(forgeRuntimeLibrary(annotationProcessor("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")))
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
@@ -89,6 +97,8 @@ curseforge {
             id = project.curse_project
             releaseType = "release"
             addGameVersion "1.19"
+            addGameVersion "1.19.1"
+            addGameVersion "1.19.2"
             addGameVersion "Forge"
             mainArtifact(remapJar.archivePath) {
                 displayName = "[Forge $rootProject.supported_versions] v$project.version"

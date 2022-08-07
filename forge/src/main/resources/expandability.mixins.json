@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "be.florens.expandability.mixin.forge",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "swimming.LivingEntityMixin",
+    "swimming.EntityMixin"
+  ],
+  "client": [
+    "swimming.client.LocalPlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

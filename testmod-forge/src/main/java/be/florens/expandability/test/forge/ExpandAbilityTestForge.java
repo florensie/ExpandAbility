@@ -21,7 +21,7 @@ public class ExpandAbilityTestForge {
 
 	@SubscribeEvent
 	public void onPlayerSwim(PlayerSwimEvent event) {
-		Item heldItem = event.getPlayer().getMainHandItem().getItem();
+		Item heldItem = event.getEntity().getMainHandItem().getItem();
 		Event.Result result = heldItem == Items.DEBUG_STICK ? Event.Result.ALLOW
 				: heldItem == Items.BARRIER ? Event.Result.DENY
 				: Event.Result.DEFAULT;
@@ -30,7 +30,7 @@ public class ExpandAbilityTestForge {
 
 	@SubscribeEvent
 	public void onLivingFluidColission(LivingFluidCollisionEvent event) {
-		if (event.getEntityLiving().isHolding(Items.WATER_BUCKET) && event.getFluidState().is(FluidTags.WATER)) {
+		if (event.getEntity().isHolding(Items.WATER_BUCKET) && event.getFluidState().is(FluidTags.WATER)) {
 			event.setResult(Event.Result.ALLOW);
 		}
 	}

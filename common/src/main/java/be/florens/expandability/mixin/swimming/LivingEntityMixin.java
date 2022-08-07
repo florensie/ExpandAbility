@@ -23,6 +23,7 @@ public abstract class LivingEntityMixin extends Entity {
 		super(entityType, level);
 	}
 
+	// TODO: should be fine for forge compat
 	@Redirect(method = "aiStep", require = 2 /* TODO: do we want to target lava check? */, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/TagKey;)D"))
 	private double setFluidHeight(LivingEntity entity, TagKey<Fluid> tag) {
 		if (entity instanceof Player player) {
@@ -33,6 +34,7 @@ public abstract class LivingEntityMixin extends Entity {
 		return entity.getFluidHeight(tag); // Vanilla behaviour
 	}
 
+	// TODO: probably also need to do isInFluidType on forge!
 	@Redirect(method = {"travel", "aiStep", "checkFallDamage"}, require = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
 	private boolean setInWater(LivingEntity entity) {
 		if (entity instanceof Player player) {

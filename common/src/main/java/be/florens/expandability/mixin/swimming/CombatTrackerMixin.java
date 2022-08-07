@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class CombatTrackerMixin {
 
     // TODO: set mixin.debug.countInjections to true in runs using build.gradle (expect = 1)
+    // Require 0 because this is extremely unimportant, mixin is allowed to fail
     @Redirect(method = "prepareForDamage", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
     private boolean setInWater(LivingEntity entity) {
         if (entity instanceof Player player) {

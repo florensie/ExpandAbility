@@ -19,6 +19,7 @@ configurations {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    implementation include(annotationProcessor("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}"))
     modRuntimeOnly "be.florens:autoload-fabric:${rootProject.autoload_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
@@ -89,7 +90,10 @@ curseforge {
             id = project.curse_project
             releaseType = "release"
             addGameVersion "1.19"
+            addGameVersion "1.19.1"
+            addGameVersion "1.19.2"
             addGameVersion "Fabric"
+            addGameVersion "Quilt"
             mainArtifact(remapJar.archivePath) {
                 displayName = "[Fabric $rootProject.supported_versions] v$project.version"
             }

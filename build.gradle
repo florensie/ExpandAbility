@@ -1,6 +1,7 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
+    id 'io.github.juuxel.loom-quiltflower' version '1.7.3' apply false
     id "com.matthewprenger.cursegradle" version "1.4.0" apply false
     id "maven-publish"
 }
@@ -11,6 +12,7 @@ architectury {
 
 subprojects {
     apply plugin: "dev.architectury.loom"
+    apply plugin: "io.github.juuxel.loom-quiltflower"
 
     loom {
         silentMojangMappingsLicense()
@@ -23,7 +25,6 @@ subprojects {
 }
 
 allprojects {
-    // TODO: quiltflower
     apply plugin: "java"
     apply plugin: "architectury-plugin"
 
@@ -35,6 +36,12 @@ allprojects {
         maven {
             name = "Florens"
             url = "https://maven.florens.be"
+        }
+        maven {
+            url = "https://jitpack.io"
+            content {
+                includeGroupByRegex "com.github.*"
+            }
         }
     }
 

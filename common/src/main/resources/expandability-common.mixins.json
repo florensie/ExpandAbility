@@ -17,6 +17,7 @@
   "server": [
     "swimming.server.ServerGamePacketListenerImplMixin"
   ],
+  "plugin": "be.florens.expandability.ExpandAbilityMixinPlugin",
   "injectors": {
     "defaultRequire": 1
   },

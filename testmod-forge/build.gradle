@@ -28,6 +28,7 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${gradle.rootProject.architectury.minecraft}-${rootProject.forge_version}"
+    runtimeOnly forgeRuntimeLibrary("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
 //    modRuntimeOnly "be.florens:autoload-forge:${rootProject.autoload_version}"
 
     implementation project(path: ":forge", configuration: "namedElements")

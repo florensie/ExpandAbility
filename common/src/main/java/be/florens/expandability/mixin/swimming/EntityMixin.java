@@ -26,6 +26,8 @@ public abstract class EntityMixin {
 	@Shadow public abstract boolean isInWater();
 	@Shadow protected abstract void playSwimSound(float f);
 
+	// TODO: patch canSpawnSprintParticle isInFluidType on forge-side - extra check
+	// TODO: patch isVisuallyCrawling isInFluidType on forge-side - extra check
 	@Redirect(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle", "move"}, require = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
 	private boolean setInWater(Entity entity) {
 		if (entity instanceof Player player) {
@@ -42,16 +44,6 @@ public abstract class EntityMixin {
 		}
 
 		return entity.isUnderWater(); // Vanilla behaviour
-	}
-
-	@Redirect(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"))
-	private boolean setInFluidState(FluidState fluidState, TagKey<Fluid> tag) {
-		//noinspection ConstantConditions
-		if ((Object) this instanceof Player player && tag == FluidTags.WATER) {
-			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), () -> fluidState.is(tag));
-		}
-
-		return fluidState.is(tag);
 	}
 
 	/**

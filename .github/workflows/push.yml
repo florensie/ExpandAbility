@@ -11,9 +11,7 @@ jobs:
         with:
           java-version: 17
       - name: Run gradle build & test
-        uses: eskatos/gradle-command-action@v1
-        with:
-          arguments: runGametest --stacktrace
+        run: ./gradlew runGametest --stacktrace
       - uses: actions/upload-artifact@v2
         with:
           name: Artifacts

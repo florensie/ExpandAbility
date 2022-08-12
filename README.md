@@ -26,6 +26,9 @@ If you're using ForgeGradle you might also need this to fix Mixin's broken refma
 
 Some example usages of the API can be found in the `testmod-[platform]` directories of this repository.
 
+## Tests
+Tests are located in the fabric-testmod module.
+
 ## To Do
 ### Swimming ability
   - Test with modded fluids

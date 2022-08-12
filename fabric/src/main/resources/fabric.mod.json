@@ -19,7 +19,8 @@
     ]
   },
   "mixins": [
-    "expandability.mixins.json"
+    "expandability.mixins.json",
+    "expandability-common.mixins.json"
   ],
   "depends": {
     "fabric": "*",

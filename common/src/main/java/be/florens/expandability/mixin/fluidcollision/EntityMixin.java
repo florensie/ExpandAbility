@@ -1,6 +1,7 @@
 package be.florens.expandability.mixin.fluidcollision;
 
 import be.florens.expandability.EventDispatcher;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -27,7 +28,7 @@ public class EntityMixin {
 	 * @param originalDisplacement the entity's proposed displacement accounting for collisions
 	 * @return a new Vec3d representing the displacement after fluid walking is accounted for
 	 */
-	@ModifyVariable(method = "move", ordinal = 1, index = 3, name = "vec32", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"))
+	@ModifyExpressionValue(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"))
 	private Vec3 fluidCollision(Vec3 originalDisplacement) {
 		// We only support living entities
 		//noinspection ConstantConditions
@@ -49,9 +50,7 @@ public class EntityMixin {
 			if (highestDistance != null) {
 				Vec3 finalDisplacement = new Vec3(originalDisplacement.x, highestDistance, originalDisplacement.z);
 				AABB finalBox = entity.getBoundingBox().move(finalDisplacement).deflate(0.001D);
-				if (isTouchingFluid(entity, finalBox)) {
-					return originalDisplacement;
-				} else {
+				if (!isTouchingFluid(entity, finalBox)) {
 					entity.fallDistance = 0.0F;
 					entity.setOnGround(true);
 					return finalDisplacement;
@@ -75,7 +74,7 @@ public class EntityMixin {
 	private static Map<Vec3, Double> findFluidDistances(LivingEntity entity, Vec3 originalDisplacement) {
 		AABB box = entity.getBoundingBox().move(originalDisplacement);
 
-		HashMap<Vec3, Double> points = new HashMap<>();
+		Map<Vec3, Double> points = new HashMap<>();
 		points.put(new Vec3(box.minX, box.minY, box.minZ), null);
 		points.put(new Vec3(box.minX, box.minY, box.maxZ), null);
 		points.put(new Vec3(box.maxX, box.minY, box.minZ), null);
@@ -129,14 +128,14 @@ public class EntityMixin {
 			BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 
 			// Loop over coords in bounding box
-			for (int i = minX; i < maxX; ++i) {
-				for (int j = minY; j < maxY; ++j) {
-					for (int k = minZ; k < maxZ; ++k) {
-						mutable.set(i, j, k);
+			for (int x = minX; x < maxX; ++x) {
+				for (int y = minY; y < maxY; ++y) {
+					for (int z = minZ; z < maxZ; ++z) {
+						mutable.set(x, y, z);
 						FluidState fluidState = world.getFluidState(mutable);
 
 						if (!fluidState.isEmpty()) {
-							double surfaceY = fluidState.getHeight(world, mutable) + j;
+							double surfaceY = fluidState.getHeight(world, mutable) + y;
 
 							if (surfaceY >= box.minY) {
 								return true;

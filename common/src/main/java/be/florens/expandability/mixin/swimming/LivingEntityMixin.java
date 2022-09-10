@@ -58,7 +58,7 @@ public abstract class LivingEntityMixin extends Entity {
 	/**
 	 * Cancel the small boost upward when leaving a fluid while against the side of a block when swimming is enabled
 	 */
-	// TODO: WrapWithCondition on setDeltaMovement
+	// TODO: ModifyExpressionValue
 	@Redirect(method = "travel", allow = 2, require = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isFree(DDD)Z"))
 	private boolean cancelLeaveFluidAssist(LivingEntity entity, double x, double y, double z) {
 		if (entity instanceof Player player) {

@@ -3,6 +3,8 @@ package be.florens.expandability.mixin.swimming;
 import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.EventResult;
 import be.florens.expandability.Util;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -10,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import org.objectweb.asm.Opcodes;
@@ -24,17 +27,14 @@ public abstract class EntityMixin {
 	@Shadow public Level level;
 
 	@Shadow public abstract boolean isInWater();
-	@Shadow protected abstract void playSwimSound(float f);
 
-	// TODO: patch canSpawnSprintParticle isInFluidType on forge-side - extra check
-	// TODO: patch isVisuallyCrawling isInFluidType on forge-side - extra check
-	@Redirect(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle", "move"}, require = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
-	private boolean setInWater(Entity entity) {
-		if (entity instanceof Player player) {
-			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isInWater);
+	@ModifyExpressionValue(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle", "move"}, require = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
+	private boolean setInWater(boolean original) {
+		if ((Object) this instanceof Player player) {
+			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
 		}
 
-		return entity.isInWater(); // Vanilla behaviour
+		return original;
 	}
 
 	@Redirect(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isUnderWater()Z"))
@@ -49,30 +49,18 @@ public abstract class EntityMixin {
 	/**
 	 * Prevents the swimming sound from playing when non-vanilla swimming is enabled
 	 */
-	// TODO: WrapWithCondition
-	@Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;playSwimSound(F)V"))
-	private void cancelPlaySwimSound(Entity entity, float volume) {
+	@WrapWithCondition(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;playSwimSound(F)V"))
+	private boolean cancelPlaySwimSound(Entity entity, float volume) {
 		// Re-check if we're in water first, so we don't cancel vanilla swimming sounds
-		if (!this.isInWater() && entity instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
-			return;
-		}
-
-		// Vanilla behaviour
-		this.playSwimSound(volume);
+		return this.isInWater() || !(entity instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS);
 	}
 
 	/**
 	 * Take fall damage when in water with water physics disabled
 	 */
-	// TODO: WrapWithCondition
-	@Redirect(method = "updateInWaterStateAndDoWaterCurrentPushing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V"))
-	private void cancelSetFallDistance(Entity entity) {
-		if (entity instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.FAIL) {
-			return;
-		}
-
-		// Vanilla behaviour
-		entity.resetFallDistance();
+	@WrapWithCondition(method = "updateInWaterStateAndDoWaterCurrentPushing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V"))
+	private boolean cancelResetFallDistance(Entity entity) {
+		return !(entity instanceof Player player) || EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
 	}
 
 	/**
@@ -80,17 +68,18 @@ public abstract class EntityMixin {
 	 * matters because honey and soulsand aren't full blocks. There is a block in the fabric testmod to test this
 	 * behaviour.
 	 */
-	@Redirect(method = "getBlockSpeedFactor", at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lnet/minecraft/world/level/block/Blocks;WATER:Lnet/minecraft/world/level/block/Block;"))
-	private Block fixBlockSpeedFactor() {
+	// TODO: do we also need to change bubble column check here?
+	@ModifyExpressionValue(method = "getBlockSpeedFactor", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"))
+	private boolean fixBlockSpeedFactor(boolean original) {
 		//noinspection ConstantConditions
 		if ((Object) this instanceof Player player) {
-			Block block = player.level.getBlockState(player.blockPosition()).getBlock();
+			BlockState block = player.level.getBlockState(player.blockPosition());
 
-			if (block == Blocks.WATER && EventDispatcher.onPlayerSwim(player) == EventResult.FAIL) {
-				return Blocks.AIR; // Makes condition return true
+			if (block.is(Blocks.WATER) && EventDispatcher.onPlayerSwim(player) == EventResult.FAIL) {
+				return true; // Makes condition return true
 			}
 		}
 
-		return Blocks.WATER; // Vanilla behaviour
+		return original; // Vanilla behaviour
 	}
 }

@@ -2,6 +2,7 @@ package be.florens.expandability.mixin.forge.swimming.client;
 
 import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.Util;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -20,8 +21,23 @@ public abstract class LocalPlayerMixin extends AbstractClientPlayer {
         super(arg, gameProfile, arg2);
     }
 
-    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/fluids/FluidType;isAir()Z"))
-    private boolean setIsAir(FluidType fluidType) {
-        return Util.processEventResult(EventDispatcher.onPlayerSwim(this), false, true, fluidType::isAir);
+    @ModifyExpressionValue(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/fluids/FluidType;isAir()Z"))
+    private boolean setIsAir(boolean original) {
+        return Util.processEventResult(EventDispatcher.onPlayerSwim(this), false, true, original);
+    }
+
+    @ModifyExpressionValue(method = "aiStep", require = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isInFluidType(Ljava/util/function/BiPredicate;)Z"))
+    private boolean setInFluidType(boolean original) {
+        return Util.processEventResult(EventDispatcher.onPlayerSwim(this), original);
+    }
+
+    @ModifyExpressionValue(method = "aiStep", require = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;canStartSwimming()Z"))
+    private boolean setCanStartSwimming(boolean original) {
+        return Util.processEventResult(EventDispatcher.onPlayerSwim(this), original);
+    }
+
+    @ModifyExpressionValue(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;canSwimInFluidType(Lnet/minecraftforge/fluids/FluidType;)Z"))
+    private boolean setCanSwimInFluidType(boolean original) {
+        return Util.processEventResult(EventDispatcher.onPlayerSwim(this), original);
     }
 }

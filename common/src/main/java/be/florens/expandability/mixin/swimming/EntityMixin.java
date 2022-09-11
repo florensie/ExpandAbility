@@ -51,7 +51,7 @@ public abstract class EntityMixin {
 	/**
 	 * Take fall damage when in water with water physics disabled
 	 */
-	@WrapWithCondition(method = "updateInWaterStateAndDoWaterCurrentPushing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V"))
+	@WrapWithCondition(method = {"updateInWaterStateAndDoWaterCurrentPushing", "move"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V"))
 	private boolean cancelResetFallDistance(Entity entity) {
 		return !(entity instanceof Player player) || EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
 	}

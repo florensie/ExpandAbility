@@ -39,7 +39,6 @@ Tests are located in the fabric-testmod module.
   - Fix sneaking on water
 
 ### Other
-- Replace some Redirects with MixinExtras' ModifyExpressionValue
 - Persistent status effects
 - Add commands for testing
 - LivingEntity scaling

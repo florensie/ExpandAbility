@@ -5,21 +5,14 @@ import be.florens.expandability.EventResult;
 import be.florens.expandability.Util;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -37,13 +30,13 @@ public abstract class EntityMixin {
 		return original;
 	}
 
-	@Redirect(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isUnderWater()Z"))
-	private boolean setUnderWater(Entity entity) {
-		if (entity instanceof Player player) {
-			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), player::isUnderWater);
+	@ModifyExpressionValue(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isUnderWater()Z"))
+	private boolean setUnderWater(boolean original) {
+		if ((Object) this instanceof Player player) {
+			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
 		}
 
-		return entity.isUnderWater(); // Vanilla behaviour
+		return original;
 	}
 
 	/**

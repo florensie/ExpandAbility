@@ -19,4 +19,13 @@ public abstract class LivingEntityMixin {
 
         return original;
     }
+
+    @ModifyExpressionValue(method = "aiStep", require = 2, at = @At(value = "INVOKE", target = "Lnet/minecraftforge/fluids/FluidType;isAir()Z"))
+    private boolean setIsAir(boolean original) {
+        if ((Object) this instanceof Player player) {
+            return Util.processEventResult(EventDispatcher.onPlayerSwim(player), false, true, original);
+        }
+
+        return original;
+    }
 }

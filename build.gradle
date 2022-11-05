@@ -35,7 +35,7 @@ allprojects {
     repositories {
         maven {
             name = "Florens"
-            url = "https://maven.florens.be"
+            url = "https://maven.florens.be/releases"
         }
         maven {
             url = "https://jitpack.io"

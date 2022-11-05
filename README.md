@@ -8,7 +8,7 @@ Add the following to your `build.gradle` and replace `[version]` with the latest
 
 ```groovy
 repositories {
-  maven { url = "https://maven.florens.be" }
+  maven { url = "https://maven.florens.be/releases" }
 }
 
 dependencies {

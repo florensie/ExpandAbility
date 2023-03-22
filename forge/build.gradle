@@ -77,13 +77,11 @@ publishing {
     }
 
     repositories {
-        if (System.getenv("MAVEN_PASS") != null) {
-            maven {
-                url = "sftp://florens.be:22/repo"
-                credentials {
-                    username = "maven"
-                    password = System.getenv("MAVEN_PASS")
-                }
+        maven {
+            url = "https://maven.florens.be/releases"
+            credentials {
+                username = "florens"
+                password = System.getenv("MAVEN_PASS")
             }
         }
     }

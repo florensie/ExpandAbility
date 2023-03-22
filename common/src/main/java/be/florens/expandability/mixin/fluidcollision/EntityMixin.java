@@ -3,6 +3,7 @@ package be.florens.expandability.mixin.fluidcollision;
 import be.florens.expandability.EventDispatcher;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,7 +27,7 @@ public class EntityMixin {
 	 * any of the fluids they can walk on.
 	 *
 	 * @param originalDisplacement the entity's proposed displacement accounting for collisions
-	 * @return a new Vec3d representing the displacement after fluid walking is accounted for
+	 * @return a new Vec3 representing the displacement after fluid walking is accounted for
 	 */
 	@ModifyExpressionValue(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"))
 	private Vec3 fluidCollision(Vec3 originalDisplacement) {
@@ -80,12 +81,12 @@ public class EntityMixin {
 		points.put(new Vec3(box.maxX, box.minY, box.minZ), null);
 		points.put(new Vec3(box.maxX, box.minY, box.maxZ), null);
 
-		double fluidStepHeight = entity.isOnGround() ? Math.max(1.0, entity.maxUpStep) : 0.0;
+		double fluidStepHeight = entity.isOnGround() ? Math.max(1.0, entity.maxUpStep()) : 0.0;
 
 		for (Map.Entry<Vec3, Double> entry : points.entrySet()) {
 			for (int i = 0; ; i--) { // Check successive blocks downward
 				// Auto step is essentially just shifting the fall adjustment up by the step height
-				BlockPos landingPos = new BlockPos(entry.getKey()).offset(0.0, i + fluidStepHeight, 0.0);
+				BlockPos landingPos = BlockPos.containing(entry.getKey().add(0.0, i + fluidStepHeight, 0.0));
 				FluidState landingState = entity.getCommandSenderWorld().getFluidState(landingPos);
 
 				double distanceToFluidSurface = landingPos.getY() + landingState.getOwnHeight() - entity.getY();

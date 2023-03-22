@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.0.0] - 2022-03-06
+### Changed
+- Update for Minecraft 1.19.4
+
+
 ## [7.0.0] - 2022-09-11
 ### Changed
 - Support for Forge's new Fluid API introduced in 1.19
@@ -86,8 +91,9 @@ Initial release
 ### Added
 - Player swim event
 
-[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v7.0.0..HEAD
-[6.0.0]: https://github.com/florensie/ExpandAbility/compare/v6.0.0..v7.0.0
+[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v8.0.0..HEAD
+[8.0.0]: https://github.com/florensie/ExpandAbility/compare/v7.0.0..v8.0.0
+[7.0.0]: https://github.com/florensie/ExpandAbility/compare/v6.0.0..v7.0.0
 [6.0.0]: https://github.com/florensie/ExpandAbility/compare/v5.0.0..v6.0.0
 [5.0.0]: https://github.com/florensie/ExpandAbility/compare/v4.0.2..v5.0.0
 [4.0.2]: https://github.com/florensie/ExpandAbility/compare/v4.0.1..v4.0.2

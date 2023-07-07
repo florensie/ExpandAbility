@@ -3,7 +3,6 @@ package be.florens.expandability.api.fabric;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 
 /**

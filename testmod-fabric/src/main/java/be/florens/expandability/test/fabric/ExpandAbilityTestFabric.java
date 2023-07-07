@@ -14,11 +14,10 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
 
 public class ExpandAbilityTestFabric implements ModInitializer {
 
-    public static final Block SPEEDY_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).speedFactor(2));
+    public static final Block SPEEDY_BLOCK = new Block(FabricBlockSettings.create().speedFactor(2));
 
     @Override
     public void onInitialize() {

@@ -5,8 +5,8 @@
   "mixins": [
     "fluidcollision.EntityMixin",
     "swimming.BubbleColumnBlockMixin",
-    "swimming.CombatTrackerMixin",
     "swimming.EntityMixin",
+    "swimming.FallLocationMixin",
     "swimming.LivingEntityMixin",
     "swimming.PlayerMixin"
   ],

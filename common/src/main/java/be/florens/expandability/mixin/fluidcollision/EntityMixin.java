@@ -3,7 +3,6 @@ package be.florens.expandability.mixin.fluidcollision;
 import be.florens.expandability.EventDispatcher;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,7 +13,6 @@ import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -81,7 +79,7 @@ public class EntityMixin {
 		points.put(new Vec3(box.maxX, box.minY, box.minZ), null);
 		points.put(new Vec3(box.maxX, box.minY, box.maxZ), null);
 
-		double fluidStepHeight = entity.isOnGround() ? Math.max(1.0, entity.maxUpStep()) : 0.0;
+		double fluidStepHeight = entity.onGround() ? Math.max(1.0, entity.maxUpStep()) : 0.0;
 
 		for (Map.Entry<Vec3, Double> entry : points.entrySet()) {
 			for (int i = 0; ; i--) { // Check successive blocks downward

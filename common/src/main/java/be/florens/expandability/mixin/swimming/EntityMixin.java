@@ -42,8 +42,8 @@ public abstract class EntityMixin {
 	/**
 	 * Prevents the swimming sound from playing when non-vanilla swimming is enabled
 	 */
-	@WrapWithCondition(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;playSwimSound(F)V"))
-	private boolean cancelPlaySwimSound(Entity entity, float volume) {
+	@WrapWithCondition(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;waterSwimSound()V"))
+	private boolean cancelPlaySwimSound(Entity entity) {
 		// Re-check if we're in water first, so we don't cancel vanilla swimming sounds
 		return this.isInWater() || !(entity instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS);
 	}
@@ -66,7 +66,7 @@ public abstract class EntityMixin {
 	private boolean fixBlockSpeedFactor(boolean original) {
 		//noinspection ConstantConditions
 		if ((Object) this instanceof Player player) {
-			BlockState block = player.level.getBlockState(player.blockPosition());
+			BlockState block = player.level().getBlockState(player.blockPosition());
 
 			if (block.is(Blocks.WATER) && EventDispatcher.onPlayerSwim(player) == EventResult.FAIL) {
 				return true; // Makes condition return true

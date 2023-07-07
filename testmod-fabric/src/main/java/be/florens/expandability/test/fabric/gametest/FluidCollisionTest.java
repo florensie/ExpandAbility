@@ -5,7 +5,6 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
-import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public class FluidCollisionTest {

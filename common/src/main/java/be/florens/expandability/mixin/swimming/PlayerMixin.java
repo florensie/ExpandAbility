@@ -13,20 +13,10 @@ public abstract class PlayerMixin {
 	/**
 	 * <ul>
 	 *     <li>{@link Player#attack}: makes it so you can land critical hits while in water with fluid physics disabled</li>
-	 *     <li>{@link Player#checkMovementStatistics}: makes sure the correct hunger is applied</li>
 	 * </ul>
 	 */
-	@ModifyExpressionValue(method = {"attack", "checkMovementStatistics", "tryToStartFallFlying"}, require = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z"))
+	@ModifyExpressionValue(method = {"attack", "tryToStartFallFlying"}, require = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z"))
 	private boolean setInWater(boolean original) {
-		Player self = (Player) (Object) this;
-		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), original);
-	}
-
-	/**
-	 * Makes sure the correct hunger is applied
-	 */
-	@ModifyExpressionValue(method = "checkMovementStatistics", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isEyeInFluid(Lnet/minecraft/tags/TagKey;)Z"))
-	private boolean setEyeInFluid(boolean original) {
 		Player self = (Player) (Object) this;
 		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), original);
 	}

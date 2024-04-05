@@ -1,0 +1,33 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+issueTrackerURL = "https://github.com/florensie/expandability/issues"
+license = "MIT"
+
+[[mods]]
+modId = "expandability"
+version = "${version}"
+displayName = "ExpandAbility"
+authors = "Florens"
+description = '''
+Library mod that provides increased control over vanilla abilities
+'''
+logoFile = "icon.png"
+
+[[mixins]]
+config = 'expandability-common.mixins.json'
+[[mixins]]
+config = 'expandability.mixins.json'
+
+[[dependencies.expandability]]
+modId = "neoforge"
+required = true
+versionRange = "[20,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.expandability]]
+modId = "minecraft"
+required = true
+versionRange = "[1.20.4,)"
+ordering = "NONE"
+side = "BOTH"

@@ -9,6 +9,8 @@ architectury {
 }
 
 loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+
     forge {
         mixinConfig "expandability.mixins.json"
         mixinConfig "expandability-common.mixins.json"

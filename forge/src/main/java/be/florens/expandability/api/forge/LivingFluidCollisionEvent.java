@@ -15,7 +15,6 @@ import org.jetbrains.annotations.ApiStatus;
  *     <li>{@link Event.Result#DEFAULT}/{@link Event.Result#DENY}: Vanilla fluid behaviour</li>
  * </ul>
  */
-@ApiStatus.Experimental
 @Event.HasResult
 public class LivingFluidCollisionEvent extends LivingEvent {
 

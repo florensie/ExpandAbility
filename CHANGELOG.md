@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Rewrote fluid collisions, fixing multiple issues:
+  - Fixed a server freeze due to the collision code getting into an infinite loop
+  - Fixed sneaking at the edge of a fluid block not behaving as with regular blocks
+  - Fixed no fall damage dealt for falling on a fluid block
+
 ## [9.0.0] - 2023-07-07
 ### Changed
 - Update for Minecraft 1.20

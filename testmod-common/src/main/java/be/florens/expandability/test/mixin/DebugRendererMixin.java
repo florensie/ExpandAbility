@@ -18,7 +18,8 @@ public class DebugRendererMixin {
 
     @Inject(method = "render", at = @At("HEAD"))
     private void moreDebugRendering(PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, double d, double e, double f, CallbackInfo ci) {
-        this.waterDebugRenderer.render(poseStack, bufferSource, d, e, f);
-        this.collisionBoxRenderer.render(poseStack, bufferSource, d, e, f);
+        // TODO: add keybinds
+//        this.waterDebugRenderer.render(poseStack, bufferSource, d, e, f);
+//        this.collisionBoxRenderer.render(poseStack, bufferSource, d, e, f);
     }
 }

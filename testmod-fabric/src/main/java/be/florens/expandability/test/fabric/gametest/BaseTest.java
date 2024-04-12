@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.MixinEnvironment;
 public class BaseTest {
 
     @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
-    public void audit_mixins(GameTestHelper helper) {
+    public void audit_mixins_succeeds(GameTestHelper helper) {
         MixinEnvironment.getCurrentEnvironment().audit();
 
         helper.succeed();

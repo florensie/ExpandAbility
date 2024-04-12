@@ -42,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update for Minecraft 1.18
 
 ## [4.0.2] - 2021-10-10
-## Fixed
+### Fixed
 - New release without previously broken fix
 
 ## [4.0.1] - 2021-10-08 [YANKED]

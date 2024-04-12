@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "be.florens.expandability.test.fabric.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "PlayerAdvancementsMixin",
+    "PlayerListMixin",
+    "ServerGamePacketListenerImplMixin",
+    "StructureUtilsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

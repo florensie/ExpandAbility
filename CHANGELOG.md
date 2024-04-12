@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [9.0.1] - 2024-04-12
 ### Fixed
 - Rewrote fluid collisions, fixing multiple issues:
   - Fixed a server freeze due to the collision code getting into an infinite loop
@@ -101,7 +101,8 @@ Initial release
 ### Added
 - Player swim event
 
-[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v9.0.0..HEAD
+[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v9.0.1..HEAD
+[9.0.1]: https://github.com/florensie/ExpandAbility/compare/v9.0.0..v9.0.1
 [9.0.0]: https://github.com/florensie/ExpandAbility/compare/v8.0.0..v9.0.0
 [8.0.0]: https://github.com/florensie/ExpandAbility/compare/v7.0.0..v8.0.0
 [7.0.0]: https://github.com/florensie/ExpandAbility/compare/v6.0.0..v7.0.0

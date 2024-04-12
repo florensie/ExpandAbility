@@ -11,6 +11,9 @@ description = '''
 Test mod for ExpandAbility
 '''
 
+[[mixins]]
+config = 'expandability-testmod-common.mixins.json'
+
 [[dependencies.expandabilitytest]]
 modId = "expandability"
 required = true

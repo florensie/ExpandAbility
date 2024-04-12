@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [9.0.1] - 2024-04-12
+### Fixed
+- Rewrote fluid collisions, fixing multiple issues:
+  - Fixed a server freeze due to the collision code getting into an infinite loop
+  - Fixed sneaking at the edge of a fluid block not behaving as with regular blocks
+  - Fixed no fall damage dealt for falling on a fluid block
+
 ## [9.0.0] - 2023-07-07
 ### Changed
 - Update for Minecraft 1.20
@@ -35,7 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update for Minecraft 1.18
 
 ## [4.0.2] - 2021-10-10
-## Fixed
+### Fixed
 - New release without previously broken fix
 
 ## [4.0.1] - 2021-10-08 [YANKED]
@@ -94,7 +101,8 @@ Initial release
 ### Added
 - Player swim event
 
-[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v9.0.0..HEAD
+[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v9.0.1..HEAD
+[9.0.1]: https://github.com/florensie/ExpandAbility/compare/v9.0.0..v9.0.1
 [9.0.0]: https://github.com/florensie/ExpandAbility/compare/v8.0.0..v9.0.0
 [8.0.0]: https://github.com/florensie/ExpandAbility/compare/v7.0.0..v8.0.0
 [7.0.0]: https://github.com/florensie/ExpandAbility/compare/v6.0.0..v7.0.0

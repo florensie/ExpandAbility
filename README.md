@@ -34,10 +34,6 @@ Tests are located in the fabric-testmod module.
   - Test with modded fluids
   - Test with elytra & Caelus API
 
-### Fluid walking ability
-  - Fix no fall damage when falling on water
-  - Fix sneaking on water
-
 ### Other
 - Persistent status effects
 - Add commands for testing

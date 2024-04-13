@@ -10,9 +10,11 @@ loom {
     }
 
     forge {
+        mixinConfig "expandability.mixins.json" // do not remove!
         mixinConfig "expandability-testmod-common.mixins.json"
     }
 }
+
 architectury {
     platformSetupLoomIde()
     forge()

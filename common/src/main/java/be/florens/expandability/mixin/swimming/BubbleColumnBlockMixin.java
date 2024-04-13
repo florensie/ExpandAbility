@@ -18,6 +18,7 @@ public abstract class BubbleColumnBlockMixin {
 
     @Inject(method = "entityInside", at = @At("HEAD"), cancellable = true)
     private void cancelBubbleColumnDrag(BlockState blockState, Level level, BlockPos blockPos, Entity entity, CallbackInfo info) {
+        // TODO: do we still want the particles? Inject Entity onAboveBubbleCol/onInsideBubbleColumn instead?
         if (entity instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.FAIL) {
             info.cancel();
         }

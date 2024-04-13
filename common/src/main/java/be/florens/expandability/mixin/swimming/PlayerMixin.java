@@ -32,7 +32,7 @@ public abstract class PlayerMixin {
 	}
 
 	/**
-	 * Vanilla checks the if the block above the player is fluid and prevents swimming up by look direction
+	 * Vanilla checks if the block above the player is fluid and prevents swimming up by look direction
 	 * This cancels the check if we have swimming enabled
 	 */
 	@ModifyExpressionValue(method = "travel", allow = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;isEmpty()Z"))

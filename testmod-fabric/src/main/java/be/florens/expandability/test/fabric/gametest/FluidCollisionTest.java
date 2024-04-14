@@ -11,15 +11,19 @@ import net.minecraft.world.entity.npc.Villager;
 public class FluidCollisionTest {
 
     private static final BlockPos ABOVE_POOL = new BlockPos(1, 5, 1);
+    private static final BlockPos POOL_WATER_POS = new BlockPos(1, 2, 1);
     private static final BlockPos STAIRCASE_BOTTOM = new BlockPos(10, 2, 1);
     private static final BlockPos STAIRCASE_TOP = new BlockPos(1, 3, 1);
     private static final int STAIRCASE_TIMEOUT = 2 * 20;
 
     @GameTest(template = "expandability:pool")
-    public void dropAboveWater_noCollisionEvent_dropsIntoWater(GameTestHelper helper) {
+    public void dropAboveWater_noCollisionEvent_dropsIntoWaterWithNoDamageTaken(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, ABOVE_POOL);
         helper.startSequence()
-                .thenExecuteAfter(20, () -> helper.assertEntityInstancePresent(villager, 1, 2, 1))
+                .thenExecuteAfter(20, () -> {
+                    helper.assertEntityInstancePresent(villager, POOL_WATER_POS);
+                    helper.assertTrue(villager.getHealth() == villager.getMaxHealth(), "Expected villager to not take damage");
+                })
                 .thenSucceed();
     }
 
@@ -28,7 +32,18 @@ public class FluidCollisionTest {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, ABOVE_POOL);
         LivingFluidCollisionCallback.EVENT.register((entity, fluidState) -> entity.equals(villager));
         helper.startSequence()
-                .thenExecuteAfter(20, () -> helper.assertEntityInstancePresent(villager, 1, 4, 1))
+                .thenExecuteAfter(20, () -> helper.assertEntityInstancePresent(villager, POOL_WATER_POS.above()))
+                .thenSucceed();
+    }
+
+    @GameTest(template = "expandability:pool")
+    public void dropHighAboveWater_withCollisionEvent_villagerDies(GameTestHelper helper) {
+        Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, ABOVE_POOL.above(3));
+        helper.withLowHealth(villager);
+        LivingFluidCollisionCallback.EVENT.register((entity, fluidState) -> entity.equals(villager));
+
+        helper.startSequence()
+                .thenExecuteAfter(20, () -> helper.assertTrue(villager.isDeadOrDying(), "Expected villager to be dead"))
                 .thenSucceed();
     }
 
@@ -50,7 +65,7 @@ public class FluidCollisionTest {
     }
 
     @GameTest(template = "expandability:staircase")
-    public void walkUpWaterStaircase_noCollisionEvent_doesNotReachBottom(GameTestHelper helper) {
+    public void walkUpWaterStaircase_noCollisionEvent_doesNotReachTop(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, STAIRCASE_BOTTOM);
         helper.walkTo(villager, STAIRCASE_TOP, 1.0f)
                 .thenExecuteAfter(STAIRCASE_TIMEOUT, () -> helper.assertEntityNotPresent(EntityType.VILLAGER, STAIRCASE_TOP))

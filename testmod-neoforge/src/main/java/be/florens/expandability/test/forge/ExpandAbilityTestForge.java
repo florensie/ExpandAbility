@@ -30,7 +30,7 @@ public class ExpandAbilityTestForge {
 	}
 
 	@SubscribeEvent
-	public void onLivingFluidColission(LivingFluidCollisionEvent event) {
+	public void onLivingFluidCollision(LivingFluidCollisionEvent event) {
 		if (event.getEntity().isHolding(Items.WATER_BUCKET) && event.getFluidState().is(FluidTags.WATER)) {
 			event.setResult(Event.Result.ALLOW);
 		}

@@ -92,6 +92,9 @@ curseforge {
             addGameVersion "Quilt"
             mainArtifact(remapJar.archivePath) {
                 displayName = "[Fabric $rootProject.supported_versions] v$project.version"
+                relations {
+                    requiredDependency "fabric-api"
+                }
             }
             afterEvaluate {
                 uploadTask.dependsOn("build")

@@ -154,8 +154,9 @@ public class SwimmingTest {
         ServerLevel level = helper.getLevel();
         Vec3 spawnPos = Vec3.atBottomCenterOf(helper.absolutePos(pos));
 
-        EntityPlayerMPFake player = EntityPlayerMPFake.createFake(name, level.getServer(), spawnPos, 0, 0,
+        EntityPlayerMPFake.createFake(name, level.getServer(), spawnPos, 0, 0,
                 level.dimension(), GameType.SURVIVAL, false);
+        ServerPlayer player = level.getServer().getPlayerList().getPlayerByName(name);
         ((ServerPlayerAccessor) player).setSpawnInvulnerableTime(0);
         return player;
     }

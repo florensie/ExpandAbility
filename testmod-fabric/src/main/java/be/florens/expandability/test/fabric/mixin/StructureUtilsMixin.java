@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public class StructureUtilsMixin {
 
     @ModifyExpressionValue(method = "clearSpaceForStructure", at = @At(value = "NEW", target = "(DDDDDD)Lnet/minecraft/world/phys/AABB;"))
-    private static AABB clearFakePlayers(AABB aabb, BoundingBox boundingBox, int i, ServerLevel serverLevel) {
+    private static AABB clearFakePlayers(AABB aabb, BoundingBox boundingBox, ServerLevel serverLevel) {
         serverLevel.getEntitiesOfClass(EntityPlayerMPFake.class, aabb, p -> true)
                 .forEach(EntityPlayerMPFake::kill);
 

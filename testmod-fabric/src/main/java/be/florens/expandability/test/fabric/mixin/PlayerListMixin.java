@@ -1,7 +1,7 @@
 package be.florens.expandability.test.fabric.mixin;
 
 import carpet.patches.EntityPlayerMPFake;
-import com.llamalad7.mixinextras.injector.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;

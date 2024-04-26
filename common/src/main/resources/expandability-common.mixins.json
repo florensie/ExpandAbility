@@ -8,7 +8,8 @@
     "swimming.EntityMixin",
     "swimming.FallLocationMixin",
     "swimming.LivingEntityMixin",
-    "swimming.PlayerMixin"
+    "swimming.PlayerMixin",
+    "swimming.server.ServerPlayerMixin"
   ],
   "client": [
     "swimming.client.LocalPlayerMixin",

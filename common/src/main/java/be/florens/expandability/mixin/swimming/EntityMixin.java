@@ -4,7 +4,7 @@ import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.EventResult;
 import be.florens.expandability.Util;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;

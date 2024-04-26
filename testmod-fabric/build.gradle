@@ -36,9 +36,8 @@ loom {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    implementation annotationProcessor("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
     modImplementation("com.github.emilyploszaj:step-height-entity-attribute:v1.2.0")
-    modImplementation("com.github.gnembon:fabric-carpet:1.4.112")
+    modImplementation("com.github.gnembon:fabric-carpet:1.4.128")
 
     implementation project(path: ":fabric", configuration: "namedElements")
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

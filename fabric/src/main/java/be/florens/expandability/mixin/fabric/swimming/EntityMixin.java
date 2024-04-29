@@ -4,7 +4,7 @@ import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.EventResult;
 import be.florens.expandability.Util;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -28,6 +28,6 @@ public abstract class EntityMixin {
 	@WrapWithCondition(method = "updateFluidHeightAndDoFluidPushing", require = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"))
 	private boolean cancelFluidPushing(Entity entity, Vec3 vec3) {
         //noinspection ConstantValue
-        return entity instanceof Player player && EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
+        return !(entity instanceof Player player) || EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
 	}
 }

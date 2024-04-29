@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [9.0.4] - 2024-04-29
+### Fixed
+- Fix for non-player entities no longer being pushed by fluids
+
 ## [9.0.3] - 2024-04-20
 ### Fixed
 - Crash on launch (forge v47)
@@ -109,7 +113,8 @@ Initial release
 ### Added
 - Player swim event
 
-[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v9.0.3..HEAD
+[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v9.0.4..HEAD
+[9.0.4]: https://github.com/florensie/ExpandAbility/compare/v9.0.3..v9.0.4
 [9.0.3]: https://github.com/florensie/ExpandAbility/compare/v9.0.2..v9.0.3
 [9.0.2]: https://github.com/florensie/ExpandAbility/compare/v9.0.1..v9.0.2
 [9.0.1]: https://github.com/florensie/ExpandAbility/compare/v9.0.0..v9.0.1

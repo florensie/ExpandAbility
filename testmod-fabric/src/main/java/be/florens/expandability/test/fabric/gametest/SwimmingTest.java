@@ -11,6 +11,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
@@ -53,6 +54,15 @@ public class SwimmingTest {
 
         helper.startSequence()
                 .thenExecuteAfter(20 * 3, () -> helper.assertEntityNotPresent(EntityType.PLAYER, STREAM_MIDDLE))
+                .thenSucceed();
+    }
+
+    @GameTest(template = "expandability:staircase", setupTicks = 20L)
+    public void mobWaterStream_withFluidPhysicsDefault_moved(GameTestHelper helper) {
+        helper.spawnWithNoFreeWill(EntityType.VILLAGER, STREAM_MIDDLE);
+
+        helper.startSequence()
+                .thenExecuteAfter(20 * 3, () -> helper.assertEntityNotPresent(EntityType.VILLAGER, STREAM_MIDDLE))
                 .thenSucceed();
     }
 

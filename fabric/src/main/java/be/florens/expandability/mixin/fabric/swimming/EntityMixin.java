@@ -28,6 +28,6 @@ public abstract class EntityMixin {
 	@WrapWithCondition(method = "updateFluidHeightAndDoFluidPushing", require = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"))
 	private boolean cancelFluidPushing(Entity entity, Vec3 vec3) {
         //noinspection ConstantValue
-        return entity instanceof Player player && EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
+        return !(entity instanceof Player player) || EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
 	}
 }

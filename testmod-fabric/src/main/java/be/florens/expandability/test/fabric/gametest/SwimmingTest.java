@@ -1,9 +1,9 @@
 package be.florens.expandability.test.fabric.gametest;
 
+import be.florens.expandability.EventResult;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
 import be.florens.expandability.test.fabric.mixin.ServerPlayerAccessor;
 import carpet.patches.EntityPlayerMPFake;
-import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestAssertException;
@@ -11,7 +11,6 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
@@ -27,7 +26,7 @@ public class SwimmingTest {
     @GameTest(template = "expandability:staircase", setupTicks = 20L)
     public void standInWaterStream_withFluidPhysicsDefault_moved(GameTestHelper helper) {
         String playerName = UUID.randomUUID().toString();
-        PlayerSwimCallback.EVENT.register(p -> TriState.DEFAULT); // same as not registering at all
+        PlayerSwimCallback.EVENT.register(p -> EventResult.PASS); // same as not registering at all
         createFakePlayer(helper, STREAM_MIDDLE, playerName);
 
         helper.startSequence()
@@ -38,7 +37,7 @@ public class SwimmingTest {
     @GameTest(template = "expandability:staircase", setupTicks = 20L)
     public void standInWaterStream_withFluidPhysicsDisabled_doesNotMove(GameTestHelper helper) {
         String playerName = UUID.randomUUID().toString();
-        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? TriState.FALSE : TriState.DEFAULT);
+        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? EventResult.FAIL : EventResult.PASS);
         ServerPlayer player = createFakePlayer(helper, STREAM_MIDDLE, playerName);
 
         helper.startSequence()
@@ -49,7 +48,7 @@ public class SwimmingTest {
     @GameTest(template = "expandability:staircase", setupTicks = 20L)
     public void standInWaterStream_withFluidPhysicsEnabled_moved(GameTestHelper helper) {
         String playerName = UUID.randomUUID().toString();
-        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? TriState.TRUE : TriState.DEFAULT);
+        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? EventResult.SUCCESS : EventResult.PASS);
         createFakePlayer(helper, STREAM_MIDDLE, playerName);
 
         helper.startSequence()
@@ -69,7 +68,7 @@ public class SwimmingTest {
     @GameTest(template = "expandability:platform")
     public void fallInAir_withFluidPhysicsDefault_playerKilled(GameTestHelper helper) {
         String playerName = UUID.randomUUID().toString();
-        PlayerSwimCallback.EVENT.register(p -> TriState.DEFAULT);  // same as not registering at all
+        PlayerSwimCallback.EVENT.register(p -> EventResult.PASS);  // same as not registering at all
         ServerPlayer player = createFakePlayer(helper, FALLING_TOP_POS, playerName);
         helper.withLowHealth(player);
         player.getFoodData().setFoodLevel(15); // prevent regen
@@ -82,7 +81,7 @@ public class SwimmingTest {
     @GameTest(template = "expandability:platform")
     public void fallInAir_withFluidPhysicsEnabled_playerAliveAndStillDescending(GameTestHelper helper) {
         String playerName = UUID.randomUUID().toString();
-        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? TriState.TRUE : TriState.DEFAULT);
+        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? EventResult.SUCCESS : EventResult.PASS);
         ServerPlayer player = createFakePlayer(helper, FALLING_TOP_POS, playerName);
         helper.withLowHealth(player);
         player.getFoodData().setFoodLevel(15); // prevent regen
@@ -98,7 +97,7 @@ public class SwimmingTest {
     @GameTest(template = "expandability:platform")
     public void fallInAir_withFluidPhysicsDisabled_playerKilled(GameTestHelper helper) {
         String playerName = UUID.randomUUID().toString();
-        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? TriState.FALSE : TriState.DEFAULT);
+        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? EventResult.FAIL : EventResult.PASS);
         ServerPlayer player = createFakePlayer(helper, FALLING_TOP_POS, playerName);
         helper.withLowHealth(player);
         player.getFoodData().setFoodLevel(15); // prevent regen
@@ -111,7 +110,7 @@ public class SwimmingTest {
     @GameTest(template = "expandability:pool")
     public void fallInWater_withFluidPhysicsDisabled_playerKilled(GameTestHelper helper) {
         String playerName = UUID.randomUUID().toString();
-        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? TriState.FALSE : TriState.DEFAULT);
+        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? EventResult.FAIL : EventResult.PASS);
         ServerPlayer player = createFakePlayer(helper, FALLING_TOP_POS, playerName);
         helper.withLowHealth(player);
         player.getFoodData().setFoodLevel(15); // prevent regen
@@ -124,7 +123,7 @@ public class SwimmingTest {
     @GameTest(template = "expandability:pool")
     public void fallInWater_withFluidPhysicsDefault_playerLandsInWater(GameTestHelper helper) {
         String playerName = UUID.randomUUID().toString();
-        PlayerSwimCallback.EVENT.register(p -> TriState.DEFAULT); // same as not registering at all
+        PlayerSwimCallback.EVENT.register(p -> EventResult.PASS); // same as not registering at all
         ServerPlayer player = createFakePlayer(helper, FALLING_TOP_POS, playerName);
         helper.withLowHealth(player);
         player.getFoodData().setFoodLevel(15); // prevent regen
@@ -138,7 +137,7 @@ public class SwimmingTest {
     public void standInDeepWater_withFluidPhysicsDisabled_playerDrowns(GameTestHelper helper) {
         helper.setBlock(FALLING_BOTTOM_POS.above(), Blocks.WATER); // make pool two deep
         String playerName = UUID.randomUUID().toString();
-        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? TriState.FALSE : TriState.DEFAULT);
+        PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? EventResult.FAIL : EventResult.PASS);
         ServerPlayer player = createFakePlayer(helper, FALLING_BOTTOM_POS, playerName);
         helper.makeAboutToDrown(player);
         player.getFoodData().setFoodLevel(15); // prevent regen

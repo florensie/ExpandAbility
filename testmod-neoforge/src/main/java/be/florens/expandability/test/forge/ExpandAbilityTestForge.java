@@ -1,6 +1,6 @@
 package be.florens.expandability.test.forge;
 
-import be.florens.expandability.EventResult;
+import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.forge.LivingFluidCollisionEvent;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
 import be.florens.expandability.test.ExpandAbilityTest;

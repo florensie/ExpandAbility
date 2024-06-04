@@ -1,6 +1,6 @@
 package be.florens.expandability.test.fabric.gametest;
 
-import be.florens.expandability.EventResult;
+import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
 import be.florens.expandability.test.fabric.mixin.ServerPlayerAccessor;
 import carpet.patches.EntityPlayerMPFake;

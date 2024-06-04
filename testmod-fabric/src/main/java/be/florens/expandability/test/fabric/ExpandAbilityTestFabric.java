@@ -1,6 +1,6 @@
 package be.florens.expandability.test.fabric;
 
-import be.florens.expandability.EventResult;
+import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
 import be.florens.expandability.test.ExpandAbilityTest;

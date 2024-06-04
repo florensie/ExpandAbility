@@ -1,7 +1,7 @@
 package be.florens.expandability.mixin.fabric.swimming;
 
 import be.florens.expandability.EventDispatcher;
-import be.florens.expandability.EventResult;
+import be.florens.expandability.api.EventResult;
 import be.florens.expandability.Util;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;

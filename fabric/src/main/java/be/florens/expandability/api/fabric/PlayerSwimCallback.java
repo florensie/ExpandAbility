@@ -1,6 +1,6 @@
 package be.florens.expandability.api.fabric;
 
-import be.florens.expandability.EventResult;
+import be.florens.expandability.api.EventResult;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.world.entity.player.Player;

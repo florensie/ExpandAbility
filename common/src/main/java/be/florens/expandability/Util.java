@@ -1,5 +1,6 @@
 package be.florens.expandability;
 
+import be.florens.expandability.api.EventResult;
 import net.minecraft.world.InteractionResult;
 
 import java.util.function.Supplier;

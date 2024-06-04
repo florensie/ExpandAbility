@@ -1,6 +1,6 @@
 package be.florens.expandability.neoforge;
 
-import be.florens.expandability.EventResult;
+import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.forge.LivingFluidCollisionEvent;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
 import net.minecraft.world.entity.LivingEntity;

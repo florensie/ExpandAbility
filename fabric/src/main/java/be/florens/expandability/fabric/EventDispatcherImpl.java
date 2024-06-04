@@ -1,6 +1,6 @@
 package be.florens.expandability.fabric;
 
-import be.florens.expandability.EventResult;
+import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
 import net.minecraft.world.entity.LivingEntity;

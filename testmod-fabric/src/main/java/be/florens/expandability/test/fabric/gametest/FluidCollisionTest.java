@@ -10,8 +10,8 @@ import net.minecraft.world.entity.npc.Villager;
 @SuppressWarnings("unused")
 public class FluidCollisionTest {
 
-    private static final BlockPos ABOVE_POOL = new BlockPos(1, 5, 1);
-    private static final BlockPos POOL_WATER_POS = new BlockPos(1, 2, 1);
+    private static final BlockPos ABOVE_POOL = new BlockPos(0, 5, 0);
+    private static final BlockPos POOL_WATER_POS = new BlockPos(0, 2, 0);
     private static final BlockPos STAIRCASE_BOTTOM = new BlockPos(10, 2, 1);
     private static final BlockPos STAIRCASE_TOP = new BlockPos(1, 3, 1);
     private static final int STAIRCASE_TIMEOUT = 2 * 20;

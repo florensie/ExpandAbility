@@ -18,8 +18,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class SwimmingTest {
     private static final BlockPos STREAM_MIDDLE = new BlockPos(2, 2, 1);
-    private static final BlockPos FALLING_TOP_POS = new BlockPos(1, 6, 1);
-    private static final BlockPos FALLING_BOTTOM_POS = new BlockPos(1, 2, 1);
+    private static final BlockPos FALLING_TOP_POS = new BlockPos(0, 6, 0);
+    private static final BlockPos FALLING_BOTTOM_POS = new BlockPos(0, 2, 0);
 
     @GameTest(template = "expandability:staircase", setupTicks = 20L)
     public void standInWaterStream_withFluidPhysicsDefault_moved(GameTestHelper helper) {

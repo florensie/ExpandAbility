@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [11.0.0] - 2024-06-07
+### Changed
+- Update for Minecraft 1.20.6
+
 ## [10.0.1] - 2024-04-29
 ### Fixed
 - Fix for non-player entities no longer being pushed by fluids
@@ -121,7 +125,8 @@ Initial release
 ### Added
 - Player swim event
 
-[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v10.0.1..HEAD
+[Unreleased]: https://github.com/florensie/ExpandAbility/compare/v11.0.0..HEAD
+[11.0.0]: https://github.com/florensie/ExpandAbility/compare/v10.0.1..v11.0.0
 [10.0.1]: https://github.com/florensie/ExpandAbility/compare/v10.0.0..v10.0.1
 [10.0.0]: https://github.com/florensie/ExpandAbility/compare/v9.0.4..v10.0.0
 [9.0.4]: https://github.com/florensie/ExpandAbility/compare/v9.0.3..v9.0.4

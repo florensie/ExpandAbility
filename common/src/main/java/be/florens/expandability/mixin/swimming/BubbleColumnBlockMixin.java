@@ -1,7 +1,7 @@
 package be.florens.expandability.mixin.swimming;
 
 import be.florens.expandability.EventDispatcher;
-import be.florens.expandability.EventResult;
+import be.florens.expandability.api.EventResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;

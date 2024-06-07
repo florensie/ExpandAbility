@@ -1,11 +1,10 @@
 package be.florens.expandability.test.fabric;
 
+import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
 import be.florens.expandability.test.ExpandAbilityTest;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -14,10 +13,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class ExpandAbilityTestFabric implements ModInitializer {
 
-    public static final Block SPEEDY_BLOCK = new Block(FabricBlockSettings.create().speedFactor(2));
+    public static final Block SPEEDY_BLOCK = new Block(BlockBehaviour.Properties.of().speedFactor(2));
 
     @Override
     public void onInitialize() {
@@ -26,9 +26,9 @@ public class ExpandAbilityTestFabric implements ModInitializer {
 
         PlayerSwimCallback.EVENT.register(player -> {
             Item heldItem = player.getMainHandItem().getItem();
-            return heldItem == Items.DEBUG_STICK ? TriState.TRUE
-                    : heldItem == Items.BARRIER ? TriState.FALSE
-                    : TriState.DEFAULT;
+            return heldItem == Items.DEBUG_STICK ? EventResult.SUCCESS
+                    : heldItem == Items.BARRIER ? EventResult.FAIL
+                    : EventResult.PASS;
         });
 
         LivingFluidCollisionCallback.EVENT.register((entity, fluidState)

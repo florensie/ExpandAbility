@@ -1,5 +1,6 @@
 package be.florens.expandability;
 
+import be.florens.expandability.api.EventResult;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;

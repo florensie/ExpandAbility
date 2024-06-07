@@ -1,8 +1,8 @@
 package be.florens.expandability.api.fabric;
 
+import be.florens.expandability.api.EventResult;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.world.entity.player.Player;
 
 /**
@@ -14,19 +14,19 @@ public interface PlayerSwimCallback {
     Event<PlayerSwimCallback> EVENT = EventFactory.createArrayBacked(PlayerSwimCallback.class,
             (listeners) -> (player) -> {
                 for (PlayerSwimCallback listener : listeners) {
-                    TriState result = listener.swim(player);
+                    EventResult result = listener.swim(player);
 
-                    if (result == TriState.TRUE || result == TriState.FALSE) {
+                    if (result != EventResult.PASS) {
                         return result;
                     }
                 }
-                return TriState.DEFAULT;
+                return EventResult.PASS;
             });
 
     /**
      * @param player The player that is trying to swim
-     * @return {@link TriState#TRUE} to enable swimming, {@link TriState#FALSE} to disable
-     *         and {@link TriState#DEFAULT} for vanilla behaviour
+     * @return {@link EventResult#SUCCESS} to enable swimming, {@link EventResult#FAIL} to disable
+     *         and {@link EventResult#PASS} for vanilla behaviour
      */
-    TriState swim(Player player);
+    EventResult swim(Player player);
 }

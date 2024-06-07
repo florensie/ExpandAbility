@@ -1,10 +1,10 @@
 package be.florens.expandability.mixin.fluidcollision;
 
-import be.florens.expandability.EntityAttributes;
 import be.florens.expandability.EventDispatcher;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.FluidState;
@@ -34,7 +34,7 @@ public abstract class BlockStateBaseMixin {
             return originalShape;
         }
 
-        float stepHeight = EntityAttributes.getStepHeight(entity);
+        double stepHeight = entity.getAttributeValue(Attributes.STEP_HEIGHT);
         VoxelShape fluidShape = Shapes.box(0.0, 0.0, 0.0, 1.0, fluidState.getHeight(blockGetter, blockPos), 1.0); // fluidState.getShape() is b u g g e d
 
         if (collisionContext.isAbove(fluidShape.move(0, -stepHeight, 0), blockPos, false)

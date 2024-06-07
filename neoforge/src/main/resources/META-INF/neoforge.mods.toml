@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[1,)"
+loaderVersion = "[2,)"
 issueTrackerURL = "https://github.com/florensie/expandability/issues"
 license = "MIT"
 
@@ -20,14 +20,14 @@ config = 'expandability.mixins.json'
 
 [[dependencies.expandability]]
 modId = "neoforge"
-required = true
+type = "required"
 versionRange = "[20,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.expandability]]
 modId = "minecraft"
-required = true
-versionRange = "[1.20.4,)"
+type = "required"
+versionRange = "[1.20.6,)"
 ordering = "NONE"
 side = "BOTH"

@@ -1,7 +1,7 @@
 package be.florens.expandability.mixin.forge.swimming;
 
 import be.florens.expandability.EventDispatcher;
-import be.florens.expandability.EventResult;
+import be.florens.expandability.api.EventResult;
 import be.florens.expandability.Util;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
@@ -51,8 +51,9 @@ public abstract class EntityMixin {
     /**
      * - $26: Forge 46.x.x
      * - $29: Forge 47.x.x, NeoForge 20.4.x
+     * - $28: NeoForge 20.6.x
      */
-    @WrapWithCondition(method = {"lambda$updateFluidHeightAndDoFluidPushing$26", "lambda$updateFluidHeightAndDoFluidPushing$29"}, require = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"))
+    @WrapWithCondition(method = {"lambda$updateFluidHeightAndDoFluidPushing$26", "lambda$updateFluidHeightAndDoFluidPushing$28", "lambda$updateFluidHeightAndDoFluidPushing$29"}, require = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"))
     private boolean cancelFluidPushing(Entity entity, Vec3 vec3) {
         //noinspection ConstantValue
         return !(entity instanceof Player player) || EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;

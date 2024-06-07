@@ -1,4 +1,4 @@
-package be.florens.expandability;
+package be.florens.expandability.api;
 
 public enum EventResult {
     SUCCESS,

@@ -3,22 +3,21 @@ package be.florens.expandability.api.forge;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.FluidState;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
-import net.neoforged.bus.api.Event;
-import org.jetbrains.annotations.ApiStatus;
 
 /**
  * Event that allows enabling solid collisions on top of fluids (aka "fluid walking").
  *
- * This event has the following {@link Event.Result}:
+ * This event has the following result:
  * <ul>
- *     <li>{@link Event.Result#ALLOW}: Enable solid fluid collisions</li>
- *     <li>{@link Event.Result#DEFAULT}/{@link Event.Result#DENY}: Vanilla fluid behaviour</li>
+ *     <li>true: Enable solid fluid collisions</li>
+ *     <li>false: Vanilla fluid behaviour</li>
  * </ul>
  */
-@Event.HasResult
 public class LivingFluidCollisionEvent extends LivingEvent {
 
 	private final FluidState fluidState;
+
+	private boolean shouldCollide = false;
 
 	public LivingFluidCollisionEvent(LivingEntity entity, FluidState fluidState) {
 		super(entity);
@@ -30,5 +29,13 @@ public class LivingFluidCollisionEvent extends LivingEvent {
 	 */
 	public FluidState getFluidState() {
 		return this.fluidState;
+	}
+
+	public boolean shouldCollide() {
+		return shouldCollide;
+	}
+
+	public void setColliding(boolean shouldCollide) {
+		this.shouldCollide = shouldCollide;
 	}
 }

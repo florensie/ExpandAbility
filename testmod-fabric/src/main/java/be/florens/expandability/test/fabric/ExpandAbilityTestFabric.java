@@ -21,8 +21,8 @@ public class ExpandAbilityTestFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(ExpandAbilityTest.MOD_ID, "speedy_block"), SPEEDY_BLOCK);
-        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(ExpandAbilityTest.MOD_ID, "speedy_block"), new BlockItem(SPEEDY_BLOCK, new Item.Properties()));
+        Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(ExpandAbilityTest.MOD_ID, "speedy_block"), SPEEDY_BLOCK);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(ExpandAbilityTest.MOD_ID, "speedy_block"), new BlockItem(SPEEDY_BLOCK, new Item.Properties()));
 
         PlayerSwimCallback.EVENT.register(player -> {
             Item heldItem = player.getMainHandItem().getItem();

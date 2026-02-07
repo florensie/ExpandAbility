@@ -8,7 +8,6 @@ repositories {
 
     cloche {
         main()
-
         mavenFabric()
         mavenNeoforgedMeta()
         mavenNeoforged()
@@ -17,18 +16,28 @@ repositories {
 
 cloche {
     metadata {
-        minecraftVersion = "1.21.11"
-
         modId = "expandability"
         name = "ExpandAbility"
         description = "Library mod that provides increased control over vanilla abilities"
         license = "MIT"
+        icon = "icon.png"
 
+        sources = "https://github.com/florensie/expandability"
         author("Florens")
     }
 
+    common {
+        mixins.from(file("src/common/main/expandability.mixins.json5"))
+
+        mappings {
+            official()
+        }
+    }
+
     neoforge {
+        minecraftVersion = "1.21.11"
         loaderVersion = "21.11.38-beta"
+        mixins.from(file("src/neoforge/main/expandability.neoforge.mixins.json5"))
 
         runs {
             client()
@@ -37,9 +46,15 @@ cloche {
     }
 
     fabric {
+        minecraftVersion = "1.21.11"
         loaderVersion = "0.18.4"
+        mixins.from(file("src/fabric/main/expandability.fabric.mixins.json5"))
 
         includedClient()
+
+        dependencies {
+            fabricApi("0.141.3")
+        }
 
         runs {
             client()

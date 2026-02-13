@@ -29,6 +29,8 @@ cloche {
     common {
         mixins.from(file("src/common/main/expandability.mixins.json5"))
 
+//        test()
+
         mappings {
             official()
         }
@@ -39,9 +41,14 @@ cloche {
         loaderVersion = "21.11.38-beta"
         mixins.from(file("src/neoforge/main/expandability.neoforge.mixins.json5"))
 
+//        test()
+
         runs {
-            client()
             server()
+            client()
+
+//            test()
+//            clientTest()
         }
     }
 
@@ -51,14 +58,18 @@ cloche {
         mixins.from(file("src/fabric/main/expandability.fabric.mixins.json5"))
 
         includedClient()
+        test()
 
         dependencies {
             fabricApi("0.141.3")
         }
 
         runs {
-            client()
             server()
+            client()
+
+            test()
+            clientTest()
         }
     }
 }

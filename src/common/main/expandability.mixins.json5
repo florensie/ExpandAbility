@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "package": "be.florens.expandability.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "fluidcollision.BlockStateBaseMixin",
+    "swimming.BubbleColumnBlockMixin",
+    "swimming.EntityMixin",
+    "swimming.FallLocationMixin",
+    "swimming.LivingEntityMixin",
+    "swimming.PlayerMixin",
+    "swimming.server.ServerPlayerMixin"
+  ],
+  "client": [
+    "swimming.client.LocalPlayerMixin",
+//    "swimming.client.PlayerRendererMixin"
+  ],
+  "server": [
+    "swimming.server.ServerGamePacketListenerImplMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

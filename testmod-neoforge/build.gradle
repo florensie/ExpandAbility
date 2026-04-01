@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'com.gradleup.shadow'
 }
 
 loom {
@@ -8,10 +8,6 @@ loom {
             sourceSet project(":neoforge").sourceSets.main
         }
     }
-
-//    neoForge {
-//        mixinConfig "expandability.mixins.json"
-//    }
 }
 
 architectury {
@@ -20,7 +16,10 @@ architectury {
 }
 
 configurations {
-    common
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentNeoForge.extendsFrom common

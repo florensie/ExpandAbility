@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'com.gradleup.shadow'
 }
 
 loom {
@@ -12,7 +12,10 @@ architectury {
 }
 
 configurations {
-    common
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common

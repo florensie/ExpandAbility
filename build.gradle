@@ -1,7 +1,8 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.13-SNAPSHOT" apply false
     id "com.matthewprenger.cursegradle" version "1.4.0" apply false
+    id 'com.gradleup.shadow' version '8.3.6' apply false
     id "maven-publish"
 }
 
@@ -9,26 +10,22 @@ architectury {
     minecraft = rootProject.minecraft_version
 }
 
+allprojects {
+    group = rootProject.maven_group
+    version = rootProject.mod_version
+}
+
 subprojects {
     apply plugin: "dev.architectury.loom"
+    apply plugin: "architectury-plugin"
+
+    base {
+        archivesName = "$rootProject.archives_name-$project.name"
+    }
 
     loom {
         silentMojangMappingsLicense()
     }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings loom.officialMojangMappings()
-    }
-}
-
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-
-    archivesBaseName = rootProject.archives_base_name
-    version = rootProject.mod_version
-    group = rootProject.maven_group
 
     repositories {
         maven {
@@ -43,14 +40,22 @@ allprojects {
         }
     }
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        options.release = 21
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        mappings loom.officialMojangMappings()
     }
 
     java {
         withSourcesJar()
+
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.release = 21
+    }
+
 }
 
-task curseforgePublish
+tasks.register('curseforgePublish')

@@ -2,7 +2,6 @@ package be.florens.expandability.test.fabric.gametest;
 
 import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
-import be.florens.expandability.test.fabric.mixin.ServerPlayerAccessor;
 import carpet.patches.EntityPlayerMPFake;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
@@ -17,6 +16,7 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
+@SuppressWarnings("unused")
 public class SwimmingTest {
     private static final BlockPos STREAM_MIDDLE = new BlockPos(2, 2, 1);
     private static final BlockPos FALLING_TOP_POS = new BlockPos(0, 6, 0);
@@ -169,7 +169,7 @@ public class SwimmingTest {
         EntityPlayerMPFake.createFake(name, level.getServer(), spawnPos, 0, 0,
                 level.dimension(), GameType.SURVIVAL, false);
         ServerPlayer player = level.getServer().getPlayerList().getPlayerByName(name);
-        // ((ServerPlayerAccessor) player).setSpawnInvulnerableTime(0);
+        // TODO? ((ServerPlayerAccessor) player).setSpawnInvulnerableTime(0);
         return player;
     }
 }

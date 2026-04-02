@@ -12,7 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin {
 
-	@ModifyExpressionValue(method = "extractRenderState(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;F)V", require = 0 /* rendering only */, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
+	@ModifyExpressionValue(
+			method = "extractRenderState(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;F)V",
+			require = 0, // rendering only
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z")
+	)
 	private boolean setInWater(boolean original, LivingEntity entity) {
 		if (entity instanceof Player player) {
             return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);

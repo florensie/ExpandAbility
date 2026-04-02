@@ -24,7 +24,11 @@ public abstract class LivingEntityMixin extends Entity {
 	// TODO: baseTick stopRiding
 
 	// TODO: should be fine for forge compat
-	@ModifyExpressionValue(method = "aiStep", require = 2 /* TODO: do we want to target lava check? */, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/TagKey;)D"))
+	@ModifyExpressionValue(
+			method = "aiStep",
+			require = 2, // TODO: do we want to target lava check?
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/TagKey;)D")
+	)
 	private double setFluidHeight(double original) {
 		if ((Object) this instanceof Player player) {
 			EventResult shouldSwim = EventDispatcher.onPlayerSwim(player);
@@ -35,7 +39,16 @@ public abstract class LivingEntityMixin extends Entity {
 	}
 
 	// TODO: probably also need to do isInFluidType on forge!
-	@ModifyExpressionValue(method = {"shouldTravelInFluid", "aiStep", "checkFallDamage", "travelInFluid"}, require = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
+	@ModifyExpressionValue(
+			method = {
+					"shouldTravelInFluid",
+					"aiStep",
+					"checkFallDamage",
+					"travelInFluid"
+			},
+			require = 4,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z")
+	)
 	private boolean setInWater(boolean original) {
 		if ((Object) this instanceof Player player) {
 			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
@@ -49,24 +62,26 @@ public abstract class LivingEntityMixin extends Entity {
 	 */
 	@Inject(method = "checkFallDamage", at = @At("HEAD"))
 	private void resetFallHeight(CallbackInfo info) {
-		//noinspection ConstantConditions
-		if ((Object) this instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
-			this.fallDistance = 0;
+		if ((Object) this instanceof Player player) {
+			if (EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
+                this.fallDistance = 0;
+            }
 		}
 	}
 
 	/**
 	 * Cancel the small boost upward when leaving a fluid while against the side of a block when swimming is enabled
 	 */
-	// TODO: replace with cancellable inject
-	@ModifyExpressionValue(method = "jumpOutOfFluid", allow = 1, require = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isFree(DDD)Z"))
-	private boolean cancelJumpOutOfFluid(boolean original) {
+	@Inject(
+			method = "jumpOutOfFluid",
+			at = @At("HEAD"),
+			cancellable = true
+	)
+	private void cancelJumpOutOfFluid(double d, CallbackInfo ci) {
 		if ((Object) this instanceof Player player) {
 			if (EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
-				return false;
+				ci.cancel(); // Early return intended!
 			}
 		}
-
-		return original;
 	}
 }

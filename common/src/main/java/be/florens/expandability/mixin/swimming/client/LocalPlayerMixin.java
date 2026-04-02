@@ -11,15 +11,23 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(LocalPlayer.class)
 public abstract class LocalPlayerMixin {
 
-	@ModifyExpressionValue(method = "aiStep", require = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isInWater()Z"))
+	@ModifyExpressionValue(
+			method = {"aiStep", "shouldStopSwimSprinting"},
+			require = 2,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isInWater()Z")
+	)
 	private boolean setInWater(boolean original) {
 		Player self = (Player) (Object) this;
 		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), original);
 	}
 
-//	@ModifyExpressionValue(method = {"aiStep", "hasEnoughImpulseToStartSprinting"}, require = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUnderWater()Z"))
-//	private boolean setUnderWater(boolean original) {
-//		Player self = (Player) (Object) this;
-//		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), original);
-//	}
+	@ModifyExpressionValue(
+			method = "canStartSprinting",
+			require = 2,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUnderWater()Z")
+	)
+	private boolean setUnderWater(boolean original) {
+		Player self = (Player) (Object) this;
+		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), original);
+	}
 }

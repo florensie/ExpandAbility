@@ -8,7 +8,7 @@
   ],
   "client": [
     "swimming.client.LocalPlayerMixin",
-    "swimming.client.PlayerRendererMixin"
+    "swimming.client.LivingEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

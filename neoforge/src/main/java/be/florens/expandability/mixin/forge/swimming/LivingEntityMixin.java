@@ -11,7 +11,11 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
-    @ModifyExpressionValue(method = "travel", require = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInFluidType(Lnet/minecraft/world/level/material/FluidState;)Z"))
+    @ModifyExpressionValue(
+            method = "shouldTravelInFluid",
+            require = 1,
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInFluidType(Lnet/minecraft/world/level/material/FluidState;)Z")
+    )
     private boolean setInWater(boolean original) {
         if ((Object) this instanceof Player player) {
             return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
@@ -20,7 +24,11 @@ public abstract class LivingEntityMixin {
         return original;
     }
 
-    @ModifyExpressionValue(method = "aiStep", require = 2, at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/fluids/FluidType;isAir()Z"))
+    @ModifyExpressionValue(
+            method = "aiStep",
+            require = 2,
+            at = @At(value = "INVOKE", target = "Lnet/neoforged/neoforge/fluids/FluidType;isAir()Z")
+    )
     private boolean setIsAir(boolean original) {
         if ((Object) this instanceof Player player) {
             return Util.processEventResult(EventDispatcher.onPlayerSwim(player), false, true, original);

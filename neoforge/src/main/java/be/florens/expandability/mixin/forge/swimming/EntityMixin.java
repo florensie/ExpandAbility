@@ -34,12 +34,22 @@ public abstract class EntityMixin {
     }
 
     // FIXME: still no fall damage
-    @WrapWithCondition(method = "updateInWaterStateAndDoFluidPushing", require = 1, at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/world/entity/Entity;fallDistance:F"))
-    private boolean cancelFallDistanceUpdate(Entity entity, float fallDistance) {
-        return !(entity instanceof Player player) || EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
+    @WrapWithCondition(
+            method = "updateInWaterStateAndDoFluidPushing",
+            require = 1,
+            at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/world/entity/Entity;fallDistance:D")
+    )
+    private boolean cancelFallDistanceUpdate(Entity entity, double fallDistance) {
+        if (entity instanceof Player player) {
+            return EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
+        }
+        return true;
     }
 
-    @ModifyExpressionValue(method = "canSpawnSprintParticle", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInFluidType()Z"))
+    @ModifyExpressionValue(
+            method = "canSpawnSprintParticle",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInFluidType()Z")
+    )
     private boolean setInFluidTypeNoParams(boolean original) {
         if ((Object) this instanceof Player player) {
             return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
@@ -48,15 +58,29 @@ public abstract class EntityMixin {
         return original;
     }
 
-    /**
-     * - $26: Forge 46.x.x
-     * - $29: Forge 47.x.x, NeoForge 20.4.x
-     * - $28: NeoForge 20.6.x
-     * - $22: NeoForge 21.x.x
+    /** Lol 🫠
+     * <br> $26: Forge 46.x.x
+     * <br> $29: Forge 47.x.x, NeoForge 20.4.x
+     * <br> $28: NeoForge 20.6.x
+     * <br> $22: NeoForge 21.x.x
+     * <br> $27: NeoForge 21.11.x
      */
-    @WrapWithCondition(method = {"lambda$updateFluidHeightAndDoFluidPushing$22", "lambda$updateFluidHeightAndDoFluidPushing$26", "lambda$updateFluidHeightAndDoFluidPushing$28", "lambda$updateFluidHeightAndDoFluidPushing$29"}, require = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"))
+    @SuppressWarnings("UnresolvedMixinReference")
+    @WrapWithCondition(
+            method = {
+                    "lambda$updateFluidHeightAndDoFluidPushing$22",
+                    "lambda$updateFluidHeightAndDoFluidPushing$26",
+                    "lambda$updateFluidHeightAndDoFluidPushing$27",
+                    "lambda$updateFluidHeightAndDoFluidPushing$28",
+                    "lambda$updateFluidHeightAndDoFluidPushing$29"
+            },
+            require = 1,
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V")
+    )
     private boolean cancelFluidPushing(Entity entity, Vec3 vec3) {
-        //noinspection ConstantValue
-        return !(entity instanceof Player player) || EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
+        if (entity instanceof Player player) {
+            return EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
+        }
+        return true;
     }
 }

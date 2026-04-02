@@ -15,9 +15,12 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class EntityMixin {
 
 	// Fabric-only: removed by Forge patch
-    @ModifyExpressionValue(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"))
+    @ModifyExpressionValue(
+			method = "updateSwimming",
+			require = 1,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z")
+	)
 	private boolean setInFluidState(boolean original) {
-		//noinspection ConstantConditions
 		if ((Object) this instanceof Player player) {
 			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
 		}
@@ -25,9 +28,16 @@ public abstract class EntityMixin {
 		return original;
 	}
 
-	@WrapWithCondition(method = "updateFluidHeightAndDoFluidPushing", require = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"))
+	// Fabric-only: removed by Forge patch
+	@WrapWithCondition(
+			method = "updateFluidHeightAndDoFluidPushing",
+			require = 1,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V")
+	)
 	private boolean cancelFluidPushing(Entity entity, Vec3 vec3) {
-        //noinspection ConstantValue
-        return !(entity instanceof Player player) || EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
+		if ((Object) this instanceof Player player) {
+			return EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
+		}
+		return true;
 	}
 }

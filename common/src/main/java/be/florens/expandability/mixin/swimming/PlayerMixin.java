@@ -12,7 +12,11 @@ public abstract class PlayerMixin {
 
 	/// - [Player#canCriticalAttack]: makes it such that you can land critical hits while in water with fluid physics disabled
 	/// - [Player#tryToStartFallFlying]
-	@ModifyExpressionValue(method = {"canCriticalAttack", "tryToStartFallFlying"}, require = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z"))
+	@ModifyExpressionValue(
+			method = {"canCriticalAttack", "tryToStartFallFlying"},
+			require = 2,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z")
+	)
 	private boolean setInWater(boolean original) {
 		Player self = (Player) (Object) this;
 		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), original);
@@ -20,7 +24,11 @@ public abstract class PlayerMixin {
 
 	/// Vanilla checks if the block above the player is fluid and prevents swimming up by look direction
 	/// This cancels the check if we have swimming enabled
-	@ModifyExpressionValue(method = "travel", allow = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;isEmpty()Z"))
+	@ModifyExpressionValue(
+			method = "travel",
+			allow = 1,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;isEmpty()Z")
+	)
 	private boolean cancelSurfaceCheck(boolean original) {
 		Player self = (Player) (Object) this;
 		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), false, true, original);

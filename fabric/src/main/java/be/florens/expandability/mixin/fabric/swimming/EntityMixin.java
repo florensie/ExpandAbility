@@ -1,12 +1,9 @@
 package be.florens.expandability.mixin.fabric.swimming;
 
-import be.florens.expandability.EventDispatcher;
-import be.florens.expandability.api.EventResult;
 import be.florens.expandability.Util;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,11 +18,16 @@ public abstract class EntityMixin {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z")
 	)
 	private boolean setInFluidState(boolean original) {
-		if ((Object) this instanceof Player player) {
-			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
-		}
+		return Util.shouldPlayerSwim(this, original);
+	}
 
-		return original;
+	@ModifyExpressionValue(
+			method = "updateSwimming",
+			require = 1,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isUnderWater()Z")
+	)
+	private boolean setUnderWater(boolean original) {
+		return Util.shouldPlayerSwim(this, original);
 	}
 
 	// Fabric-only: removed by Forge patch
@@ -35,9 +37,6 @@ public abstract class EntityMixin {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V")
 	)
 	private boolean cancelFluidPushing(Entity entity, Vec3 vec3) {
-		if ((Object) this instanceof Player player) {
-			return EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
-		}
-		return true;
+		return Util.shouldPlayerSwim(this, true);
 	}
 }

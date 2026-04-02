@@ -1,6 +1,5 @@
 package be.florens.expandability.mixin.swimming;
 
-import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.Util;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.world.entity.player.Player;
@@ -18,8 +17,7 @@ public abstract class PlayerMixin {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z")
 	)
 	private boolean setInWater(boolean original) {
-		Player self = (Player) (Object) this;
-		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), original);
+		return Util.shouldPlayerSwim(this, original);
 	}
 
 	/// Vanilla checks if the block above the player is fluid and prevents swimming up by look direction
@@ -30,7 +28,6 @@ public abstract class PlayerMixin {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;isEmpty()Z")
 	)
 	private boolean cancelSurfaceCheck(boolean original) {
-		Player self = (Player) (Object) this;
-		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), false, true, original);
+		return !Util.shouldPlayerSwim(this, !original);
 	}
 }

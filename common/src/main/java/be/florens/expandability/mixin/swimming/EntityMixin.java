@@ -26,23 +26,7 @@ public abstract class EntityMixin {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z")
 	)
 	private boolean setInWater(boolean original) {
-		if ((Object) this instanceof Player player) {
-			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
-		}
-
-		return original;
-	}
-
-	@ModifyExpressionValue(
-			method = "updateSwimming",
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isUnderWater()Z")
-	)
-	private boolean setUnderWater(boolean original) {
-		if ((Object) this instanceof Player player) {
-			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
-		}
-
-		return original;
+		return Util.shouldPlayerSwim(this, original);
 	}
 
 	/**
@@ -52,7 +36,7 @@ public abstract class EntityMixin {
 			method = "applyMovementEmissionAndPlaySound",
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;waterSwimSound()V")
 	)
-	private boolean cancelPlaySwimSound(Entity entity) {
+	private boolean shouldPlayWaterSwimSound(Entity entity) {
 		if ((Object) this instanceof Player player) {
 			// Repeat the isInWater check, so we don't cancel vanilla swimming sounds
 			return !player.isInWater() && EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS;
@@ -67,11 +51,8 @@ public abstract class EntityMixin {
 			method = {"updateInWaterStateAndDoWaterCurrentPushing", "move"},
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V")
 	)
-	private boolean cancelResetFallDistance(Entity entity) {
-        if (entity instanceof Player player) {
-            return EventDispatcher.onPlayerSwim(player) != EventResult.FAIL;
-        }
-        return true;
+	private boolean shouldResetFallDistance(Entity entity) {
+		return Util.shouldPlayerSwim(this, false);
 	}
 
 	/**

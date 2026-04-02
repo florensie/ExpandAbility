@@ -43,18 +43,13 @@ public abstract class LivingEntityMixin extends Entity {
 			method = {
 					"shouldTravelInFluid",
 					"aiStep",
-					"checkFallDamage",
-					"travelInFluid"
+					"checkFallDamage"
 			},
-			require = 4,
+			require = 3,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z")
 	)
 	private boolean setInWater(boolean original) {
-		if ((Object) this instanceof Player player) {
-			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
-		}
-
-		return original;
+		return Util.shouldPlayerSwim(this, original);
 	}
 
 	/**
@@ -62,10 +57,8 @@ public abstract class LivingEntityMixin extends Entity {
 	 */
 	@Inject(method = "checkFallDamage", at = @At("HEAD"))
 	private void resetFallHeight(CallbackInfo info) {
-		if ((Object) this instanceof Player player) {
-			if (EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
-                this.fallDistance = 0;
-            }
+		if (Util.shouldPlayerSwim(this, false)) {
+			this.fallDistance = 0;
 		}
 	}
 
@@ -78,10 +71,8 @@ public abstract class LivingEntityMixin extends Entity {
 			cancellable = true
 	)
 	private void cancelJumpOutOfFluid(double d, CallbackInfo ci) {
-		if ((Object) this instanceof Player player) {
-			if (EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
-				ci.cancel(); // Early return intended!
-			}
+		if (Util.shouldPlayerSwim(this, false)) {
+			ci.cancel(); // Early return intended!
 		}
 	}
 }

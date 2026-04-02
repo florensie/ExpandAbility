@@ -17,8 +17,7 @@ public abstract class LocalPlayerMixin {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isInWater()Z")
 	)
 	private boolean setInWater(boolean original) {
-		Player self = (Player) (Object) this;
-		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), original);
+		return Util.shouldPlayerSwim(this, original);
 	}
 
 	@ModifyExpressionValue(
@@ -27,7 +26,6 @@ public abstract class LocalPlayerMixin {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUnderWater()Z")
 	)
 	private boolean setUnderWater(boolean original) {
-		Player self = (Player) (Object) this;
-		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), original);
+		return Util.shouldPlayerSwim(this, original);
 	}
 }

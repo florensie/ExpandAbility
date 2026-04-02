@@ -1,11 +1,9 @@
 package be.florens.expandability.mixin.swimming;
 
-import be.florens.expandability.EventDispatcher;
-import be.florens.expandability.api.EventResult;
+import be.florens.expandability.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BubbleColumnBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,10 +17,8 @@ public abstract class BubbleColumnBlockMixin {
 
     @Inject(method = "entityInside", at = @At("HEAD"), cancellable = true)
     private void cancelBubbleColumnDrag(BlockState blockState, Level level, BlockPos blockPos, Entity entity, InsideBlockEffectApplier insideBlockEffectApplier, boolean someBool, CallbackInfo info) {
-        if (entity instanceof Player player) {
-            if (EventDispatcher.onPlayerSwim(player) == EventResult.FAIL) {
-                info.cancel();
-            }
+        if (Util.shouldPlayerSwim(entity, false)) {
+            info.cancel();
         }
     }
 }

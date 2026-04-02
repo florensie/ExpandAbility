@@ -18,9 +18,6 @@ public class LivingEntityRendererMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInFluidType(Ljava/util/function/BiPredicate;)Z")
     )
     private boolean setInFluidType(boolean original, LivingEntity entity) {
-        if (entity instanceof Player player) {
-            return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
-        }
-        return original;
+        return Util.shouldPlayerSwim(this, original);
     }
 }

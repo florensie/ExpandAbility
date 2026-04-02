@@ -21,6 +21,7 @@ public abstract class EntityMixin {
 		return Util.shouldPlayerSwim(this, original);
 	}
 
+	// Fabric-only: removed by Forge patch
 	@ModifyExpressionValue(
 			method = "updateSwimming",
 			require = 1,
@@ -28,6 +29,16 @@ public abstract class EntityMixin {
 	)
 	private boolean setUnderWater(boolean original) {
 		return Util.shouldPlayerSwim(this, original);
+	}
+
+	// Fabric-only: removed by Forge patch
+	@WrapWithCondition(
+			method = "updateInWaterStateAndDoWaterCurrentPushing",
+			require = 1,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V")
+	)
+	private boolean shouldResetFallDistance(Entity entity) {
+		return Util.shouldPlayerSwim(this, true);
 	}
 
 	// Fabric-only: removed by Forge patch

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -20,13 +21,23 @@ public abstract class EntityMixin {
 					"updateSwimming",
 					"isVisuallyCrawling",
 					"canSpawnSprintParticle",
-					"applyMovementEmissionAndPlaySound"
+					"applyMovementEmissionAndPlaySound",
+					"checkFallDamage"
 			},
-			require = 4,
+			require = 5,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z")
 	)
 	private boolean setInWater(boolean original) {
 		return Util.shouldPlayerSwim(this, original);
+	}
+
+	@WrapWithCondition(
+			method = "baseTick",
+			require = 1,
+			at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD, target = "Lnet/minecraft/world/entity/Entity;fallDistance:D")
+	)
+	private boolean shouldReduceFallDamageInLava(Entity instance, double value) {
+		return Util.shouldPlayerSwim(this, true);
 	}
 
 	/**
@@ -34,6 +45,7 @@ public abstract class EntityMixin {
 	 */
 	@WrapWithCondition(
 			method = "applyMovementEmissionAndPlaySound",
+			require = 1,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;waterSwimSound()V")
 	)
 	private boolean shouldPlayWaterSwimSound(Entity entity) {
@@ -48,11 +60,12 @@ public abstract class EntityMixin {
 	 * Take fall damage when in water with water physics disabled
 	 */
 	@WrapWithCondition(
-			method = {"updateInWaterStateAndDoWaterCurrentPushing", "move"},
+			method = "move",
+			require = 1,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V")
 	)
 	private boolean shouldResetFallDistance(Entity entity) {
-		return Util.shouldPlayerSwim(this, false);
+		return Util.shouldPlayerSwim(this, true);
 	}
 
 	/**
@@ -63,6 +76,7 @@ public abstract class EntityMixin {
 	// TODO: do we also need to change bubble column check here?
 	@ModifyExpressionValue(
 			method = "getBlockSpeedFactor",
+			require = 1,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z")
 	)
 	private boolean fixBlockSpeedFactor(boolean original) {

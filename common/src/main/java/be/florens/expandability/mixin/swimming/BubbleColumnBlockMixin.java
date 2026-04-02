@@ -17,7 +17,7 @@ public abstract class BubbleColumnBlockMixin {
 
     @Inject(method = "entityInside", at = @At("HEAD"), cancellable = true)
     private void cancelBubbleColumnDrag(BlockState blockState, Level level, BlockPos blockPos, Entity entity, InsideBlockEffectApplier insideBlockEffectApplier, boolean someBool, CallbackInfo info) {
-        if (Util.shouldPlayerSwim(entity, false)) {
+        if (!Util.shouldPlayerSwim(entity, true)) {
             info.cancel();
         }
     }

@@ -23,7 +23,6 @@ public abstract class LivingEntityMixin extends Entity {
 
 	// TODO: baseTick stopRiding
 
-	// TODO: should be fine for forge compat
 	@ModifyExpressionValue(
 			method = "aiStep",
 			require = 2, // TODO: do we want to target lava check?
@@ -38,7 +37,6 @@ public abstract class LivingEntityMixin extends Entity {
 		return original;
 	}
 
-	// TODO: probably also need to do isInFluidType on forge!
 	@ModifyExpressionValue(
 			method = {
 					"shouldTravelInFluid",

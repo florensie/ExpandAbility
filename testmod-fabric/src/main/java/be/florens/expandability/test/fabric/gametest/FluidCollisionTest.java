@@ -7,6 +7,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.villager.Villager;
 
+// TODO fix staircase tests
 @SuppressWarnings("unused")
 public class FluidCollisionTest {
 

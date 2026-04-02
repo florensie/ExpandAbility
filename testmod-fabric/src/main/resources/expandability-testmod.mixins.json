@@ -6,8 +6,8 @@
     "EntityPlayerMPFakeMixin",
     "PlayerAdvancementsMixin",
     "PlayerListMixin",
+    "ServerGamePacketListenerImplAccessor",
     "ServerGamePacketListenerImplMixin",
-    "ServerPlayerAccessor",
     "StructureUtilsMixin"
   ],
   "injectors": {

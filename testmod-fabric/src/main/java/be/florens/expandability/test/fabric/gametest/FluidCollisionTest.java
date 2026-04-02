@@ -1,11 +1,11 @@
 package be.florens.expandability.test.fabric.gametest;
 
 import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
+import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 
 @SuppressWarnings("unused")
 public class FluidCollisionTest {
@@ -16,7 +16,7 @@ public class FluidCollisionTest {
     private static final BlockPos STAIRCASE_TOP = new BlockPos(1, 3, 1);
     private static final int STAIRCASE_TIMEOUT = 2 * 20;
 
-    @GameTest(template = "expandability:pool")
+    @GameTest(structure = "expandability:pool")
     public void dropAboveWater_noCollisionEvent_dropsIntoWaterWithNoDamageTaken(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, ABOVE_POOL);
         helper.startSequence()
@@ -27,7 +27,7 @@ public class FluidCollisionTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:pool")
+    @GameTest(structure = "expandability:pool")
     public void dropAboveWater_withCollisionEvent_collidesWithWaterSurface(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, ABOVE_POOL);
         LivingFluidCollisionCallback.EVENT.register((entity, fluidState) -> entity.equals(villager));
@@ -36,7 +36,7 @@ public class FluidCollisionTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:pool")
+    @GameTest(structure = "expandability:pool")
     public void dropHighAboveWater_withCollisionEvent_villagerDies(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, ABOVE_POOL.above(3));
         helper.withLowHealth(villager);
@@ -47,7 +47,7 @@ public class FluidCollisionTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:staircase")
+    @GameTest(structure = "expandability:staircase")
     public void walkDownWaterStaircase_noCollisionEvent_doesNotReachBottom(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, STAIRCASE_TOP);
         helper.walkTo(villager, STAIRCASE_BOTTOM, 1.0f)
@@ -55,7 +55,7 @@ public class FluidCollisionTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:staircase")
+    @GameTest(structure = "expandability:staircase")
     public void walkDownWaterStaircase_withCollisionEvent_reachesBottom(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, STAIRCASE_TOP);
         LivingFluidCollisionCallback.EVENT.register((entity, fluidState) -> entity.equals(villager));
@@ -64,7 +64,7 @@ public class FluidCollisionTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:staircase")
+    @GameTest(structure = "expandability:staircase")
     public void walkUpWaterStaircase_noCollisionEvent_doesNotReachTop(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, STAIRCASE_BOTTOM);
         helper.walkTo(villager, STAIRCASE_TOP, 1.0f)
@@ -72,7 +72,7 @@ public class FluidCollisionTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:staircase")
+    @GameTest(structure = "expandability:staircase")
     public void walkUpWaterStaircase_withCollisionEvent_reachesTop(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, STAIRCASE_BOTTOM);
         LivingFluidCollisionCallback.EVENT.register((entity, fluidState) -> entity.equals(villager));

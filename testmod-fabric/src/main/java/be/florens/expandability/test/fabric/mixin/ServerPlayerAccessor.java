@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(ServerPlayer.class)
 public interface ServerPlayerAccessor {
 
-    @Accessor
-    void setSpawnInvulnerableTime(int spawnInvulnerableTime);
+    // @Accessor
+    // void setSpawnInvulnerableTime(int spawnInvulnerableTime);
 }

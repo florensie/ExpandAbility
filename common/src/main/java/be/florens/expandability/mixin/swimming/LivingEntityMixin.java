@@ -35,7 +35,7 @@ public abstract class LivingEntityMixin extends Entity {
 	}
 
 	// TODO: probably also need to do isInFluidType on forge!
-	@ModifyExpressionValue(method = {"travel", "aiStep", "checkFallDamage"}, require = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
+	@ModifyExpressionValue(method = {"shouldTravelInFluid", "aiStep", "checkFallDamage", "travelInFluid"}, require = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
 	private boolean setInWater(boolean original) {
 		if ((Object) this instanceof Player player) {
 			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
@@ -58,8 +58,9 @@ public abstract class LivingEntityMixin extends Entity {
 	/**
 	 * Cancel the small boost upward when leaving a fluid while against the side of a block when swimming is enabled
 	 */
-	@ModifyExpressionValue(method = "travel", allow = 2, require = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isFree(DDD)Z"))
-	private boolean cancelLeaveFluidAssist(boolean original) {
+	// TODO: replace with cancellable inject
+	@ModifyExpressionValue(method = "jumpOutOfFluid", allow = 1, require = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isFree(DDD)Z"))
+	private boolean cancelJumpOutOfFluid(boolean original) {
 		if ((Object) this instanceof Player player) {
 			if (EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
 				return false;

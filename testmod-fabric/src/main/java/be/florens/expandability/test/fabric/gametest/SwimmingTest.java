@@ -4,10 +4,11 @@ import be.florens.expandability.api.EventResult;
 import be.florens.expandability.api.fabric.PlayerSwimCallback;
 import be.florens.expandability.test.fabric.mixin.ServerPlayerAccessor;
 import carpet.patches.EntityPlayerMPFake;
+import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
@@ -21,7 +22,7 @@ public class SwimmingTest {
     private static final BlockPos FALLING_TOP_POS = new BlockPos(0, 6, 0);
     private static final BlockPos FALLING_BOTTOM_POS = new BlockPos(0, 2, 0);
 
-    @GameTest(template = "expandability:staircase", setupTicks = 20L)
+    @GameTest(structure = "expandability:staircase", setupTicks = 20)
     public void standInWaterStream_withFluidPhysicsDefault_moved(GameTestHelper helper) {
         String playerName = createPlayerName();
         PlayerSwimCallback.EVENT.register(p -> EventResult.PASS); // same as not registering at all
@@ -32,7 +33,7 @@ public class SwimmingTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:staircase", setupTicks = 20L)
+    @GameTest(structure = "expandability:staircase", setupTicks = 20)
     public void standInWaterStream_withFluidPhysicsDisabled_doesNotMove(GameTestHelper helper) {
         String playerName = createPlayerName();
         PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? EventResult.FAIL : EventResult.PASS);
@@ -43,7 +44,7 @@ public class SwimmingTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:staircase", setupTicks = 20L)
+    @GameTest(structure = "expandability:staircase", setupTicks = 20)
     public void standInWaterStream_withFluidPhysicsEnabled_moved(GameTestHelper helper) {
         String playerName = createPlayerName();
         PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? EventResult.SUCCESS : EventResult.PASS);
@@ -54,7 +55,7 @@ public class SwimmingTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:staircase", setupTicks = 20L)
+    @GameTest(structure = "expandability:staircase", setupTicks = 20)
     public void mobWaterStream_withFluidPhysicsDefault_moved(GameTestHelper helper) {
         helper.spawnWithNoFreeWill(EntityType.VILLAGER, STREAM_MIDDLE);
 
@@ -63,7 +64,7 @@ public class SwimmingTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:platform")
+    @GameTest(structure = "expandability:platform")
     public void fallInAir_withFluidPhysicsDefault_playerKilled(GameTestHelper helper) {
         String playerName = createPlayerName();
         PlayerSwimCallback.EVENT.register(p -> EventResult.PASS);  // same as not registering at all
@@ -76,7 +77,7 @@ public class SwimmingTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:platform")
+    @GameTest(structure = "expandability:platform")
     public void fallInAir_withFluidPhysicsEnabled_playerAliveAndStillDescending(GameTestHelper helper) {
         String playerName = createPlayerName();
         PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? EventResult.SUCCESS : EventResult.PASS);
@@ -92,7 +93,7 @@ public class SwimmingTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:platform")
+    @GameTest(structure = "expandability:platform")
     public void fallInAir_withFluidPhysicsDisabled_playerKilled(GameTestHelper helper) {
         String playerName = createPlayerName();
         PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? EventResult.FAIL : EventResult.PASS);
@@ -105,7 +106,7 @@ public class SwimmingTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:pool")
+    @GameTest(structure = "expandability:pool")
     public void fallInWater_withFluidPhysicsDisabled_playerKilled(GameTestHelper helper) {
         String playerName = createPlayerName();
         PlayerSwimCallback.EVENT.register(p -> p.getName().getString().equals(playerName) ? EventResult.FAIL : EventResult.PASS);
@@ -118,7 +119,7 @@ public class SwimmingTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:pool")
+    @GameTest(structure = "expandability:pool")
     public void fallInWater_withFluidPhysicsDefault_playerLandsInWater(GameTestHelper helper) {
         String playerName = createPlayerName();
         PlayerSwimCallback.EVENT.register(p -> EventResult.PASS); // same as not registering at all
@@ -131,7 +132,7 @@ public class SwimmingTest {
                 .thenSucceed();
     }
 
-    @GameTest(template = "expandability:pool")
+    @GameTest(structure = "expandability:pool")
     public void standInDeepWater_withFluidPhysicsDisabled_playerDrowns(GameTestHelper helper) {
         helper.setBlock(FALLING_BOTTOM_POS.above(), Blocks.WATER); // make pool two deep
         String playerName = createPlayerName();
@@ -147,13 +148,13 @@ public class SwimmingTest {
 
     private static void assertPlayerInstanceDead(Player player) {
         if (player.isAlive()) {
-            throw new GameTestAssertException("Expected player to be dead");
+            throw new GameTestAssertException(Component.literal("Expected player to be dead"), 0);
         }
     }
 
     private static void assertPlayerInstanceAlive(Player player) {
         if (player.isDeadOrDying()) {
-            throw new GameTestAssertException("Expected player to be alive");
+            throw new GameTestAssertException(Component.literal("Expected player to be alive"), 0);
         }
     }
 
@@ -168,7 +169,7 @@ public class SwimmingTest {
         EntityPlayerMPFake.createFake(name, level.getServer(), spawnPos, 0, 0,
                 level.dimension(), GameType.SURVIVAL, false);
         ServerPlayer player = level.getServer().getPlayerList().getPlayerByName(name);
-        ((ServerPlayerAccessor) player).setSpawnInvulnerableTime(0);
+        // ((ServerPlayerAccessor) player).setSpawnInvulnerableTime(0);
         return player;
     }
 }

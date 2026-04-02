@@ -21,7 +21,7 @@ public abstract class EntityMixin {
 
 	@Shadow public abstract boolean isInWater();
 
-	@ModifyExpressionValue(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle", "move"}, require = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
+	@ModifyExpressionValue(method = {"updateSwimming", "isVisuallyCrawling", "canSpawnSprintParticle", "applyMovementEmissionAndPlaySound"}, require = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInWater()Z"))
 	private boolean setInWater(boolean original) {
 		if ((Object) this instanceof Player player) {
 			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
@@ -42,7 +42,7 @@ public abstract class EntityMixin {
 	/**
 	 * Prevents the swimming sound from playing when non-vanilla swimming is enabled
 	 */
-	@WrapWithCondition(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;waterSwimSound()V"))
+	@WrapWithCondition(method = "applyMovementEmissionAndPlaySound", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;waterSwimSound()V"))
 	private boolean cancelPlaySwimSound(Entity entity) {
 		// Re-check if we're in water first, so we don't cancel vanilla swimming sounds
 		return this.isInWater() || !(entity instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS);

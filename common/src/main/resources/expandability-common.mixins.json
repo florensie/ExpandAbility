@@ -13,7 +13,7 @@
   ],
   "client": [
     "swimming.client.LocalPlayerMixin",
-    "swimming.client.PlayerRendererMixin"
+    "swimming.client.LivingEntityRendererMixin"
   ],
   "server": [
     "swimming.server.ServerGamePacketListenerImplMixin"

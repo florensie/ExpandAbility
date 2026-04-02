@@ -15,7 +15,7 @@ public class StructureUtilsMixin {
     @ModifyExpressionValue(method = "clearSpaceForStructure", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/AABB;of(Lnet/minecraft/world/level/levelgen/structure/BoundingBox;)Lnet/minecraft/world/phys/AABB;"))
     private static AABB clearFakePlayers(AABB aabb, BoundingBox boundingBox, ServerLevel serverLevel) {
         serverLevel.getEntitiesOfClass(EntityPlayerMPFake.class, aabb, p -> true)
-                .forEach(EntityPlayerMPFake::kill);
+                .forEach(p -> p.kill(serverLevel));
 
         return aabb;
     }

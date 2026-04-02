@@ -27,10 +27,12 @@ public class ExpandAbilityTestFabric implements ModInitializer {
         Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(ExpandAbilityTest.MOD_ID, "speedy_block"), new BlockItem(SPEEDY_BLOCK, new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(ExpandAbilityTest.MOD_ID, "speedy_block")))));
 
         PlayerSwimCallback.EVENT.register(player -> {
-            Item heldItem = player.getMainHandItem().getItem();
-            return heldItem == Items.DEBUG_STICK ? EventResult.SUCCESS
-                    : heldItem == Items.BARRIER ? EventResult.FAIL
-                    : EventResult.PASS;
+            if (player.isHolding(Items.BARRIER)) {
+                return EventResult.FAIL;
+            } else if (player.isHolding(Items.DEBUG_STICK)) {
+                return EventResult.SUCCESS;
+            }
+            return EventResult.PASS;
         });
 
         LivingFluidCollisionCallback.EVENT.register((entity, fluidState)

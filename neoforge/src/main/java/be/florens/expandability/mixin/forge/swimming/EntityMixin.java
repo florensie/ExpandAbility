@@ -57,22 +57,9 @@ public abstract class EntityMixin {
         return Util.shouldPlayerSwim(this, original);
     }
 
-    /** Lol 🫠
-     * <br> $26: Forge 46.x.x
-     * <br> $29: Forge 47.x.x, NeoForge 20.4.x
-     * <br> $28: NeoForge 20.6.x
-     * <br> $22: NeoForge 21.x.x
-     * <br> $27: NeoForge 21.11.x
-     */
-    @SuppressWarnings("UnresolvedMixinReference")
+    /// Note: this mixin target changes frequently with Minecraft/Neoforge updates
     @WrapWithCondition(
-            method = {
-                    "lambda$updateFluidHeightAndDoFluidPushing$22",
-                    "lambda$updateFluidHeightAndDoFluidPushing$26",
-                    "lambda$updateFluidHeightAndDoFluidPushing$27",
-                    "lambda$updateFluidHeightAndDoFluidPushing$28",
-                    "lambda$updateFluidHeightAndDoFluidPushing$29"
-            },
+            method = "lambda$updateFluidHeightAndDoFluidPushing$27",
             require = 1,
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V")
     )

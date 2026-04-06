@@ -28,6 +28,7 @@ Some example usages of the API can be found in the `testmod-[platform]` director
 
 ## Tests
 Tests are located in the fabric-testmod module.
+To test fluid collisions, use F3-F6 to open the debug options UI and enable `visualize_water_levels` and `visualize_collision_boxes`.
 
 ## To Do
 ### Swimming ability

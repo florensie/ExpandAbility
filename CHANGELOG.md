@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [13.0.0] - 2026-04-06
 ### Changed
 - Update for Minecraft 1.21.11
+- Player swim events now provide Avatar instead of Player
 
 ## [12.0.0] - 2024-06-14
 ### Changed

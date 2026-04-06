@@ -81,7 +81,7 @@ curseforge {
             releaseType = "release"
             addGameVersion "1.21.11"
             addGameVersion "NeoForge"
-            mainArtifact(remapJar.archivePath) {
+            mainArtifact(remapJar.archiveFile.get()) {
                 displayName = "[Forge $rootProject.supported_versions] v$project.version"
             }
             afterEvaluate {

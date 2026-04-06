@@ -21,7 +21,14 @@ public abstract class ServerGamePacketListenerImplMixin {
 	/**
 	 * Avoids getting kicked for flying while swimming is enabled
 	 */
-	@Inject(method = "handleMovePlayer", at = @At(value = "FIELD", target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;clientIsFloating:Z", shift = At.Shift.AFTER, opcode = Opcodes.PUTFIELD))
+	@Inject(
+			method = "handleMovePlayer",
+			at = @At(value = "FIELD",
+					target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;clientIsFloating:Z",
+					shift = At.Shift.AFTER,
+					opcode = Opcodes.PUTFIELD
+			)
+	)
 	private void allowSwimFlying(CallbackInfo info) {
 		if (EventDispatcher.onPlayerSwim(this.player) == EventResult.SUCCESS) {
 			this.clientIsFloating = false;

@@ -2,10 +2,17 @@ package be.florens.expandability;
 
 import be.florens.expandability.api.EventResult;
 import net.minecraft.world.InteractionResult;
-
-import java.util.function.Supplier;
+import net.minecraft.world.entity.Avatar;
 
 public class Util {
+
+    public static boolean shouldPlayerSwim(Object entity, boolean defaultValue) {
+        if (entity instanceof Avatar player) {
+            return processEventResult(EventDispatcher.onPlayerSwim(player), defaultValue);
+        }
+
+        return defaultValue;
+    }
 
     /**
      * Resolves an {@link InteractionResult} from an event to a boolean with a default value
@@ -15,20 +22,6 @@ public class Util {
      */
     public static boolean processEventResult(EventResult result, boolean defaultValue) {
         return processEventResult(result, true, false, defaultValue);
-    }
-
-    /**
-     * Resolves an {@link InteractionResult} from an event to a boolean with a default supplier
-     * @param result the {@link InteractionResult} received from the invoked event
-     * @param defaultSupplier a boolean {@link Supplier<Boolean>} that defines the default/vanilla behaviour
-     * @return true for success, false for fail, or the boolean defined by default supplier if the event passed
-     */
-    public static boolean processEventResult(EventResult result, Supplier<Boolean> defaultSupplier) {
-        return processEventResult(result, true, false, defaultSupplier);
-    }
-
-    public static <T> T processEventResult(EventResult result, T success, T fail, Supplier<T> defaultSupplier) {
-        return processEventResult(result, success, fail, defaultSupplier.get());
     }
 
     public static <T> T processEventResult(EventResult result, T success, T fail, T defaultValue) {

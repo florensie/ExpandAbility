@@ -1,13 +1,13 @@
 package be.florens.expandability.mixin.swimming;
 
 import be.florens.expandability.EventDispatcher;
-import be.florens.expandability.api.EventResult;
 import be.florens.expandability.Util;
+import be.florens.expandability.api.EventResult;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,10 +23,13 @@ public abstract class LivingEntityMixin extends Entity {
 
 	// TODO: baseTick stopRiding
 
-	// TODO: should be fine for forge compat
-	@ModifyExpressionValue(method = "aiStep", require = 2 /* TODO: do we want to target lava check? */, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/TagKey;)D"))
+	@ModifyExpressionValue(
+			method = "aiStep",
+			require = 2, // TODO: do we want to target lava check?
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/TagKey;)D")
+	)
 	private double setFluidHeight(double original) {
-		if ((Object) this instanceof Player player) {
+		if ((Object) this instanceof Avatar player) {
 			EventResult shouldSwim = EventDispatcher.onPlayerSwim(player);
 			return Util.processEventResult(shouldSwim, 1D, 0D, original);
 		}
@@ -34,14 +37,17 @@ public abstract class LivingEntityMixin extends Entity {
 		return original;
 	}
 
-	// TODO: probably also need to do isInFluidType on forge!
-	@ModifyExpressionValue(method = {"travel", "aiStep", "checkFallDamage"}, require = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
+	@ModifyExpressionValue(
+			method = {
+					"shouldTravelInFluid",
+					"aiStep",
+					"checkFallDamage"
+			},
+			require = 3,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z")
+	)
 	private boolean setInWater(boolean original) {
-		if ((Object) this instanceof Player player) {
-			return Util.processEventResult(EventDispatcher.onPlayerSwim(player), original);
-		}
-
-		return original;
+		return Util.shouldPlayerSwim(this, original);
 	}
 
 	/**
@@ -49,8 +55,7 @@ public abstract class LivingEntityMixin extends Entity {
 	 */
 	@Inject(method = "checkFallDamage", at = @At("HEAD"))
 	private void resetFallHeight(CallbackInfo info) {
-		//noinspection ConstantConditions
-		if ((Object) this instanceof Player player && EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
+		if (Util.shouldPlayerSwim(this, false)) {
 			this.fallDistance = 0;
 		}
 	}
@@ -58,14 +63,14 @@ public abstract class LivingEntityMixin extends Entity {
 	/**
 	 * Cancel the small boost upward when leaving a fluid while against the side of a block when swimming is enabled
 	 */
-	@ModifyExpressionValue(method = "travel", allow = 2, require = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isFree(DDD)Z"))
-	private boolean cancelLeaveFluidAssist(boolean original) {
-		if ((Object) this instanceof Player player) {
-			if (EventDispatcher.onPlayerSwim(player) == EventResult.SUCCESS) {
-				return false;
-			}
+	@Inject(
+			method = "jumpOutOfFluid",
+			at = @At("HEAD"),
+			cancellable = true
+	)
+	private void cancelJumpOutOfFluid(double d, CallbackInfo ci) {
+		if (Util.shouldPlayerSwim(this, false)) {
+			ci.cancel(); // Early return intended!
 		}
-
-		return original;
 	}
 }

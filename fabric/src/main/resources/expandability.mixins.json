@@ -3,7 +3,8 @@
   "package": "be.florens.expandability.mixin.fabric",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "swimming.EntityMixin"
+    "swimming.EntityMixin",
+    "swimming.LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

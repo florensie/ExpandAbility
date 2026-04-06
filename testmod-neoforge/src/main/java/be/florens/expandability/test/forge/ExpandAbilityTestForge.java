@@ -5,7 +5,6 @@ import be.florens.expandability.api.forge.LivingFluidCollisionEvent;
 import be.florens.expandability.api.forge.PlayerSwimEvent;
 import be.florens.expandability.test.ExpandAbilityTest;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -22,11 +21,11 @@ public class ExpandAbilityTestForge {
 
 	@SubscribeEvent
 	public void onPlayerSwim(PlayerSwimEvent event) {
-		Item heldItem = event.getEntity().getMainHandItem().getItem();
-		EventResult result = heldItem == Items.DEBUG_STICK ? EventResult.SUCCESS
-				: heldItem == Items.BARRIER ? EventResult.FAIL
-				: EventResult.PASS;
-		event.setResult(result);
+		if (event.getEntity().isHolding(Items.BARRIER)) {
+			event.setResult(EventResult.FAIL);
+		} else if (event.getEntity().isHolding(Items.DEBUG_STICK)) {
+			event.setResult(EventResult.SUCCESS);
+		}
 	}
 
 	@SubscribeEvent

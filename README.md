@@ -27,7 +27,12 @@ If you're using ForgeGradle you might also need this to fix Mixin's broken refma
 Some example usages of the API can be found in the `testmod-[platform]` directories of this repository.
 
 ## Tests
+There is a test mod for both Fabric and Neoforge with respective run configurations.
+The Fabric test mod also comes with some automated tests.
+They can be run with `./gradlew runGametest`, or in-game using
+
 Tests are located in the fabric-testmod module.
+To test fluid collisions, use F3-F6 to open the debug options UI and enable `visualize_water_levels` and `visualize_collision_boxes`.
 
 ## To Do
 ### Swimming ability

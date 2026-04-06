@@ -9,6 +9,6 @@ public class ExpandAbilityTest {
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
 	public static void init() {
-		LOGGER.info("ExpandAbility testmod initializing");
+		LOGGER.info("ExpandAbility test mod initializing");
 	}
 }

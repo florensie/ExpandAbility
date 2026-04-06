@@ -21,7 +21,6 @@ public abstract class BlockStateBaseMixin {
 
     @Shadow public abstract FluidState getFluidState();
 
-    @SuppressWarnings("UnreachableCode")
     @ModifyReturnValue(method = "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
             at = @At("RETURN"))
     private VoxelShape addFluidCollision(VoxelShape originalShape, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
@@ -37,9 +36,10 @@ public abstract class BlockStateBaseMixin {
         double stepHeight = entity.getAttributeValue(Attributes.STEP_HEIGHT);
         VoxelShape fluidShape = Shapes.box(0.0, 0.0, 0.0, 1.0, fluidState.getHeight(blockGetter, blockPos), 1.0); // fluidState.getShape() is b u g g e d
 
-        if (collisionContext.isAbove(fluidShape.move(0, -stepHeight, 0), blockPos, false)
-                && EventDispatcher.onLivingFluidCollision(entity, fluidState)) {
-            return Shapes.or(fluidShape, originalShape);
+        if (collisionContext.isAbove(fluidShape.move(0, -stepHeight, 0), blockPos, false)) {
+            if (EventDispatcher.onLivingFluidCollision(entity, fluidState)) {
+                return Shapes.or(fluidShape, originalShape);
+            }
         }
 
         return originalShape;

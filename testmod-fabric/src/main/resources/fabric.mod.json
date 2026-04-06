@@ -21,7 +21,6 @@
     ]
   },
   "mixins": [
-    "expandability-testmod.mixins.json",
     "expandability-testmod-common.mixins.json"
   ],
   "depends": {

@@ -11,10 +11,10 @@ import net.minecraft.world.entity.npc.villager.Villager;
 @SuppressWarnings("unused")
 public class FluidCollisionTest {
 
-    private static final BlockPos ABOVE_POOL = new BlockPos(0, 5, 0);
-    private static final BlockPos POOL_WATER_POS = new BlockPos(0, 2, 0);
-    private static final BlockPos STAIRCASE_BOTTOM = new BlockPos(10, 2, 1);
-    private static final BlockPos STAIRCASE_TOP = new BlockPos(1, 3, 1);
+    private static final BlockPos ABOVE_POOL = new BlockPos(0, 4, 0);
+    private static final BlockPos POOL_WATER_POS = new BlockPos(0, 1, 0);
+    private static final BlockPos STAIRCASE_BOTTOM = new BlockPos(10, 1, 1);
+    private static final BlockPos STAIRCASE_TOP = new BlockPos(1, 2, 1);
     private static final int STAIRCASE_TIMEOUT = 2 * 20;
 
     @GameTest(structure = "expandability:pool")
@@ -48,7 +48,7 @@ public class FluidCollisionTest {
                 .thenSucceed();
     }
 
-    @GameTest(structure = "expandability:staircase")
+    @GameTest(structure = "expandability:staircase", maxTicks = 100)
     public void walkDownWaterStaircase_noCollisionEvent_doesNotReachBottom(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, STAIRCASE_TOP);
         helper.walkTo(villager, STAIRCASE_BOTTOM, 1.0f)
@@ -56,7 +56,7 @@ public class FluidCollisionTest {
                 .thenSucceed();
     }
 
-    @GameTest(structure = "expandability:staircase")
+    @GameTest(structure = "expandability:staircase", maxTicks = 100)
     public void walkDownWaterStaircase_withCollisionEvent_reachesBottom(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, STAIRCASE_TOP);
         LivingFluidCollisionCallback.EVENT.register((entity, fluidState) -> entity.equals(villager));
@@ -65,7 +65,7 @@ public class FluidCollisionTest {
                 .thenSucceed();
     }
 
-    @GameTest(structure = "expandability:staircase")
+    @GameTest(structure = "expandability:staircase", maxTicks = 100)
     public void walkUpWaterStaircase_noCollisionEvent_doesNotReachTop(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, STAIRCASE_BOTTOM);
         helper.walkTo(villager, STAIRCASE_TOP, 1.0f)
@@ -73,7 +73,7 @@ public class FluidCollisionTest {
                 .thenSucceed();
     }
 
-    @GameTest(structure = "expandability:staircase")
+    @GameTest(structure = "expandability:staircase", maxTicks = 100)
     public void walkUpWaterStaircase_withCollisionEvent_reachesTop(GameTestHelper helper) {
         Villager villager = helper.spawnWithNoFreeWill(EntityType.VILLAGER, STAIRCASE_BOTTOM);
         LivingFluidCollisionCallback.EVENT.register((entity, fluidState) -> entity.equals(villager));

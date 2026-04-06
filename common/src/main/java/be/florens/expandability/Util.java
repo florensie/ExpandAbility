@@ -2,12 +2,12 @@ package be.florens.expandability;
 
 import be.florens.expandability.api.EventResult;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.Avatar;
 
 public class Util {
 
     public static boolean shouldPlayerSwim(Object entity, boolean defaultValue) {
-        if (entity instanceof Player player) {
+        if (entity instanceof Avatar player) {
             return processEventResult(EventDispatcher.onPlayerSwim(player), defaultValue);
         }
 

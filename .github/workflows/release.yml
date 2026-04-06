@@ -14,9 +14,7 @@ jobs:
         with:
           java-version: 21
       - name: Run gradle build & publish
-        uses: eskatos/gradle-command-action@v1
-        with:
-          arguments: publish curseforgePublish --stacktrace
+        run: ./gradlew publish curseforgePublish --stacktrace
         env:
           MAVEN_PASS: ${{ secrets.MAVEN_PASS }}
           CURSE_API_KEY: ${{ secrets.CURSE_API_KEY }}

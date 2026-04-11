@@ -46,7 +46,6 @@ shadowJar {
     archiveClassifier = 'dev-shadow'
 }
 
-// TODO https://gist.github.com/shedaniel/18d4eebf940e9c3296e87d994ebb2838
 publishing {
     publications {
         mavenFabric(MavenPublication) {

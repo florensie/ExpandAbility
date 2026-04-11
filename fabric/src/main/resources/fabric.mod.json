@@ -23,8 +23,8 @@
     "expandability-common.mixins.json"
   ],
   "depends": {
-    "fabric": "*",
-    "minecraft": ">=1.21.11"
+    "fabric-api": "*",
+    "minecraft": "~26.1"
   },
   "custom": {
     "modmenu": {

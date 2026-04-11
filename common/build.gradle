@@ -8,6 +8,7 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 }
 
+// TODO: fix publishing maybe https://gist.github.com/shedaniel/18d4eebf940e9c3296e87d994ebb2838
 publishing {
     publications {
         mavenCommon(MavenPublication) {

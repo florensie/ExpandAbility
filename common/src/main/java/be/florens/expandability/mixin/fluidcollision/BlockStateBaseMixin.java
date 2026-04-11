@@ -23,18 +23,18 @@ public abstract class BlockStateBaseMixin {
 
     @ModifyReturnValue(method = "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
             at = @At("RETURN"))
-    private VoxelShape addFluidCollision(VoxelShape originalShape, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
+    private VoxelShape addFluidCollision(VoxelShape originalShape, BlockGetter level, BlockPos pos, CollisionContext context) {
         FluidState fluidState = this.getFluidState();
 
-        if (!(collisionContext instanceof EntityCollisionContext entityCollisionContext)
+        if (!(context instanceof EntityCollisionContext entityCollisionContext)
                 || !(entityCollisionContext.getEntity() instanceof LivingEntity entity)
                 || fluidState.isEmpty()
-                || !blockGetter.getFluidState(blockPos.above()).isEmpty()) { // only collide on surface fluid blocks
+                || !level.getFluidState(pos.above()).isEmpty()) { // only collide on surface fluid blocks
             return originalShape;
         }
 
         double stepHeight = entity.getAttributeValue(Attributes.STEP_HEIGHT);
-        float fluidHeight = fluidState.getHeight(blockGetter, blockPos);
+        float fluidHeight = fluidState.getHeight(level, pos);
         /* TODO (26.1+): check if this is still needed
          *
          * Add a small offset to the fluid height (while staying within the block's bounding box)
@@ -50,7 +50,7 @@ public abstract class BlockStateBaseMixin {
         // same as fluidState.getShape(), except for the small offset
         VoxelShape fluidShape = Shapes.box(0.0, 0.0, 0.0, 1.0, fluidHeight, 1.0);
 
-        if (collisionContext.isAbove(fluidShape.move(0, -stepHeight, 0), blockPos, false)) {
+        if (context.isAbove(fluidShape.move(0, -stepHeight, 0), pos, false)) {
             if (EventDispatcher.onLivingFluidCollision(entity, fluidState)) {
                 return Shapes.or(fluidShape, originalShape);
             }

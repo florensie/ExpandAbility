@@ -13,7 +13,7 @@ public abstract class FallLocationMixin {
     // TODO: set mixin.debug.countInjections to true in runs using build.gradle (expect = 1)
     // Require 0 because this is extremely unimportant, mixin is allowed to fail
     @ModifyExpressionValue(method = "getCurrentFallLocation", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z"))
-    private static boolean setInWater(boolean original, LivingEntity entity) {
-        return Util.shouldPlayerSwim(entity, original);
+    private static boolean setInWater(boolean original, LivingEntity mob) {
+        return Util.shouldPlayerSwim(mob, original);
     }
 }

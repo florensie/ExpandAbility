@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class BubbleColumnBlockMixin {
 
     @Inject(method = "entityInside", at = @At("HEAD"), cancellable = true)
-    private void cancelBubbleColumnDrag(BlockState blockState, Level level, BlockPos blockPos, Entity entity, InsideBlockEffectApplier insideBlockEffectApplier, boolean someBool, CallbackInfo info) {
+    private void cancelBubbleColumnDrag(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean isPrecise, CallbackInfo info) {
         if (!Util.shouldPlayerSwim(entity, true)) {
             info.cancel();
         }

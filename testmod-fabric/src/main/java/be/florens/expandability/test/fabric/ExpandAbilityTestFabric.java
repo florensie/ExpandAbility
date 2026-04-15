@@ -36,6 +36,8 @@ public class ExpandAbilityTestFabric implements ModInitializer {
         });
 
         LivingFluidCollisionCallback.EVENT.register((entity, fluidState)
-                -> entity.isHolding(Items.WATER_BUCKET) && fluidState.is(FluidTags.WATER));
+                -> entity.isHolding(Items.WATER_BUCKET) && fluidState.is(FluidTags.WATER)
+                || entity.isHolding(Items.LAVA_BUCKET) && fluidState.is(FluidTags.LAVA)
+        );
     }
 }

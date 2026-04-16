@@ -34,7 +34,21 @@ public abstract class BlockStateBaseMixin {
         }
 
         double stepHeight = entity.getAttributeValue(Attributes.STEP_HEIGHT);
-        VoxelShape fluidShape = Shapes.box(0.0, 0.0, 0.0, 1.0, fluidState.getHeight(blockGetter, blockPos), 1.0); // fluidState.getShape() is b u g g e d
+        float fluidHeight = fluidState.getHeight(blockGetter, blockPos);
+        /* TODO (26.1+): check if this is still needed
+         *
+         * Add a small offset to the fluid height (while staying within the block's bounding box)
+         *
+         * Entity.checkInsideBlocks() erroneously collides with a block's fluid state when standing on it at/below y=63.
+         * Could be related to getFluidHeight returning level/9, which can't be expressed exactly as a float.
+         * Entity.fluidHeight (which isInWater/Lava use) are calculated elsewhere and seem to be unaffected.
+         *
+         * This wasn't an issue in 1.21.1 (although there used to be a comment here about fluidState.getShape
+         * being bugged, could have been two bugs cancelling each other out)
+         */
+        fluidHeight = Math.min(1, fluidHeight + 0.00005F);
+        // same as fluidState.getShape(), except for the small offset
+        VoxelShape fluidShape = Shapes.box(0.0, 0.0, 0.0, 1.0, fluidHeight, 1.0);
 
         if (collisionContext.isAbove(fluidShape.move(0, -stepHeight, 0), blockPos, false)) {
             if (EventDispatcher.onLivingFluidCollision(entity, fluidState)) {

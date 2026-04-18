@@ -68,7 +68,7 @@ public abstract class LivingEntityMixin extends Entity {
 			at = @At("HEAD"),
 			cancellable = true
 	)
-	private void cancelJumpOutOfFluid(double d, CallbackInfo ci) {
+	private void cancelJumpOutOfFluid(double oldY, CallbackInfo ci) {
 		if (Util.shouldPlayerSwim(this, false)) {
 			ci.cancel(); // Early return intended!
 		}

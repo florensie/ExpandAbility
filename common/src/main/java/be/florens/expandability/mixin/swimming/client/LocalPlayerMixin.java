@@ -1,5 +1,6 @@
 package be.florens.expandability.mixin.swimming.client;
 
+import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.Util;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.player.LocalPlayer;
@@ -26,4 +27,14 @@ public abstract class LocalPlayerMixin {
 	private boolean setUnderWater(boolean original) {
 		return Util.shouldPlayerSwim(this, original);
 	}
+
+	@ModifyExpressionValue(
+			method = "isSprintingPossible",
+			require = 1,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isInShallowWater()Z")
+	)
+	private boolean setInShallowWater(boolean original) {
+		LocalPlayer self = ((LocalPlayer) (Object) this);
+		return Util.processEventResult(EventDispatcher.onPlayerSwim(self), false, false, original);
+    }
 }

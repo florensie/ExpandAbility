@@ -32,7 +32,7 @@ repositories {
 dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
-    implementation project(path: ":neoforge", configuration: "namedElements")
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    common(project(path: ":testmod-common", configuration: "namedElements")) { transitive false }
+    implementation project(path: ":neoforge")
+    common(project(path: ":common")) { transitive false }
+    common(project(path: ":testmod-common")) { transitive false }
 }

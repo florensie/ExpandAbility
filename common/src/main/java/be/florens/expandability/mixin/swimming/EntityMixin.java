@@ -31,6 +31,24 @@ public abstract class EntityMixin {
 		return Util.shouldPlayerSwim(this, original);
 	}
 
+	@ModifyExpressionValue(
+			method = "updateSwimming",
+			require = 1,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isUnderWater()Z")
+	)
+	private boolean setUnderWater(boolean original) {
+		return Util.shouldPlayerSwim(this, original);
+	}
+
+	@ModifyExpressionValue(
+			method = "updateSwimming",
+			require = 1,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z")
+	)
+	private boolean setInFluidState(boolean original) {
+		return Util.shouldPlayerSwim(this, original);
+	}
+
 	@WrapWithCondition(
 			method = "baseTick",
 			require = 1,
@@ -60,7 +78,7 @@ public abstract class EntityMixin {
 	 * Take fall damage when in water with water physics disabled
 	 */
 	@WrapWithCondition(
-			method = "move",
+			method = {"move", "updateFluidInteraction"},
 			require = 1,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V")
 	)
@@ -73,11 +91,10 @@ public abstract class EntityMixin {
 	 * matters because honey and soul sand aren't full blocks. There is a block in the fabric test mod to test this
 	 * behaviour.
 	 */
-	// TODO: do we also need to change bubble column check here?
 	@ModifyExpressionValue(
 			method = "getBlockSpeedFactor",
-			require = 1,
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z")
+			require = 2,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z")
 	)
 	private boolean fixBlockSpeedFactor(boolean original) {
 		if ((Object) this instanceof Avatar player) {
@@ -89,5 +106,14 @@ public abstract class EntityMixin {
 		}
 
 		return original; // Vanilla behaviour
+	}
+
+	@ModifyExpressionValue(
+			method = "updateFluidInteraction",
+			require = 2,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isPushedByFluid()Z")
+	)
+	private boolean isPushedByFluid(boolean original) {
+		return Util.shouldPlayerSwim(this, original);
 	}
 }

@@ -1,5 +1,5 @@
 architectury {
-    common(rootProject.enabled_platforms.split(","))
+    common("neoforge", "fabric")
 }
 
 dependencies {
@@ -8,22 +8,11 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 }
 
-// TODO: fix publishing maybe https://gist.github.com/shedaniel/18d4eebf940e9c3296e87d994ebb2838
 publishing {
     publications {
         mavenCommon(MavenPublication) {
             artifactId = rootProject.archives_name
             from components.java
-        }
-    }
-
-    repositories {
-        maven {
-            url = "https://maven.florens.be/releases"
-            credentials {
-                username = "florens"
-                password = System.getenv("MAVEN_PASS")
-            }
         }
     }
 }

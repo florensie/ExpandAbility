@@ -1,9 +1,26 @@
+import org.jetbrains.changelog.Changelog
+
 plugins {
     id "architectury-plugin" version "3.5-SNAPSHOT"
     id "dev.architectury.loom-no-remap" version "1.14-SNAPSHOT" apply false
-    id "com.matthewprenger.cursegradle" version "1.4.0" apply false
     id 'com.gradleup.shadow' version '8.3.6' apply false
+    id "me.modmuss50.mod-publish-plugin" version "1.1.0"
+    id "org.jetbrains.changelog" version "2.5.0"
     id "maven-publish"
+}
+
+changelog {
+    version = project.version.toString()
+    path = file("CHANGELOG.md").canonicalPath
+}
+
+def renderedCurrentChangelog = providers.provider {
+    changelog.renderItem(
+        changelog.get(project.version.toString())
+            .withEmptySections(false)
+            .withLinks(false),
+        Changelog.OutputType.MARKDOWN
+    ).trim()
 }
 
 architectury {
@@ -18,6 +35,7 @@ allprojects {
 subprojects {
     apply plugin: "dev.architectury.loom-no-remap"
     apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
 
     base {
         archivesName = "$rootProject.archives_name-$project.name"
@@ -51,6 +69,67 @@ subprojects {
         it.options.release = 25
     }
 
+    publishing {
+        repositories {
+            maven {
+                url = "https://maven.florens.be/releases"
+                credentials {
+                    username = "florens"
+                    password = System.getenv("MAVEN_PASS")
+                }
+            }
+        }
+    }
 }
 
-tasks.register('curseforgePublish')
+publishMods {
+    def releaseMinecraftVersions = rootProject.supported_versions.split(",")
+    changelog = renderedCurrentChangelog
+    type = STABLE
+
+    def curseforgeOptions = curseforgeOptions {
+        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+        projectId = rootProject.curse_project.toString()
+        releaseMinecraftVersions.each { minecraftVersions.add(it) }
+    }
+
+    def modrinthOptions = modrinthOptions {
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        projectId = rootProject.modrinth_project
+        releaseMinecraftVersions.each { minecraftVersions.add(it) }
+    }
+
+    def configureFabricPublication = { publication ->
+        publication.file project(":fabric")
+        publication.displayName = "[Fabric ${rootProject.supported_versions}] v${project.version}"
+        publication.modLoaders.add("fabric")
+        publication.modLoaders.add("quilt")
+        publication.requires("fabric-api")
+    }
+
+    def configureNeoForgePublication = { publication ->
+        publication.file project(":neoforge")
+        publication.displayName = "[NeoForge ${rootProject.supported_versions}] v${project.version}"
+        publication.modLoaders.add("neoforge")
+    }
+
+    curseforge("curseforgeFabric") {
+        from curseforgeOptions
+        configureFabricPublication(delegate)
+    }
+
+    modrinth("modrinthFabric") {
+        from modrinthOptions
+        configureFabricPublication(delegate)
+    }
+
+    curseforge("curseforgeNeoForge") {
+        from curseforgeOptions
+        configureNeoForgePublication(delegate)
+    }
+
+    modrinth("modrinthNeoForge") {
+        from modrinthOptions
+        configureNeoForgePublication(delegate)
+    }
+}

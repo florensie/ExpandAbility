@@ -1,6 +1,5 @@
 plugins {
     id 'com.gradleup.shadow'
-    id "com.matthewprenger.cursegradle"
 }
 
 architectury {
@@ -41,9 +40,27 @@ processResources {
     }
 }
 
+jar {
+    archiveClassifier = "raw"
+}
+
 shadowJar {
+    dependsOn jar
+    mainSpec.sourcePaths.clear()
+    from(zipTree(jar.archiveFile))
     configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
+    archiveClassifier = null
+}
+
+configurations {
+    apiElements {
+        outgoing.artifacts.clear()
+        outgoing.artifact(shadowJar)
+    }
+    runtimeElements {
+        outgoing.artifacts.clear()
+        outgoing.artifact(shadowJar)
+    }
 }
 
 publishing {
@@ -53,43 +70,4 @@ publishing {
             from components.java
         }
     }
-
-    repositories {
-        maven {
-            url = "https://maven.florens.be/releases"
-            credentials {
-                username = "florens"
-                password = System.getenv("MAVEN_PASS")
-            }
-        }
-    }
 }
-
-curseforge {
-    if (System.getenv("CURSE_API_KEY") != null) {
-        apiKey = System.getenv("CURSE_API_KEY")
-
-        project {
-            id = project.curse_project
-            releaseType = "release"
-            addGameVersion "1.21.11"
-            addGameVersion "Fabric"
-            addGameVersion "Quilt"
-            mainArtifact(shadowJar.archiveFile.get()) {
-                displayName = "[Fabric $rootProject.supported_versions] v$project.version"
-                relations {
-                    requiredDependency "fabric-api"
-                }
-            }
-            afterEvaluate {
-                uploadTask.dependsOn("build")
-            }
-        }
-    }
-    options {
-        forgeGradleIntegration = false
-        javaVersionAutoDetect = false
-    }
-}
-
-rootProject.tasks.getByName("curseforgePublish").dependsOn tasks.getByName("curseforge")

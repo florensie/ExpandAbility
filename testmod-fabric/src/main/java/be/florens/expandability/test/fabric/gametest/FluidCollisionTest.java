@@ -4,10 +4,10 @@ import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.villager.Villager;
 
-// TODO fix staircase tests
 @SuppressWarnings("unused")
 public class FluidCollisionTest {
 
@@ -44,7 +44,7 @@ public class FluidCollisionTest {
         LivingFluidCollisionCallback.EVENT.register((entity, fluidState) -> entity.equals(villager));
 
         helper.startSequence()
-                .thenExecuteAfter(20, () -> helper.assertTrue(villager.isDeadOrDying(), "Expected villager to be dead"))
+                .thenExecuteAfter(20, () -> TestUtil.assertEntityDied(villager, DamageTypes.FALL))
                 .thenSucceed();
     }
 

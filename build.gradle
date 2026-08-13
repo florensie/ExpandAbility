@@ -2,9 +2,9 @@ import org.jetbrains.changelog.Changelog
 
 plugins {
     id "architectury-plugin" version "3.5-SNAPSHOT"
-    id "dev.architectury.loom-no-remap" version "1.14-SNAPSHOT" apply false
-    id 'com.gradleup.shadow' version '8.3.6' apply false
-    id "me.modmuss50.mod-publish-plugin" version "1.1.0"
+    id "dev.architectury.loom-no-remap" version "1.17-SNAPSHOT" apply false
+    id 'com.gradleup.shadow' version '9.6.1' apply false
+    id "me.modmuss50.mod-publish-plugin" version "2.1.1"
     id "org.jetbrains.changelog" version "2.5.0"
     id "maven-publish"
 }
@@ -100,7 +100,7 @@ publishMods {
     }
 
     def configureFabricPublication = { publication ->
-        publication.file project(":fabric")
+        publication.file = providers.provider { project(":fabric").tasks.named("shadowJar").get() }.flatMap { it.archiveFile }
         publication.displayName = "[Fabric ${rootProject.supported_versions}] v${project.version}"
         publication.modLoaders.add("fabric")
         publication.modLoaders.add("quilt")
@@ -108,7 +108,7 @@ publishMods {
     }
 
     def configureNeoForgePublication = { publication ->
-        publication.file project(":neoforge")
+        publication.file = providers.provider { project(":neoforge").tasks.named("shadowJar").get() }.flatMap { it.archiveFile }
         publication.displayName = "[NeoForge ${rootProject.supported_versions}] v${project.version}"
         publication.modLoaders.add("neoforge")
     }

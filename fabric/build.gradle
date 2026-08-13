@@ -52,22 +52,14 @@ shadowJar {
     archiveClassifier = null
 }
 
-configurations {
-    apiElements {
-        outgoing.artifacts.clear()
-        outgoing.artifact(shadowJar)
-    }
-    runtimeElements {
-        outgoing.artifacts.clear()
-        outgoing.artifact(shadowJar)
-    }
-}
+shadow.addShadowVariantIntoJavaComponent = false
 
 publishing {
     publications {
         mavenFabric(MavenPublication) {
             artifactId = rootProject.archives_name + "-" + project.name
             from components.java
+            artifact(shadowJar)
         }
     }
 }

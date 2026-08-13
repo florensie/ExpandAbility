@@ -1,7 +1,3 @@
-plugins {
-    id 'com.gradleup.shadow'
-}
-
 loom {
     mods {
         neoForge {
@@ -32,7 +28,7 @@ repositories {
 dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
-    implementation project(path: ":neoforge")
+    implementation(project(path: ":neoforge")) { transitive false }
     common(project(path: ":common")) { transitive false }
     common(project(path: ":testmod-common")) { transitive false }
 }

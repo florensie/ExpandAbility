@@ -78,8 +78,11 @@ public abstract class EntityMixin {
 	 * Take fall damage when in water with water physics disabled
 	 */
 	@WrapWithCondition(
-			method = {"move", "updateFluidInteraction"},
-			require = 1,
+			method = {
+					"move",
+					"updateFluidInteraction"
+			},
+			require = 2,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V")
 	)
 	private boolean shouldResetFallDistance(Entity entity) {

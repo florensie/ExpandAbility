@@ -7,9 +7,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.Mannequin;
-import net.minecraft.world.level.block.Blocks;
 
 @SuppressWarnings("unused")
 public class SwimmingTest {
@@ -63,7 +63,7 @@ public class SwimmingTest {
         helper.withLowHealth(mannequin);
 
         helper.startSequence()
-                .thenExecuteAfter(20, () -> assertMannequinInstanceDead(mannequin))
+                .thenExecuteAfter(20, () -> TestUtil.assertEntityDied(mannequin, DamageTypes.FALL))
                 .thenSucceed();
     }
 
@@ -88,22 +88,22 @@ public class SwimmingTest {
         PlayerSwimCallback.EVENT.register(p -> p.equals(mannequin) ? EventResult.FAIL : EventResult.PASS);
 
         helper.startSequence()
-                .thenExecuteAfter(20, () -> assertMannequinInstanceDead(mannequin))
+                .thenExecuteAfter(20, () -> TestUtil.assertEntityDied(mannequin, DamageTypes.FALL))
                 .thenSucceed();
     }
 
-    @GameTest(structure = "expandability:pool", maxTicks = 100)
+    @GameTest(structure = "expandability:deep_pool", maxTicks = 100)
     public void fallInWater_withFluidPhysicsDisabled_playerKilled(GameTestHelper helper) {
         Mannequin mannequin = helper.spawn(EntityType.MANNEQUIN, FALLING_TOP_POS);
         helper.withLowHealth(mannequin);
         PlayerSwimCallback.EVENT.register(p -> p.equals(mannequin) ? EventResult.FAIL : EventResult.PASS);
 
         helper.startSequence()
-                .thenExecuteAfter(20, () -> assertMannequinInstanceDead(mannequin))
+                .thenExecuteAfter(20, () -> TestUtil.assertEntityDied(mannequin, DamageTypes.FALL))
                 .thenSucceed();
     }
 
-    @GameTest(structure = "expandability:pool", maxTicks = 100)
+    @GameTest(structure = "expandability:deep_pool", maxTicks = 100)
     public void fallInWater_withFluidPhysicsDefault_playerLandsInWater(GameTestHelper helper) {
         PlayerSwimCallback.EVENT.register(p -> EventResult.PASS); // same as not registering at all
         Mannequin mannequin = helper.spawn(EntityType.MANNEQUIN, FALLING_TOP_POS);
@@ -114,22 +114,15 @@ public class SwimmingTest {
                 .thenSucceed();
     }
 
-    @GameTest(structure = "expandability:pool", maxTicks = 100)
+    @GameTest(structure = "expandability:deep_pool", maxTicks = 100)
     public void standInDeepWater_withFluidPhysicsDisabled_playerDrowns(GameTestHelper helper) {
-        helper.setBlock(FALLING_BOTTOM_POS.above(), Blocks.WATER); // make pool two deep
         Mannequin mannequin = helper.spawn(EntityType.MANNEQUIN, FALLING_TOP_POS);
         helper.makeAboutToDrown(mannequin);
         PlayerSwimCallback.EVENT.register(p -> p.equals(mannequin) ? EventResult.FAIL : EventResult.PASS);
 
         helper.startSequence()
-                .thenExecuteAfter(20 * 2, () ->  assertMannequinInstanceDead(mannequin))
+                .thenExecuteAfter(20 * 2, () ->  TestUtil.assertEntityDied(mannequin, DamageTypes.DROWN))
                 .thenSucceed();
-    }
-
-    private static void assertMannequinInstanceDead(Mannequin mannequin) {
-        if (mannequin.isAlive()) {
-            throw new GameTestAssertException(Component.literal("Expected mannequin to be dead"), 0);
-        }
     }
 
     private static void assertMannequinInstanceAlive(Mannequin mannequin) {

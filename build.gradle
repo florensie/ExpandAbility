@@ -91,12 +91,15 @@ publishMods {
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
         projectId = rootProject.curse_project.toString()
         releaseMinecraftVersions.each { minecraftVersions.add(it) }
+        client = true
+        server = true
     }
 
     def modrinthOptions = modrinthOptions {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         projectId = rootProject.modrinth_project
         releaseMinecraftVersions.each { minecraftVersions.add(it) }
+        environment = CLIENT_AND_SERVER
     }
 
     def configureFabricPublication = { publication ->

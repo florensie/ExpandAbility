@@ -21,11 +21,9 @@ public abstract class LivingEntityMixin extends Entity {
 		super(entityType, level);
 	}
 
-	// TODO: baseTick stopRiding
-
 	@ModifyExpressionValue(
 			method = "aiStep",
-			require = 2, // TODO: do we want to target lava check?
+			require = 2,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/TagKey;)D")
 	)
 	private double setFluidHeight(double original) {

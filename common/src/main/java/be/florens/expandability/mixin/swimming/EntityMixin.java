@@ -31,6 +31,15 @@ public abstract class EntityMixin {
 		return Util.shouldPlayerSwim(this, original);
 	}
 
+	@ModifyExpressionValue(
+			method = "canSpawnSprintParticle",
+			require = 1,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInLava()Z")
+	)
+	private boolean setInLava(boolean original) {
+		return Util.shouldPlayerSwim(this, original);
+	}
+
 	@WrapWithCondition(
 			method = "baseTick",
 			require = 1,

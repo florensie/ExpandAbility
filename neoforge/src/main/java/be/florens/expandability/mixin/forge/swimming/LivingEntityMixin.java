@@ -10,6 +10,8 @@ import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.InFluidPredicate;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,6 +34,32 @@ public abstract class LivingEntityMixin {
         }
 
         return original;
+    }
+
+    @ModifyExpressionValue(
+            method = "aiStep",
+            require = 1,
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityFluidInteraction;getMaxHeightFluidType()Lnet/neoforged/neoforge/fluids/FluidType;")
+    )
+    private FluidType setMaxHeightFluidType(FluidType original) {
+        if ((Object) this instanceof Avatar player) {
+            EventResult shouldSwim = EventDispatcher.onPlayerSwim(player);
+            return Util.processEventResult(shouldSwim, NeoForgeMod.WATER_TYPE.value(), NeoForgeMod.EMPTY_TYPE.value(), original);
+        }
+
+        return original;
+    }
+
+    /**
+     * See also: common module mixins targeting the isInWater/isInLava checks in the same method
+     */
+    @ModifyExpressionValue(
+            method = "shouldTravelInFluid",
+            require = 1,
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInFluidType(Lnet/minecraft/world/level/material/FluidState;)Z")
+    )
+    private boolean setInFluidType(boolean original) {
+        return Util.shouldPlayerSwim(this, original);
     }
 
     /**

@@ -21,7 +21,7 @@ config = 'expandability.mixins.json'
 [[dependencies.expandability]]
 modId = "neoforge"
 type = "required"
-versionRange = "*"
+versionRange = "[26.1.2.95,)"
 ordering = "NONE"
 side = "BOTH"
 

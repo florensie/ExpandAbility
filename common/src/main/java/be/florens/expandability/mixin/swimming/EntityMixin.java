@@ -31,24 +31,6 @@ public abstract class EntityMixin {
 		return Util.shouldPlayerSwim(this, original);
 	}
 
-	@ModifyExpressionValue(
-			method = "updateSwimming",
-			require = 1,
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isUnderWater()Z")
-	)
-	private boolean setUnderWater(boolean original) {
-		return Util.shouldPlayerSwim(this, original);
-	}
-
-	@ModifyExpressionValue(
-			method = "updateSwimming",
-			require = 1,
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z")
-	)
-	private boolean setInFluidState(boolean original) {
-		return Util.shouldPlayerSwim(this, original);
-	}
-
 	@WrapWithCondition(
 			method = "baseTick",
 			require = 1,

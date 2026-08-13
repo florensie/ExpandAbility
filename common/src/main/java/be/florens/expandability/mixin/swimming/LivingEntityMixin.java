@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+// TODO: Some isInLava checks are not yet handled
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
 
@@ -38,10 +39,11 @@ public abstract class LivingEntityMixin extends Entity {
 	@ModifyExpressionValue(
 			method = {
 					"shouldTravelInFluid",
+					"travelInFluid",
 					"aiStep",
 					"checkFallDamage"
 			},
-			require = 3,
+			require = 4,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z")
 	)
 	private boolean setInWater(boolean original) {

@@ -21,11 +21,9 @@ public abstract class LivingEntityMixin extends Entity {
 		super(entityType, level);
 	}
 
-	// TODO: baseTick stopRiding
-
 	@ModifyExpressionValue(
 			method = "aiStep",
-			require = 2, // TODO: do we want to target lava check?
+			require = 2,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidHeight(Lnet/minecraft/tags/TagKey;)D")
 	)
 	private double setFluidHeight(double original) {
@@ -40,13 +38,26 @@ public abstract class LivingEntityMixin extends Entity {
 	@ModifyExpressionValue(
 			method = {
 					"shouldTravelInFluid",
+					"travelInFluid",
 					"aiStep",
 					"checkFallDamage"
 			},
-			require = 3,
+			require = 4,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z")
 	)
 	private boolean setInWater(boolean original) {
+		return Util.shouldPlayerSwim(this, original);
+	}
+
+	@ModifyExpressionValue(
+			method = {
+					"shouldTravelInFluid",
+					"aiStep"
+			},
+			require = 3,
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInLava()Z")
+	)
+	private boolean setInLava(boolean original) {
 		return Util.shouldPlayerSwim(this, original);
 	}
 

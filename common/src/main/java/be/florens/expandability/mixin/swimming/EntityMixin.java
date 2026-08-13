@@ -32,20 +32,11 @@ public abstract class EntityMixin {
 	}
 
 	@ModifyExpressionValue(
-			method = "updateSwimming",
+			method = "canSpawnSprintParticle",
 			require = 1,
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isUnderWater()Z")
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInLava()Z")
 	)
-	private boolean setUnderWater(boolean original) {
-		return Util.shouldPlayerSwim(this, original);
-	}
-
-	@ModifyExpressionValue(
-			method = "updateSwimming",
-			require = 1,
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z")
-	)
-	private boolean setInFluidState(boolean original) {
+	private boolean setInLava(boolean original) {
 		return Util.shouldPlayerSwim(this, original);
 	}
 
@@ -78,8 +69,11 @@ public abstract class EntityMixin {
 	 * Take fall damage when in water with water physics disabled
 	 */
 	@WrapWithCondition(
-			method = {"move", "updateFluidInteraction"},
-			require = 1,
+			method = {
+					"move",
+					"updateFluidInteraction"
+			},
+			require = 2,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;resetFallDistance()V")
 	)
 	private boolean shouldResetFallDistance(Entity entity) {

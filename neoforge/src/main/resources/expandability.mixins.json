@@ -3,9 +3,12 @@
   "package": "be.florens.expandability.mixin.forge",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "swimming.EntityMixin",
     "swimming.LivingEntityMixin"
   ],
   "client": [
+    "swimming.client.LivingEntityRendererMixin",
+    "swimming.client.LocalPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

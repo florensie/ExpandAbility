@@ -2,6 +2,7 @@
   "required": true,
   "package": "be.florens.expandability.mixin.forge",
   "compatibilityLevel": "JAVA_17",
+  "refmap": "expandability.refmap.json",
   "mixins": [
     "swimming.EntityMixin",
     "swimming.LivingEntityMixin"

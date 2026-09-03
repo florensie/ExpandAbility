@@ -33,10 +33,12 @@ public abstract class PlayerMixin {
 	}
 
 	// should probably mixin the call sites instead, but NeoForge makes that kinda difficult
+	// Direct access: With `remap = false`, the Mixin system ignores all mappings and—on NeoForge 26+—directly accesses the unobfuscated `isPushedByFluid`.
 	@ModifyReturnValue(
-			method = "isPushedByFluid", at = @At(value = "RETURN")
+        method = "isPushedByFluid", at = @At(value = "RETURN"), remap = false
 	)
 	private boolean isPushedByFluid(boolean original) {
-		return Util.shouldPlayerSwim(this, original);
+	    return Util.shouldPlayerSwim(this, original);
 	}
+
 }

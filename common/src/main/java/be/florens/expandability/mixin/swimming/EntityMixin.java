@@ -4,6 +4,7 @@ import be.florens.expandability.EventDispatcher;
 import be.florens.expandability.Util;
 import be.florens.expandability.api.EventResult;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.Entity;
@@ -100,5 +101,12 @@ public abstract class EntityMixin {
 		}
 
 		return original; // Vanilla behaviour
+	}
+
+	@ModifyReturnValue(
+			method = "isPushedByFluid", at = @At(value = "RETURN")
+	)
+	private boolean isPushedByFluid(boolean original) {
+		return Util.shouldPlayerSwim(this, original);
 	}
 }

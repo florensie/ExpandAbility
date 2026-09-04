@@ -32,7 +32,6 @@ public abstract class PlayerMixin {
 		return !Util.shouldPlayerSwim(this, !original);
 	}
 
-	// should probably mixin the call sites instead, but NeoForge makes that kinda difficult
 	@ModifyReturnValue(
 			method = "isPushedByFluid", at = @At(value = "RETURN")
 	)

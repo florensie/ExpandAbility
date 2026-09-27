@@ -11,7 +11,7 @@ authors = "Florens, Wouter"
 description = '''
 Library mod that provides increased control over vanilla abilities
 '''
-logoFile = "icon.png"
+iconFile = "icon.png"
 
 [[mixins]]
 config = 'expandability-common.mixins.json'
@@ -21,13 +21,13 @@ config = 'expandability.mixins.json'
 [[dependencies.expandability]]
 modId = "neoforge"
 type = "required"
-versionRange = "[26.1.2.100,)"
+versionRange = "[26.2.0.88,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.expandability]]
 modId = "minecraft"
 type = "required"
-versionRange = "[26.1,26.2)"
+versionRange = "[26.2,26.3)"
 ordering = "NONE"
 side = "BOTH"

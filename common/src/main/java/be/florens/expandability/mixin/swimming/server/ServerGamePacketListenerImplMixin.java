@@ -22,7 +22,7 @@ public abstract class ServerGamePacketListenerImplMixin {
 	 * Avoids getting kicked for flying while swimming is enabled
 	 */
 	@Inject(
-			method = "handleMovePlayer",
+			method = "handlePlayerPositionChange",
 			at = @At(value = "FIELD",
 					target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;clientIsFloating:Z",
 					shift = At.Shift.AFTER,

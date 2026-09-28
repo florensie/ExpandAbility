@@ -21,13 +21,13 @@ config = 'expandability.mixins.json'
 [[dependencies.expandability]]
 modId = "neoforge"
 type = "required"
-versionRange = "[26.2.0.88,)"
+versionRange = "[26.3.0.26-beta,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.expandability]]
 modId = "minecraft"
 type = "required"
-versionRange = "[26.2,26.3)"
+versionRange = "[26.3,26.4)"
 ordering = "NONE"
 side = "BOTH"

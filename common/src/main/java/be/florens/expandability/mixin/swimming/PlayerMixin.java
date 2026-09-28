@@ -10,14 +10,20 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(Player.class)
 public abstract class PlayerMixin {
 
-	/// - [Player#canCriticalAttack]: makes it such that you can land critical hits while in water with fluid physics disabled
-	/// - [Player#tryToStartFallFlying]
+	/// makes it such that you can land critical hits while in water with fluid physics disabled
 	@ModifyExpressionValue(
-			method = {"canCriticalAttack", "tryToStartFallFlying"},
-			require = 2,
+			method = "canCriticalAttack",
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWater()Z")
 	)
 	private boolean setInWater(boolean original) {
+		return Util.shouldPlayerSwim(this, original);
+	}
+
+	@ModifyExpressionValue(
+			method = "tryToStartFallFlying",
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInLiquid()Z")
+	)
+	private boolean setInLiquid(boolean original) {
 		return Util.shouldPlayerSwim(this, original);
 	}
 

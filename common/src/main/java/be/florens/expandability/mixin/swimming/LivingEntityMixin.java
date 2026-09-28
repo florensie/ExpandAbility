@@ -37,12 +37,11 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@ModifyExpressionValue(
 			method = {
-					"shouldTravelInFluid",
 					"travelInFluid",
 					"aiStep",
 					"checkFallDamage"
 			},
-			require = 4,
+			require = 3,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInWater()Z")
 	)
 	private boolean setInWater(boolean original) {
@@ -50,11 +49,16 @@ public abstract class LivingEntityMixin extends Entity {
 	}
 
 	@ModifyExpressionValue(
-			method = {
-					"shouldTravelInFluid",
-					"aiStep"
-			},
-			require = 3,
+			method = "shouldTravelInFluid",
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInLiquid()Z")
+	)
+	private boolean setInLiquid(boolean original) {
+		return Util.shouldPlayerSwim(this, original);
+	}
+
+	@ModifyExpressionValue(
+			method = "aiStep",
+			require = 2,
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isInLava()Z")
 	)
 	private boolean setInLava(boolean original) {
